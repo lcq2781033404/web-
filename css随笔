@@ -11,4 +11,7 @@
 	margin-left:0px;
 	margin-top:0px;
 }
-
+二.字体连写
+字体连写使用font属性，font属性用于对字体样式进行综合设置，基本语法格式如下：
+选择器 {font:font-style font-weight font-size/line-height font-family;}
+注意：使用font属性时，必须按上面语法格式中的顺序写，不能更换顺序，各个属性以空格隔开。其中，不需要设置的属性可以省略（省略即代表取默认值），但必须保留font-size和font-family属性
