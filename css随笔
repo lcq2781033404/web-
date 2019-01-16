@@ -25,7 +25,7 @@ eg.  div > a{
 交集选择器由两个选择器构成，其中第一个必须为标签选择器，第二个必须为class或者id选择器，两个选择器之间不能有空格。交集选择器是并且的意思，
 比如p.one选择的是类名为one的段落选择器。
 （4）并集选择器
-
+并集选择器使用","分割，表示对这些选择器均进行样式的修改。
 二.字体连写
 字体连写使用font属性，font属性用于对字体样式进行综合设置，基本语法格式如下：
 选择器 {font:font-style font-weight font-size/line-height font-family;}
@@ -34,6 +34,15 @@ eg.  div > a{
 eg.  h1{
 	font:normal 400 14px "microsoft yahei";
 }
+
+3.伪类选择器
+伪类选择器用于向某些选择器添加特殊的效果，比如给链接添加特殊效果。
+（1）链接伪类选择器
+:link      /*未访问的链接*/ 
+:visited   /*已访问的链接*/
+:hover     /*鼠标移动到链接上*/
+:active    /*鼠标按下还未松开的时候*/
+注意：书写伪类选择器的时候，必须按照上面四个的顺序书写，即必须先写link，再依次写visited、hover、active。
 
 三.text-align属性：水平对齐方式
 left:左对齐（默认）
