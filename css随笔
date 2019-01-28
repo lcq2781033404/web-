@@ -121,3 +121,16 @@ line-throgh:文本删除线
 （1）继承样式的权重为0。即在嵌套结构中，不管父元素样式的权重多大，被子元素继承时，他的权重都为0。
 （2）权重相同时，css遵循就近原则。
 （3）权重是会叠加的，即div p{}的权重为0,0,0,2。
+
+九.css背景
+css可以添加背景颜色和背景图片，以及来进行图片设置。
+1.background-color:blue                     背景颜色
+2.background-image:url(image3.jpg)          背景图片地址
+3.background-repeat                         是否平铺
+属性值及含义：
+repeat（默认）：背景横向纵向均平铺
+no-repeat：不平埔
+repeat-x：横向平铺
+repeat-y：纵向平铺
+4.background-position                       背景位置 
+background-attachment                     背景固定还是滚动
