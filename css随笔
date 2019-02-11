@@ -125,12 +125,59 @@ line-throgh:文本删除线
 九.css背景
 css可以添加背景颜色和背景图片，以及来进行图片设置。
 1.background-color:blue                     背景颜色
+
 2.background-image:url(image3.jpg)          背景图片地址
+
 3.background-repeat                         是否平铺
 属性值及含义：
 repeat（默认）：背景横向纵向均平铺
 no-repeat：不平埔
 repeat-x：横向平铺
 repeat-y：纵向平铺
-4.background-position                       背景位置 
-background-attachment                     背景固定还是滚动
+
+4.background-position:x y;                   背景位置 
+这个样式有两个参数，第一个参数控制背景图在水平方向的位置，第二个参数控制背景图在垂直方向的位置。
+注意：
+（1）两个参数的位置设置可以使用方位名词，即top,bottom,left,right,center，当使用方位名词时，两个参数可以不区分前后顺序。
+（2）两个参数也可以使用具体的px值指定背景图偏移的像素，比如background-position:10px 20px;这种写法。
+（3）方位名词和具体的px值可以组合使用，比如background-position:10px center;这种写法。
+（4）如果只写一个参数，则另外一个参数默认居中。
+
+5.background-attachment                      设置背景图像随对象内容滚动还是固定
+这个样式有两个属性值：
+scroll（默认）：背景图像随对象内容滚动
+fixed：背景图像固定
+
+6.背景简写方式
+background属性值的书写顺序官方并没有强制标准，为了可读性，建议书写如下：
+background:背景颜色 背景图片地址 背景平铺 背景滚动 背景位置
+比如  background:blue url(image.jpg) no-repeat scroll center;
+
+7.背景透明（CSS3）
+CSS3支持背景半透明的语法格式为：
+background:rgba(0,0,0,0.3);
+前三个参数填写背景rgb颜色，最后一个参数是alpha透明度，取值范围在0~1之间。
+注意：背景半透明指盒子背景半透明，盒子里面的内容不受影响。
+
+十.盒子模型（CSS重点）
+其实，css就三大模块：盒子模型、浮动、定位，其余的都是细节，这三部分，无论如何也要精通。
+所谓盒子模型，就是把HTML页面中的元素看作是一个矩形的盒子，也就是一个盛装内容的容器。每个矩形都由元素的内容、内边距（padding）、
+边框（border）和外边距（margin）组成，其实网页布局的本质就是摆盒子的过程。
+
+1.盒子边框(border)
+border-width:1px;                                                           控制边框线条的粗细
+border-color:blue;                                                          控制边框线条的颜色
+border-style:none(默认)|solid(实线边框)|dashed(虚线)|dotted(点线)|...         控制边框线条的类型（实线还是虚线等）
+边框的样式可以连写，比如border:1px solid blue;
+border:0;表示去掉对应元素的所有边框
+可以对盒子的四条边分别设置不同的边框样式，使用border-top,border-bottom,border-left,border-right即可。
+
+
+2.内边距
+
+3.外边距
+
+
+
+
+
