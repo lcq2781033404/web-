@@ -172,10 +172,29 @@ border-style:none(默认)|solid(实线边框)|dashed(虚线)|dotted(点线)|... 
 border:0;表示去掉对应元素的所有边框
 可以对盒子的四条边分别设置不同的边框样式，使用border-top,border-bottom,border-left,border-right即可。
 
+2.表格的细线边框
+以前学过的html表格边框很粗，这里只需要css一句话就可以美观起来：
+border-collapse:collapse;表示边框合并在一起
 
-2.内边距
+3.圆角边框（CSS3）
+border-radius:0.5;
 
-3.外边距
+4.内边距(padding)
+padding属性用于设置内边距，是指边框和内容之间的距离。
+padding-top：上内边距
+padding-right：右内边距
+padding-bottom：下内边距
+padding-left：左内边距
+
+也可以使用padding连写直接设置各个边的内边距，padding后面不同个数的数值表示的含义也是不一样的：
+一个值：上下左右边距均为这个值
+两个值：上下边距 左右边距
+三个值：上边距 左右边距 下边距
+四个值：上边距 右边距 下边距 左边距
+
+注意：padding会撑开带有width和height的盒子，所以在给盒子设置padding的值后，需要再次调整盒子的大小。
+
+5.外边距
 
 
 
