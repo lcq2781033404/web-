@@ -113,3 +113,44 @@ align：设置表格在网页中的水平对齐方式。
 （1）表单控件
 ①input控件
 <input />标签为单标签，type属性为其最基本的属性，其取值有多种，用于指定不同的控件类型。
+属性               属性值             描述
+type               text              单行文本输入框
+                   password          密码输入框
+                   radio             单选按钮：为了保证多个按钮只能单选，需要为多个按钮指定同一个name属性值！！
+                   checkbox          复选框
+                   button            普通按钮
+                   submit            提交按钮
+                   reset             重置按钮
+                   image             图像形式的提交按钮
+                   file              文件域（上传文件功能）
+name               由用户自定义       控件的名称
+value              由用户自定义       input控件中的默认文本值
+size               正整数             input控件在页面中的显示宽度
+checked            checked           定义选择控件默认被选中的项
+maxlength          正整数             控件允许输入的最多字符数
+
+②label标签
+label标签用来为input标签定义标注。
+作用：用于绑定一个表单元素，当点击label标签的时候，被绑定的表单元素就会获得输入焦点。
+label标签的for属性规定label与哪个表单元素绑定（for属性的属性值填写要绑定元素的id属性值）。
+例如：
+<label for="male">Male</label>
+<input type="radio" name="sex" id="male" value="male" />
+如上例，点击Male文字也可以选中单选框（直接使用label标签包裹input标签也可以实现这样的效果）。
+
+③textarea标签
+双标签。
+<textarea>文字内容</textarea>
+
+④下拉菜单标签
+使用select控件定义下拉菜单的基本语法格式如下：
+<select>
+  <option>选项1</option>
+  <option>选项2</option>
+  <option>选项3</option>
+  ...
+</select>
+注意：
+select中至少需要包含一对option。
+option标签中可以添加selected="selected"属性使其默认显示。
+
