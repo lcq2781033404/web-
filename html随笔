@@ -170,5 +170,62 @@ footer：定义文档或节的页脚、底部。
 article：定义文章。
 section：定义文档中的节
 aside：定义其所处内容之外的内容，侧边。
+datalist：定义选项列表，请与input元素配合使用该元素
+比如：
+<input type="text" value="输入明星" list="star" />
+<datalist id="star">
+  <option>刘德华</option>
+  <option>张全蛋</option>
+  <option>王尼玛</option>
+</datalist>
+这样，在选中输入框是，下面就会出现选择列表
+fieldset：将表单内相关元素分组，打包。
+比如：
+<fieldset>
+  <legend>用户登录</legend>
+  用户名：<input type="text" value="请输入用户名" />
+</fieldset>
+多媒体标签
+①embed：定义嵌入的内容
+<embed src=""></embed>
+②audio：播放音频
+<audio src="" autoplay loop="-1"></audio>
+通过附加属性可以更好的控制音频的播放
+  autoplay：自动播放，默认不自动播放
+  controls：是否显示不默认播放控件
+  loop：循环播放，填写循环播放的次数，填写loop或者loop="-1"表示无限循环
+由于版权的问题，不同浏览器支持的音频格式不同，为了浏览器兼容，我们需要放入三种格式的声音文件  ogg，mp3，wav：
+<audio autoplay control>
+  <source src="1.mp3" />
+  <source src="1.ogg" />
+  <source src="1.wav" />
+  您的浏览器不支持HTML音频播放功能
+</audio>
+③video：播放视频
+  autoplay：自动播放，默认不自动播放
+  controls：是否显示不默认播放控件
+  loop：循环播放，填写循环播放的次数，填写loop或者loop="-1"表示无限循环
+  width：宽度
+  height：高度
+ 同audio标签一样，video也需要填写多个视频个格式文件：ogg、mp4
 
 （2）新增属性
+新增的input type的属性值
+email、tel、url、number、search、range、time、data、datatime、month、week等等等。
+
+input标签常用的新属性
+①placeholder
+<input type="text" placeholder="请输入用户名" />
+②autofocus：规定当页面加载时input元素应该自动获得焦点
+<input type="text" autofocus="autofocus" />
+③multiple：多文件上传
+<input type="file" multiple />
+④autocomplete：规定表单是否应该启用自动完成功能，有两个值，一个是on，一个是off，on代表记录已经输入的值。
+<input type="text" autocomplete="on" name"username" />
+注意！使用autocomplete属性需要两个条件：
+有提交按钮
+input标签需要有name属性
+⑤required：必填项
+<input type="text" required />
+⑥accesskey：规定使元素获得焦点的快捷键，采用alt+字母的形式
+<input type="text" accesskey="s" />
