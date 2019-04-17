@@ -46,7 +46,25 @@ eg.  div > a{
 括号里面填写even时，表示选取所有偶数个元素，填写odd表示选取所有奇数个元素。
 :nth-last-child(n)：从最后一个子元素开始数，最后一个子元素为第一个子元素，以此类推。其余规则和:nth-child(n)伪类选择器一样
 
-6.目标伪类选择器
+6.伪元素选择器（CSS3）
+（1）E::first-letter    文本的第一个单词或字
+（2）E::first-line      文本第一行
+（3）E::selection       可改变选中文本的样式
+（4）E::before          在E元素内部的开始位置创建一个元素，该元素为行内元素，且必须要结合content属性使用
+（5）E::after	      在E元素内部的结束位置创建一个元素，该元素为行内元素，且必须要结合content属性使用
+eg  
+<style>
+div::before{
+	content:"你是";
+}
+div::after{
+	content:"精";
+}
+</style>
+<div>小猪</div>
+最后显示的内容就是：你是小猪精
+
+7.目标伪类选择器
 :target  用于选取当前活动的目标元素。
 例子：
 <style>
@@ -60,10 +78,13 @@ eg.  div > a{
 <div id="live">个人生活</div>
 这样写的表现效果就是点击了演艺经历链接会跳转到演艺经历这一部分的内容，同时div下的演艺经历文字变为红色。
 
-7.属性选择器
+8.属性选择器
 属性选择器用中括号来表示。
 E[attr]：                存在attr属性即可
-E[attr=val]：          属性值等于val
+E[attr=val]：            属性值等于val
+E[attr^=val]：           属性值以val开头即可
+E[attr$=val]：           属性值以val结尾即可
+E[attr*=val]:            属性值的任意位置有val即可
 
 二.字体连写
 字体连写使用font属性，font属性用于对字体样式进行综合设置，基本语法格式如下：
