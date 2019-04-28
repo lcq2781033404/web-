@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>定位练习</title>
+	<style type="text/css">
+		div{
+			width: 310px;
+			height: 190px;
+			border: 2px solid #ccc;
+			margin: 100px auto;
+			padding: 10px;
+			position: relative;
+		}
+		.topicon{
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		.bottomicon{
+			position: absolute;
+			right: 0;
+			bottom: 0;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<img src="top_tu.gif" class="topicon" />
+		<img src="adv.jpg" />
+		<img src="br.gif" class="bottomicon" />
+	</div>
+</body>
+</html>
