@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>鼠标经过显示二维码</title>
+	<style type="text/css">
+		div{
+			width: 100px;
+			height: 100px;
+			background-color: skyblue;
+			text-align: center;
+			line-height: 100px;
+			position: relative;
+			margin: 100px auto;
+		}
+		div img{
+			position: absolute;
+			top: 0;
+			left: 110px;
+			display: none;
+		}
+		div:hover img{    /* 这里指的是当鼠标经过div时对div下面的img的操作 */
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<span>扫码付款</span>
+		<img src="erweima.png">
+	</div>
+</body>
+</html>
