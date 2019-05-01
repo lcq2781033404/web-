@@ -511,3 +511,34 @@ css精灵是一种处理网页背景图像的方式。它将一个页面涉及�
 这样，当用户访问页面时，只需向服务器发送一次请求，网页中的背景图像即可全部显示出来。
 使用方法：
 使用background-position属性即可获取到精灵图想要的位置。
+
+二十.字体图标
+1.字体图标使用流程
+（1）UI人员设计字体图标效果图（svg格式）。
+（2）前端人员上传生成兼容性字体文件包。
+（3）前端人员下载兼容性文件包到本地。
+（4）把字体文件包引入到HTML页面中。
+
+2.字体图标引用方法
+（1）把字体下载到本地后，在样式里面声明字体。
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?8lx2pw');
+  src:  url('fonts/icomoon.eot?8lx2pw#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?8lx2pw') format('truetype'),
+    url('fonts/icomoon.woff?8lx2pw') format('woff'),
+    url('fonts/icomoon.svg?8lx2pw#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+注意：这些声明的语句在下载的文件里面的style.css中直接复制粘贴就好，但是其中的路径要填写正确（即要把fonts文件夹复制一个出来）
+（2）给盒子使用字体
+span{
+	font-family:"";//双引号里面的字体名称要和上一步中声明字体的字体名称一致
+}
+（3）盒子里面添加结构
+两种方法：
+①在标签内把demo.html页面中的方块复制粘贴过来。
+②span::before{
+	content:"/e9e2";
+}
