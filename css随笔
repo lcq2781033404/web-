@@ -659,6 +659,10 @@ perpective一般作为一个属性，设置给父元素，作用于所有3D转�
 	<img src="hou.png" />
 </div>
 
+5.transform-style
+transform-style是3D空间一个重要属性，指定嵌套元素如何在3D中呈现。它主要有两个属性值：flat和preserve-3d。
+其中，flat为默认值，表示所有子元素在2D平面呈现。preserve-3d表示所有子元素在3D空间中呈现。
+
 二十四.动画animation（CSS3）
 动画可通过设置多个节点来精确控制一个或一组动画，常用来实现复杂的动画效果。
 想要使用动画，需要分为两步：
@@ -737,6 +741,53 @@ wrap-reverse    换行翻转显示
 控制子项目的排列顺序。正序排列方式，从小到大。
 用整数值来定义排列顺序，数值小的排在前面，可以为负值，默认值为0，比如：
 order:1;
+
+二十六. BFC（块级格式化上下文）
+BFC是一个独立的渲染区域，它规定了该区域内部的盒子不会对外部盒子的布局造成任何影响。
+
+1.块级元素具有BFC的条件
+不是所有的元素显示模式都能产生BFC，diplay属性值为block、list-item、table的元素，才会产生BFC
+
+2.BFC产生的条件
+（1）float属性不为none
+（2）position为absolute或者fixed
+（3）display为inline-block、table-cell、table-caption、flex、inline-flex
+（4）overflow不为visible
+以上条件满足其一即可触发BFC
+
+3.BFC元素所具有的特性
+（1）BFC区域不会与浮动盒子产生交集，而是紧贴浮动边缘
+（2）计算BFC的高度时，自然也会检测浮动盒子的高度。
+
+4.BFC的主要用途
+（1）清除元素内部浮动
+只要把父元素设为BFC就可以清除子元素的浮动了，最常见的用法就是在父元素上设置overflow:hidden;
+（2）解决外边距合并
+（3）制作右侧自适应的盒子
+浮动的盒子会脱标，盖住后面的盒子，如果给后面的盒子设置overflow:hidden;则会使得后面的盒子触发BFC，由于BFC区域不会与浮动盒子产生交集，而是紧贴浮动边缘，
+所以后面的盒子不会被浮动的盒子盖住，而是跑到它的右侧。
+
+二十七.浏览器前缀
+浏览器前缀                 对应浏览器
+-webkit-                  Google Safari AndroidBrowser
+-moz-                     Firefox
+-o-                       Opera
+-ms-                      IE Edge
+-khtml-                   Konqueror
+
+二十八.背景渐变
+兼容性问题很严重，必须加浏览器前缀，只讲线性渐变。
+语法格式：
+background:-webkit-linear-gradient(渐变的起始位置，起始颜色，结束颜色);
+可以指定多段的颜色渐变，语法格式如下：
+background:-webkit-linear-gradient(渐变的起始位置，颜色 位置（使用百分比），颜色 位置，颜色 位置...);
+
+二十九.CSS压缩
+为了提高加载速度和节约空间，可以通过css压缩工具对css进行压缩。
+
+
+
+
 
 
 
