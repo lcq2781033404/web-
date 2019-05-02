@@ -591,6 +591,7 @@ transition: width 2s, height 2s;
 transition: all 2s;
 
 二十三.Transform属性（CSS3）
+transform里面的translate和rotate等要连写在一个transform里面，使用空格隔开即可。
 1.tanslate
 通过 translate() 方法，元素从其当前位置移动，根据给定的 left（x 坐标） 和 top（y 坐标） 位置参数：
 transform: translate(50px,100px);
@@ -630,8 +631,112 @@ perpective：视距，表示视点距离屏幕的长短。视点：用于模拟�
 perpective一般作为一个属性，设置给父元素，作用于所有3D转换的子元素。（视距越大，透视效果越不明显）
 比如        perpective:500px;
 
+4.backface-visibility
+这个属性定义当元素不面向屏幕时是否可见。
+这个属性通常用于元素反转后将其替换为另一元素。比如下面的一个反转图片到到背面时显示背面的图片：
+<style>
+	div{
+		width:224px;
+		height:224px;
+		position:relative;
+	}
+	div img{
+		poisiton:absolute;
+		top:0;
+		left:0;
+		transition:all 1s;
+	}
+	div img:first-child{
+		z-index:1;
+		backface-visibility:hidden;
+	}
+	div:hover img{
+		transform:rotateY(180deg);
+	}
+</style>
+<div>
+	<img src="qian.png" />
+	<img src="hou.png" />
+</div>
 
+二十四.动画animation（CSS3）
+动画可通过设置多个节点来精确控制一个或一组动画，常用来实现复杂的动画效果。
+想要使用动画，需要分为两步：
+（1）定义动画
+定义动画的语法格式为：
+@keyframes 动画名称 {
+	from{
+		...
+	}
+	to{
+		...
+	}
+}
+另外，在定义动画的时候，为了方便对其多个节点进行定义，可以使用百分比，这个百分比表示动画播放的阶段百分比，比如：
+@keyframes 动画名称 {
+	0%{
+		...
+	}
+	4%{
+		...
+	}
+	20%{
+		...
+	}
+	...
+}
+（2）引用动画
+引用动画的语法格式为：
+animation: 动画名称（动画名称是自定义的） 动画时间 动画曲线 何时开始 播放次数 是否反方向;
 
+二十五.伸缩布局（CSS3）
+多用于响应式开发。
+主轴：Flex容器的主轴主要用来配置Flex项目，默认是水平方向。
+侧轴：与主轴垂直的轴称作侧轴，默认是垂直方向。
+方向：默认主轴从左到右，侧轴从上到下。
+注意：主轴和侧轴并不是固定不变的，通过flex-direction可以互换。
+flex-direction:row（默认）|column;（给父盒子添加）
+
+1.伸缩布局模式书写方法：  
+（1）更改父元素的显示模式为flex模式：display: flex;
+（2）在其子元素中书写：flex:1;（表示分隔份数）
+这样，指定了flex属性的子盒子就可以随着页面的缩放而缩放，但是很多时候我们不想让盒子缩的太小或放的太大，所以通常为父盒子指定其最小和最大的宽度：
+min-width:400px;
+max-width:1500px;
+
+2.justify-content调整主轴对齐
+用于设置或检索伸缩盒子元素在主轴（横轴）方向上的对齐方式。
+各属性值代表含义如下：
+值	                     描述	
+flex-start	              默认值。让子元素从父元素开头开始排序	
+flex-end	              让子元素从父元素结尾开始排序	
+center	                      让子元素在父元素中间开始排序		
+space-between	              子元素之间留有均匀的空隙，同时第一个盒子靠最左，最后一个盒子靠最右
+space-around	              每个子盒子均有空隙
+
+3.align-items调整侧轴对齐（垂直对齐，单行）
+stretch         默认值，让子元素的高度拉伸适用父容器（子元素不给高度的前提下）
+center          垂直居中
+flex-start      垂直对齐开始位置
+flex-end        垂直对齐结束位置
+
+4.align-content侧轴对齐（多行）
+使用前提：
+（1）必须对父元素设置              display:flex;
+（2）必须指定排列方式为横向排列     flex-direction:row;
+（3）必须指定元素换行              flex-wrap:wrap;
+属性值和align-items一样。
+
+5.flex-wrap控制是否换行
+当子盒子的内容宽度大于父盒子的宽度时可以使用这个属性控制。
+nowrap          默认值，不换行，强制一行显示，宽度压缩
+wrap            换行
+wrap-reverse    换行翻转显示
+
+6.order
+控制子项目的排列顺序。正序排列方式，从小到大。
+用整数值来定义排列顺序，数值小的排在前面，可以为负值，默认值为0，比如：
+order:1;
 
 
 
