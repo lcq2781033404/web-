@@ -50,8 +50,8 @@ eg.  div > a{
 （1）E::first-letter    文本的第一个单词或字
 （2）E::first-line      文本第一行
 （3）E::selection       可改变选中文本的样式
-（4）E::before          在E元素内部的开始位置创建一个元素，该元素为行内元素，且必须要结合content属性使用
-（5）E::after	      在E元素内部的结束位置创建一个元素，该元素为行内元素，且必须要结合content属性使用
+（4）E::before          在E元素内部的开始位置（属于E元素的子级）创建一个元素，该元素为行内元素，且必须要结合content属性使用（本质上是插入了一个行内元素）
+（5）E::after	      在E元素内部的结束位置（属于E元素的子级）创建一个元素，该元素为行内元素，且必须要结合content属性使用（本质上是插入了一个行内元素）
 eg  
 <style>
 div::before{
@@ -558,3 +558,84 @@ span{
 （1）a设置背景左侧，padding撑开左侧宽度。
 （2）span设置背景右侧，padding撑开右侧宽度。
 （3）之所以a包含span，是因为整个导航都是可以点击的。
+
+二十二.过渡效果（CSS3）
+当元素从一种样式变换为另一种样式时为元素添加效果。
+
+transition 属性是一个简写属性，用于设置四个过渡属性：
+transition-property
+transition-duration
+transition-timing-function
+transition-delay
+注意：请始终设置 transition-duration 属性，否则时长为 0，就不会产生过渡效果。
+
+值	                         描述
+transition-property	          规定设置过渡效果的 CSS 属性的名称。
+transition-duration	          规定完成过渡效果需要多少秒或毫秒。
+transition-timing-function	  规定速度效果的速度曲线。（可省略）
+transition-delay	          定义过渡效果何时开始。（可省略）
+
+比如：
+div{
+	height:100px;
+	width:100px;
+	background-color:pink;
+	transition: width 2s;
+}
+div:hover{
+	width:400px;
+}
+多个属性变化使用逗号隔开：
+transition: width 2s, height 2s;
+如果想要所有属性均过渡变化，则可以使用all：
+transition: all 2s;
+
+二十三.Transform属性（CSS3）
+1.tanslate
+通过 translate() 方法，元素从其当前位置移动，根据给定的 left（x 坐标） 和 top（y 坐标） 位置参数：
+transform: translate(50px,100px);
+如果括号内的单位是百分比，则水平方向移动的距离取元素宽度的对应百分比，垂直方向移动的距离取元素高度的对应百分比。应用translate的这个属性，
+可以对之前学过的定位元素居中做法进行一些改进：
+比如想让一个定位的盒子水平居中，原来的做法是：
+position:absolute;
+left:50%;
+margin-left:-width/2;
+之前做法的弊端是需要自己计算宽度的一半并且写死了，这样盒子宽度改变这里也要跟着手动改变，改进之后如下：
+position:absolute;
+left:50%;
+transform:translate(-50%);
+
+注意：
+translate可以进行3d维度的位置移动，写法如下：
+transform: translate3d(x,y,z);
+其中，x和y的单位可以是px，也可以是%，但是z的单位只能是px。
+
+2.rotate
+通过 rotate() 方法，元素顺时针旋转给定的角度。允许负值，元素将逆时针旋转。
+transform: rotate(30deg);
+旋转的中心点是可以改变的（默认中心点为水平垂直居中）：
+transform-origin:center center;
+也可以不使用方位名词，而使用具体数值改变中心点位置。
+注意：
+rotate不仅能进行平面旋转，还能设置3D旋转：
+rotateX         绕X轴旋转
+rotateY         绕Y轴旋转
+rotateZ         绕Z轴旋转
+
+3.透视（perspective）
+电脑显示屏是一个2D平面，图像之所以具有立体感（3D效果），其实只是一种视觉呈现，通过透视可以达到这种效果。
+透视原理：近大远小。
+浏览器透视：把近大远小的所有图像，透视在屏幕上。
+perpective：视距，表示视点距离屏幕的长短。视点：用于模拟透视效果是人眼的位置。
+perpective一般作为一个属性，设置给父元素，作用于所有3D转换的子元素。（视距越大，透视效果越不明显）
+比如        perpective:500px;
+
+
+
+
+
+
+
+
+
+
