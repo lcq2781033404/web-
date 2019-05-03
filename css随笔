@@ -499,12 +499,24 @@ keep-all            只能在半角空格或者连字符处换行（不允许单
 normal     默认处理方式
 nowrap     强制同一行内显示所有文本，直到文本结束或者遭遇br标签对象才换行
 
-3.text-overflow：文字溢出
+3.text-overflow：单行文字溢出
 设置是否使用省略标记(...)标识对象内文本的溢出
 text-overflow:clip|ellipsis;
 clip          不显示省略标记
 ellipsis      显示省略标记
 注意：一定要首先强制一行内显示，再次和overflow属性搭配使用。
+
+4.多行文字溢出隐藏
+多行文字溢出隐藏较为复杂，这里分为webkit内核和非webkit内核处理：
+（1）webkit内核处理：
+-webkit-line-clamp:2;                    限定块级元素内文本显示的行数
+display:-webkit-box;                     将对象作为弹性伸缩盒子显示
+-webkit-box-orient:vertical;             设置伸缩盒子对象内为垂直方式排列
+text-overflow:ellipsis;                  未显示内容使用省略号表示
+over-flow:hidden;                        超出部分隐藏
+
+（2）非webkit内核处理（通用方法）：
+使用伪元素添加省略号。
 
 十九.精灵技术（雪碧图）
 css精灵是一种处理网页背景图像的方式。它将一个页面涉及到的所有零星背景图像都集中到一张大图中去，然后将大图应用于网页，
@@ -785,9 +797,18 @@ background:-webkit-linear-gradient(渐变的起始位置，颜色 位置（使�
 二十九.CSS压缩
 为了提高加载速度和节约空间，可以通过css压缩工具对css进行压缩。
 
+三十.盒子垂直和水平居中的方法总结
 
+1.盒子垂直居中方法
+（1）先让盒子的上边缘和父盒子的水平中心线重叠，然后再让子盒子往回移动自身高度一半的距离（子绝父相的定位）。
+（2）使用vertical-align方法（给父盒子添加）：这个方法要有一定的使用限制，必须给父盒子指定display:table-cell;的显示模式。
+（3）使用margin计算盒子上下边距，使盒子垂直居中。
 
-
+2.盒子水平居中方法
+（1）margin:0 auto;这个方法必须指定子盒子的宽度。
+（2）使用margin计算左右边距
+（3）把盒子转换为行内块，然后使用text-align:center;
+（4）子绝父相的定位方法
 
 
 
