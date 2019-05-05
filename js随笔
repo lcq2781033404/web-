@@ -1,0 +1,43 @@
+一.数据类型
+
+1.基础数据类型
+（1）int类型
+（2）string类型
+string类型之间可以使用“+”来进行拼接，string类型和int类型或者bool类型使用“+”拼接时，会先将他们转换为string类型再拼接。
+获取字符串长度的方法   XX.length
+（3）bool类型
+（4）Undefined类型
+Undefined类型的数据没有值
+（5）NULL类型
+NULL类型的数据有值，值为null
+获取变量类型的方法：typeof XX
+
+2.复杂数据类型
+Object
+
+3.数据类型转换
+（1）转换为字符串类型
+① toString()方法
+var a = 18;
+a.toString();
+注意：Undefined和NULL类型的数据没有toString()方法，所以不能调用，这两个类型的数据想转换为字符串类型时，要使用下面的第二种方法
+
+② String()方法
+var a = 18;
+String(a);
+
+③ 字符串拼接方法
+var a = 18;
+a = a + "";
+
+（2）转换为数值类型
+① Number()方法
+Number()可以把任意值转换成数值，如果要转换的字符串中有一个不是数值的字符，返回NaN（Not a Number）
+比如：var a = '123abc'; Number(a);就会返回一个NaN，但是如果使用这个方法把bool类型转换为int类型，则true对应1，false对应0.
+
+② parseInt()方法
+注意：
+parseInt()无法把bool类型转换为int类型，会返回NaN
+parseInt()在转换字符串的时候，如果遇到数字就会转换数字，如果遇到非数字就会返回
+比如 var a = '123abc'; parseInt(a);会返回123.
+ var a = 'abc123'; parseInt(a)会返回NaN
