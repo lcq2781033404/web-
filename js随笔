@@ -50,6 +50,6 @@ var a = '123';
 console.log(+a);
 
 （3）转换为bool类型
-使用Boolen()方法，只要一个变量有值，则转换成boolen类型时均为true。
+使用Boolen()方法，只要一个变量有值且不为0，则转换成boolen类型时均为true。
 var a = 123;
 Boolen(a);
