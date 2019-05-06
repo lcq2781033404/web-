@@ -41,3 +41,10 @@ parseInt()无法把bool类型转换为int类型，会返回NaN
 parseInt()在转换字符串的时候，如果遇到数字就会转换数字，如果遇到非数字就会返回
 比如 var a = '123abc'; parseInt(a);会返回123.
  var a = 'abc123'; parseInt(a)会返回NaN
+ 
+ ③ parseFloat()方法
+ 把字符串转换成浮点数，与parseInt()类似，也不能转换bool类型的数据，不同之处在于：parseFloat()可以解析第一个小数点
+
+④ 取正数或者取负数
+var a = '123';
+console.log(+a);
