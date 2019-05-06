@@ -45,6 +45,11 @@ parseInt()在转换字符串的时候，如果遇到数字就会转换数字，�
  ③ parseFloat()方法
  把字符串转换成浮点数，与parseInt()类似，也不能转换bool类型的数据，不同之处在于：parseFloat()可以解析第一个小数点
 
-④ 取正数或者取负数
+④ 取正数或者取负数（可以转换bool类型）
 var a = '123';
 console.log(+a);
+
+（3）转换为bool类型
+使用Boolen()方法，只要一个变量有值，则转换成boolen类型时均为true。
+var a = 123;
+Boolen(a);
