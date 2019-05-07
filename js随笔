@@ -74,7 +74,12 @@ switch只能判断表达式和值是否相等，这个相等既会判断类型�
 switch(表达式){
  case 值 :
   执行语句;
+  break;
  case 值 :
   执行语句;
+  break;
   ...
+  default :
+  执行语句;
+  break;
 }
