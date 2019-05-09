@@ -1,0 +1,26 @@
+原理
+依次比较相邻的两个值，如果后面的比前面的小，则将小的元素排到前面。依照这个规则进行多次并且递减的迭代，直到顺序正确。
+
+平均时间复杂度O(n*n)   //时间复杂度指的是一个算法执行所耗费的时间
+最好情况O(n)
+最差情况O(n*n)
+空间复杂度O(1)   //空间复杂度指运行完一个程序所需内存的大小
+稳定性：稳定   //稳定指，如果a=b,a在b的前面，排序后a仍然在b的前面   不稳定指，如果a=b，a在b的前面，排序后可能会交换位置
+
+var examplearr=[8,94,15,88,55,76,21,39];
+function sortarr(arr){
+    //外层循环控制冒泡排序一共要执行的趟数
+    for(i=0;i<arr.length-1;i++){
+        //内层循环控制每一趟排序需要两两比较的次数
+        for(j=0;j<arr.length-1-i;j++){
+            if(arr[j]>arr[j+1]){
+                var temp=arr[j];
+                arr[j]=arr[j+1];
+                arr[j+1]=temp;
+            }
+        }
+    }
+    return arr;
+}
+sortarr(examplearr);
+console.log(examplearr);
