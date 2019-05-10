@@ -84,3 +84,16 @@ switch(表达式){
   break;
 }
 
+三.arguments使用
+arguments对象是一个函数的内置对象，存储了函数传递的所有实参，arguments是一个伪数组，可以对其进行遍历。
+我们可以通过arguments获取函数调用的时候传来的实参。
+比如，我要求一个任意个数数字的最大值，由于数字个数不确定，所以在定义函数的时候不能写形参：
+function getMax(){
+ var max = arguments[0];
+ for(var i=1;i<arguments.length;i++){
+  if(max < argumnents[i]){
+   max = arguments[i];
+  }
+ }
+ return max;
+}
