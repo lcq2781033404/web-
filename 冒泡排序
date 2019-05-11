@@ -20,7 +20,7 @@ function sortarr(arr){
             }
         }
     }
-    return arr;
+    return arr;   //这句代码可以不要
 }
 sortarr(examplearr);
 console.log(examplearr);
