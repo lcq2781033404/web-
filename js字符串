@@ -1,0 +1,38 @@
+一.字符串的不可变性
+var str = 'abc';
+str = 'ghl';
+以上面的例子分析，创建str变量时，会在内存中分配一个空间存储abc的值，然后对str变量的值进行了改变，此时不会向数值类型的数据一样直接修改abc，而是另外
+开辟了一个空间存储ghl数据，并让str指向ghl（存储abc的空间系统一会会自动销毁），这就是字符串的不可变性，一旦定义分配空间，空间内的数据不可改变。
+字符串的这个特点需要我们注意：在以后拼接大量字符串的时候可能会有性能问题。
+
+二.字符串的方法（因为字符串的不可变性，字符串的所有方法都不会修改原始字符串）
+1.charAt()          //获取指定位置处字符
+2.charCodeAt()      //获取指定位置处字符的ASCII码
+3.substr()          //从start位置开始，截取length个字符
+4.indexOf()         //返回指定内容在字符串中的位置
+5.replace()         //字符串替换，只会替换第一个找到的字符串
+6.trim()            //去除字符串前后的空格，字符串中间的空格无法去掉
+7.split()           //把一个字符串分割成字符串数组
+
+三.实际应用
+1.获取url中的参数
+    var url = 'https://sou.zhapi.com/?name=xjz&age=18&sex=0';
+		//定义一个空的对象盛放url中的键值对
+		var obj = {};
+
+		function getParams(url){
+			//首先获取？后第一个字符串的索引
+			var index = url.indexOf('?') + 1;
+			//截取？后的字符串  name=xjz&age=18&sex=0
+			var params = url.substr(index);
+			//通过&将字符串分隔成数组
+			var arr = params.split('&');
+			for(var i = 0;i < arr.length;i++){
+				var tempArr = arr[i].split('=');
+				var key = tempArr[0];
+				var value = tempArr[1];
+				obj[key] = value;
+			}
+			return obj;
+		}
+		console.log(getParams(url));
