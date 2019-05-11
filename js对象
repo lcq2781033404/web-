@@ -1,0 +1,117 @@
+js中的对象有三种：
+1.自定义对象
+2.内置对象
+3.浏览器对象
+
+一.自定义对象
+自己定义的对象
+
+二.内置对象
+1.Math对象的常用属性和方法
+Math不是一个构造函数，里面提供的时静态成员
+（1）Math.PI          圆周率
+（2）Math.random()    生成随机数
+（3）Math.floor()     向下取整
+（4）Math.ceil()      向上取整
+（5）Math.round()     四舍五入
+（6）Math.abs()       绝对值
+（7）Math.max()       求最大值
+（8）Math.min()       求最小值
+（9）Math.sin()       正弦
+（10）Math.cos()      余弦
+（11）Math.power()    指数次幂
+（12）Math.sqrt()     求平方根
+
+2.Date对象
+Date是一个构造函数，使用之前首先要通过new Date()创建日期对象。
+Date对象是基于1970年1月1日起的毫秒数。
+（1）创建Date对象的几种方法：
+①var d = new Date();                           //获取的是当前时间
+②var d = new Date(50000);                      //在构造函数中传入毫秒值，表示从1970年1月1日起经过这些毫秒值的时间
+③var d = new Date('2019-5-11 16:12:45');       //传入日期形式的字符串
+④var d = new Date(2019, 5, 11, 16, 12, 45);    //传入数字格式的日期
+
+（2）如何当前时间的毫秒值
+方法一：d.getTime()方法。
+方法二：Date.now(); （有浏览器兼容问题）
+
+（3）Date的常用方法
+①日期格式化方法：
+function formatDate(date){
+			//首先要判断参数date是否为日期对象
+			//使用instanceof
+			if(!(date instanceof Date)){
+				console.error('date不是日期对象！');
+				return;
+			}
+			var year = date.getFullYear(),
+				month = date.getMonth() + 1,
+				day = date.getDate(),
+				hour = date.getHours(),
+				minute = date.getMinutes(),
+				second = date.getSeconds();
+
+			month = month < 10 ? '0' + month : month;
+			day = day < 10 ? '0' + day : day;
+			hour = hour < 10 ? '0' + hour : hour;
+			minute = minute < 10 ? '0' + minute : minute;
+			second = second < 10 ? '0' + second : second;
+
+			return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+		}
+		var d = new Date();
+		var datestr = formatDate(d);
+		console.log(datestr);
+
+3.Array对象
+数组对象常用方法：
+（1）栈操作（先进后出）
+push()    //在数组的最后添加一项，括号内填写要添加的项，可以有多个，返回改变后的数组的长度
+pop()     //取出数组中的最后一项，并且会改变数组的长度，没有参数。
+
+（2）队列操作（先进先出）
+unshift() //在数组最前面插入项，返回改变后数组的长度。
+shift()   //取出数组第一个元素，并返回这个元素值，会修改数组长度
+
+（3）排序方法
+reverse() //翻转数组，返回翻转后的数组，不会改变原数组
+sort()    //将数组从小到大排序，会直接在原数组上排序，但是默认情况下是对字符编码的从小到大排序
+如果想要使用sort方法对数字类型的数组进行升序排序，则要在sort()的括号里面填写排序的规则函数，比如：
+function compare(a, b){
+  return a - b;
+}
+var arr = [2, 1, 19, 21];
+arr.sort(compare);
+再举一个例子，比如想让字符串按照长度从小到大排序，则书写如下：
+var arr = ['abc', 'ab', 'a', 'abcdef'];
+arr.sort(function(a, b){
+  return a.length - b.length;
+});
+
+（4）操作方法
+concat()      //把参数拼接到当前数组
+slice()       //从当前数组中截取一个新的数组
+splice()      //删除或替换当前数组的某些项目
+
+（5）位置方法
+indexOf()    //返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1(从前往后找)。
+
+lastIndexOf()   
+
+（6）迭代方法（下面的这些方法都是html5中的方法，存在浏览器兼容问题）
+ervery()
+filter()
+  var ages = [32, 33, 16, 40];
+  function checkAdult(age) {
+      return age >= 18;
+  }
+  ages.filter(checkAdult);//返回大于等于18的数构成的数组
+forEach()
+map()
+some()
+
+（7）清空数组的方法
+①字面量法（推荐）
+arr = [];
+②长度归0法
+arr.length = 0;
