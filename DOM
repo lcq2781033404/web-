@@ -1,0 +1,22 @@
+一.获取页面元素
+1.根据id获取元素（getElementById）
+使用方法如下，返回对象类型，如果页面上没有对应的id，则返回null
+var main = document.getElementById('main');
+
+2.根据标签名字获取元素（getElementsByTagName）
+返回一个集合，有length属性，可以遍历，如果页面上没有对应标签，则返回一个长度为0的集合
+var divs = document.getElementsByTagName('div');
+注意：这个方法获取到的集合是动态集合，即当页面增减了对应的标签，获取的标签数量也会变化。
+要获取id为father下的所有子元素的div标签：
+var father = document.getElementById('father');
+var divs = father.getElementsByTagName('div');
+
+3.根据标签的name属性获取元素（getElementsByName）（因为存在浏览器兼容问题，所以不推荐使用）
+
+4.根据标签的class属性获取元素（getElementsByClassName）（也存在浏览器兼容问题，IE9以上才支持）
+
+5.根据选择器获取元素（IE8以后的浏览器才支持）
+（1）querySelector（只会返回符合条件的第一个元素）
+var myclass = document.querySelector('.myclass');
+var myid = document.querySelector('#myid');
+（2）querySelectorAll（返回符合条件的所有元素）
