@@ -73,6 +73,49 @@ link.onclick = function(){
 	return false;
 }
 
+3.获取和设置标签内的内容
+比如我想获取<p>累啊累啊</p> p标签中的内容，要使用innerHTML或者innerText属性。
+（1）innerHTML
+innerHTML获取内容的时候，如果内容中有标签，会把标签也获取到，包括内容的换行和空白也会获取到。
+使用innerHTML设置标签内容的时候，如果内容中带标签，会以HTML的方式解析。
+比如
+<div>
+	我是一个div
+	<p>我是个p</p>
+</div>
+获取div中的内容如下：
+我是一个div
+<p>我是个p</p>
+
+（2）innerText（有兼容性问题，和textContent替换使用。谷歌、新版火狐和新版IE浏览器两个都支持，旧版火狐只支持textContent，旧版IE只支持innerText）
+innerText获取内容的时候，如果内容中有标签，会把标签过滤掉，会把前后换行和空白都过滤掉。
+使用innerText设置标签内容的时候，如果内容中带标签，会直接把标签显示出来。
+比如
+<div>
+	我是一个div
+	<p>我是个p</p>
+</div>
+获取div中的内容如下：
+我是一个div 我是个p
+
+innerText兼容性问题处理方法：
+function getInnerText(element) {
+	if(type of element.innerText === 'string'){
+		return element.innerText;
+	}else{
+		return element.textContent;
+	}
+}
+
+4.表单元素特有属性
+value
+type
+disabled  禁用属性
+checked  复选框选中属性
+selected  下拉菜单选中属性
+
+上面的最后三个属性由于html中只有一个值，所以DOM对应的元素属性值是bool类型，要使用true或者false来设置他们的属性值
+
 三.事件
 1.点击事件
 var btn = document.getElementById('btn');
