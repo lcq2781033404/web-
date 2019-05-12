@@ -65,8 +65,13 @@ pic.src = '...';
 		}
   </script>
 </body>
-2.非表单元素属性
 
+2.取消a标签的默认跳转行为
+在a标签的点击事件里面return false即可。
+var link = getElementById('link');
+link.onclick = function(){
+	return false;
+}
 
 三.事件
 1.点击事件
