@@ -9,4 +9,16 @@ this指向这个方法所属的对象
 this指向构造函数创建的对象
 
 4.事件处理函数中：
-this指向事件源
+this指向事件源，这个this在循环的时候尤其重要，比如下例：
+var links = getElementsByTagName('a');
+var show = getElementById('show');
+for(var i = 0;i < links.length;i++){
+  var link = links[i];
+  link.onclick = function(){
+    image.src = this.href;        //这里必须使用this，不能使用link，因为在循环注册事件的时候，事件不会执行，而当循环结束后，link就会一直指向
+                                    links里面的最后一个元素，所以如果使用了link的话无论点击了哪个a标签都会给其赋值一样的地址。使用this话会一直
+                                    指向当前点击的a标签
+    return false;                 //取消a标签的跳转行为
+  }
+}
+
