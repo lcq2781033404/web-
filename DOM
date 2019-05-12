@@ -143,5 +143,81 @@ onfocus
 （2）失去焦点
 onblur
 
-四.样式操作
+3.鼠标移入移出事件
+（1）鼠标移入
+onmouseover
+（2）鼠标移出
+onmouseout
 
+四.样式操作
+使用style.xxx来设置元素的样式。比如：
+var box = document.getElementById('box');
+box.style.width = '100px';
+box.style.height = '100px';
+box.style.backgroundColor = 'red';
+注意：
+（1）使用style方式设置的样式显示在标签行内
+（2）通过样式属性设置宽高、位置的属性类型是字符串，需要加上px
+（3）如果要直接改变body的style属性，则前面还要写document：
+document.body.style.backgroundcolor = 'black';
+
+五.节点
+1.节点类型
+元素节点（nodeType = 1）、属性节点、文本节点、注释节点
+
+2.父子节点
+（1）父节点（只有一个）
+parentNode
+
+（2）子节点（返回一个NodeList类型的数据）
+childNodes
+这个方法使用的时候要注意是获取的所有子元素节点（包括元素、属性、文本和注释），比如下例：
+<div id="box">
+	<span>span</span>
+	<p>p</p>
+	<!-- 注释 -->
+</div>
+<script>
+	var box = document.getElementById('box');
+	console.log(box.childNodes);
+</script>
+最后会打印出来7个子节点，分别为：span前的空文本节点、span节点、span后的空文本节点、p节点、p后的空文本节点、注释节点、注释后的空文本节点
+
+（3）子元素节点（只读属性）（有兼容性问题，IE6-8可能会错误的包含注释节点）
+可以使用children属性获取元素的所有子元素节点
+box.children;
+
+3.第一个和最后一个子节点
+（1）获取第一个子节点（包括元素、属性、文本和注释）
+firstchild
+
+（2）获取最后一个子节点（包括元素、属性、文本和注释）
+lastchild
+
+4.第一个和最后一个子元素（只读）（兼容性问题：IE9以上才支持）
+（1）获取第一个子元素
+firstElementChild
+
+（2）获取最后一个子元素
+lastElementChild
+
+5.兄弟节点
+（1）下一个兄弟节点（包括元素、属性、文本和注释）
+nextSibling
+
+（2）上一个兄弟节点（包括元素、属性、文本和注释）
+previousSibling
+
+6.兄弟元素（只读，有兼容性问题，IE9以上才支持）
+（1）下一个兄弟元素
+nextElementSibling
+
+（2）上一个兄弟元素
+previousElementSibling
+
+六.动态创建元素的方法
+1.document.write()（很少使用）
+document.write('<p>hello world</p>');
+但是这个方法有一个局限性，只能在页面加载的时候使用，如果在事件（比如点击事件）中使用，会覆盖页面原本的内容
+2.element.innerHTML
+3.document.createElement()
