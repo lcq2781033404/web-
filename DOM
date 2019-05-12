@@ -116,10 +116,32 @@ selected  下拉菜单选中属性
 
 上面的最后三个属性由于html中只有一个值，所以DOM对应的元素属性值是bool类型，要使用true或者false来设置他们的属性值
 
+5.自定义属性
+举个例子就明白了：
+<div id="person" age="18" personId="1">张三</div>
+这里的age和personId就是自定义属性
+注意：自定义属性不能直接使用'.'来获取
+（1）获取自定义属性值的方法：
+person.getAttribute('age');
+
+（2）设置自定义属性值
+person.setAttribute('sex', 'male');
+
+（3）移除自定义属性
+person.removeAttribute('sex');
+
 三.事件
 1.点击事件
 var btn = document.getElementById('btn');
 btn.onclick = functon(){
   alert('hehe');
 }
+
+2.获得、失去焦点事件
+（1）获得焦点
+onfocus
+（2）失去焦点
+onblur
+
+四.样式操作
 
