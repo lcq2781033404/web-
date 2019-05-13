@@ -226,12 +226,16 @@ box.innerHTML = '<p>hello world</p>';
 避免在循环中使用innerHTML
 
 3.document.createElement()（推荐）
-var p = document.createElement('p');   //创建p标签，只是在内存中创建了对象，还没有放到DOM结构中
+var p = document.createElement('p');   //创建p标签，只是在内存中创建了对象，还没有放到DOM结构中，放入DOM结构要使用appendChild()方法
+
+4.appendChild()
 比如我想把p标签放到id为box的div里面：
 var box = document.getElementById('box');
 box.appendChild(p);                   //把p标签放到id为box的div里面
 
-与appendChild()相反的是删除元素：removeChild()
+注意：
+（1）如果被插入的节点已经存在于当前文档的文档树中,则那个节点会首先从原先的位置移除,然后再插入到新的位置.
+（2）与appendChild()相反的是删除元素：removeChild()
 
 4.insertBefore()
 把元素插入到页面的指定位置
