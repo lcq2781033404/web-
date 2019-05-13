@@ -219,7 +219,7 @@ previousElementSibling
 1.document.write()（很少使用）
 document.write('<p>hello world</p>');
 但是这个方法有一个局限性，只能在页面加载的时候使用，如果在事件（比如点击事件）中使用，会覆盖页面原本的内容
-2.element.innerHTML
+2.element.innerHTML（创建简单元素并且不需要事件的时候推荐使用innerHTML）
 var box = document.getElementById('box');
 box.innerHTML = '<p>hello world</p>';
 这个方法在事件中使用时不会覆盖页面原本的内容。但是这个方法在使用的时候可能会产生效率问题，因为innerHTML每次更改dom结构都需要重新绘制，所以要
@@ -230,3 +230,21 @@ var p = document.createElement('p');   //创建p标签，只是在内存中创�
 比如我想把p标签放到id为box的div里面：
 var box = document.getElementById('box');
 box.appendChild(p);                   //把p标签放到id为box的div里面
+
+与appendChild()相反的是删除元素：removeChild()
+
+4.insertBefore()
+把元素插入到页面的指定位置
+<ul id="ul">
+	<li>111</li>
+	<li>222</li>
+	<li>333</li>
+</ul>
+比如我想把一个li插入到ul下所有li的最前面，这时候就不能使用ul.append(li)了，因为这个方法会把li插入到最后面，要使用insertBefore()方法：
+var ul = document.getElementById('ul');
+var li = document.createElement('li');
+ul.insertBefore(li, ul.children[0]);     //第一个参数填写要插入的元素，第二个参数填写把这个元素插入到哪个元素之前
+
+
+5.replaceChild()    //第一个参数为新的节点，第二个参数为旧的节点
+用指定的节点替换当前节点的一个子节点，并返回被替换的节点。
