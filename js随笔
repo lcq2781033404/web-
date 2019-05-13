@@ -97,3 +97,69 @@ function getMax(){
  }
  return max;
 }
+
+四.函数
+1.匿名函数
+使用方法：
+（1）将匿名函数赋值给一个变量，这样就可以通过变量进行调用。
+var fn = function(){
+ ...
+}
+（2）匿名函数自调用（当函数书写完之后立即调用）
+(function(){
+ ...
+})();
+
+五.预解析
+js的解析引擎并不会完全的从上到下把代码进行解析，而是会进行一定程度的预解析，预解析的步骤如下：
+1.变量提升：把变量的声明提升到当前作用域最上面，但是不包括变量的赋值。
+2.函数提升：把函数声明提升到当前作用域的最上面，不包括函数的调用。
+3.在预解析的过程中，如果函数和变量的名字相同，则函数优先。
+比如如下这段代码：
+var a = 25;
+function abc() {
+ alert(a);
+ var a = 10;
+}
+abc();
+最后会输出undefined
+但是，如果把函数里面的 var a = 10;改成 a = 10;则最后会输出25，因为函数里面没有了变量声明，所以在函数里面预解析的时候就不会再次声明变量。
+
+六.对象
+对象只是带有属性和方法的特殊数据类型。
+对象字面量：var obj = {};
+
+1.创建对象的方法：
+（1）使用对象字面量创建对象
+var person = {
+ firstname:"Bill",
+ lastname:"gates",
+ age:56,
+ eyecolor:"blue",
+ speak: function(){
+  console(this.firstname + 'hi');
+ }
+}
+
+（2）new Object()方法
+var person = new Object();
+person.firstname = 'Bill';
+person.lastname = 'gates';
+person.age = 56;
+person.eyecolor = 'blue';
+person.speak = function(){
+ console(this.firstname + 'hi');
+}
+
+（3）工厂方法（推荐）
+function createPerson(firstname, lastname, age, eyecolor){
+ var person = new Object();
+ person.firstname = firstname;
+ person.lastname = lastname;
+ person.age = age;
+ person.eyecolor = eyecolor;
+}
+
+2.访问对象的属性的方法
+可以使用"."来访问对象的属性和方法，比如person.firstname  person.speak()等等。
+除此之外，还可以使用"[]"访问对象的属性值（这种方法只能访问属性值），比如person['firstname']
