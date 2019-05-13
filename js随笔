@@ -163,3 +163,8 @@ function createPerson(firstname, lastname, age, eyecolor){
 2.访问对象的属性的方法
 可以使用"."来访问对象的属性和方法，比如person.firstname  person.speak()等等。
 除此之外，还可以使用"[]"访问对象的属性值（这种方法只能访问属性值），比如person['firstname']
+
+3.遍历对象的方法
+for(var key in obj){
+ ...
+}
