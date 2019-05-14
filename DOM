@@ -159,11 +159,13 @@ Element,Document和Window或者任何其他支持事件的对象 (比如 XMLHttp
 这个方法有三个参数：
 参数1：填写表示事件类型的字符串（事件名称）
 参数2：事件处理函数
-参数3：可选参数
+参数3：可选参数，bool类型，默认为false。当设置为false的时候，会以事件冒泡（从内到外）的顺序触发，当设置为true的时候，
+事件触发顺序是从外到内（事件捕获）
 eg. var btn = document.getElementById('btn');
 btn.addEventListener('click', function(){
 	alert('hello world');
 });
+
 
 3.attachEvent()方法（IE老版本特有方法，IE6-IE10支持）
 两个参数：
@@ -184,6 +186,29 @@ btn.attachEvent('onclick', function(){
 				ele['on' + eventName] = fn;
 			}
 		}
+
+5.事件触发的三个阶段
+（1）阶段一：捕获阶段
+（2）阶段二：执行阶段
+（3）阶段三：冒泡阶段
+
+6.事件冒泡
+事件冒泡的原理：当一个元素接收到事件的时候 会把他接收到的事件传给自己的父级，一直到window 。
+（注意这里传递的仅仅是事件 并不传递所绑定的事件函数。所以如果父级没有绑定事件函数，就算传递了事件 也不会有什么表现 但事件确实传递了。）
+事件冒泡的作用：事件委托，即如果一个父元素有很多个子元素，如果遍历每一个子元素给它注册事件的话会比较耗性能，可以通过事件委托的方法：只给父元素
+注册事件，这样子元素触发事件的时候就会调用父元素注册的事件，在父元素的注册事件里面获取到触发事件的子元素即可，举例如下：
+<ul id="ul">
+	<li>张三</li>
+	<li>李四</li>
+	<li>王五</li>
+	<li>赵六</li>
+</ul>
+<script>
+	var ul = document.getElementById('ul');
+	ul.onclick = function(e){//e是事件参数，携带了事件发生时的相关数据
+		e.target.style.backgroundColor = 'red';//e.target可以获取到被点击的元素对象
+	}
+</script>
 
 四.样式操作
 使用style.xxx来设置元素的样式。比如：
