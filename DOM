@@ -131,23 +131,59 @@ person.setAttribute('sex', 'male');
 person.removeAttribute('sex');
 
 三.事件
-1.点击事件
+注册事件的三种方式：
+
+1.使用on+事件名的方法
+（1）点击事件
 var btn = document.getElementById('btn');
 btn.onclick = functon(){
   alert('hehe');
 }
 
-2.获得、失去焦点事件
-（1）获得焦点
+（2）获得、失去焦点事件
+①获得焦点
 onfocus
-（2）失去焦点
+②失去焦点
 onblur
 
-3.鼠标移入移出事件
-（1）鼠标移入
+（3）鼠标移入移出事件
+①鼠标移入
 onmouseover
-（2）鼠标移出
+②鼠标移出
 onmouseout
+
+2.addEventListener()方法（有浏览器兼容问题，IE9以上才支持，IE9以下要使用attachEvent方法）
+addEventListener()方法将指定的监听器注册到 EventTarget 上，当该对象触发指定的事件时，指定的回调函数就会被执行。 事件目标可以是一个文档上的元素
+Element,Document和Window或者任何其他支持事件的对象 (比如 XMLHttpRequest)。
+这个方法的好处是可以给相同元素重复注册相同的事件而且不会互相覆盖（ele.onclick=...是会覆盖的）
+这个方法有三个参数：
+参数1：填写表示事件类型的字符串（事件名称）
+参数2：事件处理函数
+参数3：可选参数
+eg. var btn = document.getElementById('btn');
+btn.addEventListener('click', function(){
+	alert('hello world');
+});
+
+3.attachEvent()方法（IE老版本特有方法，IE6-IE10支持）
+两个参数：
+参数1：on+事件名
+参数2：事件处理函数
+eg. var btn = document.getElementById('btn');
+btn.attachEvent('onclick', function(){
+	alert('hello world');
+});
+
+4.处理注册事件的兼容性问题
+		function addEventListener(ele, eventName, fn){
+			if(ele.addEventListener){
+				ele.addEventListener(eventName, fn);
+			}else if(ele.attachEvent){
+				ele.attachEvent('on' + eventName, fn);
+			}else{
+				ele['on' + eventName] = fn;
+			}
+		}
 
 四.样式操作
 使用style.xxx来设置元素的样式。比如：
