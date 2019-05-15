@@ -66,6 +66,13 @@ pic.src = '...';
   </script>
 </body>
 
+（2）获取盒子在页面中的位置使用offsetLeft和offsetTop：
+btn.onclick = function() {
+	return{
+		offsetLeft: this.offsetLeft,
+		offsetTop: this.offsetTop;
+}
+
 2.取消a标签的默认跳转行为
 在a标签的点击事件里面return false即可。
 var link = getElementById('link');
@@ -155,6 +162,12 @@ onmouseout
 （4）鼠标移动事件
 onmousemove
 
+（5）键盘事件
+①键盘按下
+onkeydown
+②键盘弹起
+onkeyup
+
 2.addEventListener()方法（有浏览器兼容问题，IE9以上才支持，IE9以下要使用attachEvent方法）
 addEventListener()方法将指定的监听器注册到 EventTarget 上，当该对象触发指定的事件时，指定的回调函数就会被执行。 事件目标可以是一个文档上的元素
 Element,Document和Window或者任何其他支持事件的对象 (比如 XMLHttpRequest)。
@@ -227,10 +240,27 @@ e.currentTarget         事件处理函数所处的对象（相当于this）
 e.type                  获取事件名称
 e.clientX               鼠标相对于浏览器可视区域的X坐标
 e.clientY               鼠标相对于浏览器可视区域的Y坐标
-e.pageX                 鼠标相对于当前页面的X坐标
-e.pageY                 鼠标相对于当前页面的Y坐标
+e.pageX                 鼠标相对于当前页面的X坐标（有兼容性问题，IE9以后才支持）
+e.pageY                 鼠标相对于当前页面的Y坐标（有兼容性问题，IE9以后才支持）
+想要处理e.pagex的兼容性问题，可以通过e.clientX来进行计算：
+e.pageX = e.clientX + 页面滚动距离（页面滚动距离可以通过document.body.scrollLeft或者document.body.scrollTop来获取）
+但是，获取页面滚动的距离也有浏览器的兼容问题，解决方法如下：
+function getScroll() {
+	var scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft;
+	var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+	return{
+		scrollLeft: scrollLeft,
+		scrollTop: scrollTop;     //返回了一个对象，冒号左边是属性名，右边是属性值
+	}
+}
+
+e.keyCode               获取键盘输入的键盘码
+
 
 （2）事件对象的方法
+e.preventDefault()       取消默认行为的执行（比如不让链接跳转）（IE老版本不支持）
+e.stopPropagation()      阻止事件冒泡
+
 
 
 四.样式操作
