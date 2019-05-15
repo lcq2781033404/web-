@@ -152,6 +152,9 @@ onmouseover
 ②鼠标移出
 onmouseout
 
+（4）鼠标移动事件
+onmousemove
+
 2.addEventListener()方法（有浏览器兼容问题，IE9以上才支持，IE9以下要使用attachEvent方法）
 addEventListener()方法将指定的监听器注册到 EventTarget 上，当该对象触发指定的事件时，指定的回调函数就会被执行。 事件目标可以是一个文档上的元素
 Element,Document和Window或者任何其他支持事件的对象 (比如 XMLHttpRequest)。
@@ -209,6 +212,26 @@ btn.attachEvent('onclick', function(){
 		e.target.style.backgroundColor = 'red';//e.target可以获取到被点击的元素对象
 	}
 </script>
+
+7.事件对象
+通过给事件处理函数添加一个参数即可获取事件对象，比如：
+ul.onclick = function(e){}         //e有浏览器兼容问题，在老版本的IE中使用window.event获取事件对象
+处理兼容性问题：
+ul.onclick = function(e) {
+	e = e || window.event;
+}
+（1）事件对象的属性
+e.eventPhase            获取事件的阶段
+e.target                获取真正触发事件的对象（有浏览器兼容问题，在老版本IE中使用e.srcElement）
+e.currentTarget         事件处理函数所处的对象（相当于this）
+e.type                  获取事件名称
+e.clientX               鼠标相对于浏览器可视区域的X坐标
+e.clientY               鼠标相对于浏览器可视区域的Y坐标
+e.pageX                 鼠标相对于当前页面的X坐标
+e.pageY                 鼠标相对于当前页面的Y坐标
+
+（2）事件对象的方法
+
 
 四.样式操作
 使用style.xxx来设置元素的样式。比如：
