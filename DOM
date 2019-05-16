@@ -155,9 +155,11 @@ onblur
 
 （3）鼠标事件
 ①鼠标移入
-onmouseover
+onmouseover（会触发事件冒泡）
+onmouseenter（不会触发事件冒泡）
 ②鼠标移出
-onmouseout
+onmouseout（会触发事件冒泡）
+onmouseleave（不会触发事件冒泡）
 ③鼠标移动事件
 onmousemove
 ④鼠标按下事件
