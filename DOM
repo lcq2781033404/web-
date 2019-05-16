@@ -66,7 +66,7 @@ pic.src = '...';
   </script>
 </body>
 
-（2）获取盒子在页面中的位置使用offsetLeft和offsetTop：
+（2）获取盒子在页面中的位置使用offsetLeft和offsetTop（只读属性）：
 btn.onclick = function() {
 	return{
 		offsetLeft: this.offsetLeft,
