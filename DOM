@@ -153,14 +153,17 @@ onfocus
 ②失去焦点
 onblur
 
-（3）鼠标移入移出事件
+（3）鼠标事件
 ①鼠标移入
 onmouseover
 ②鼠标移出
 onmouseout
-
-（4）鼠标移动事件
+③鼠标移动事件
 onmousemove
+④鼠标按下事件
+onmousedown
+⑤鼠标弹起事件
+onmouseup
 
 （5）键盘事件
 ①键盘按下
