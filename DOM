@@ -168,6 +168,9 @@ onkeydown
 ②键盘弹起
 onkeyup
 
+（6）拖动滚动条事件
+onscroll
+
 2.addEventListener()方法（有浏览器兼容问题，IE9以上才支持，IE9以下要使用attachEvent方法）
 addEventListener()方法将指定的监听器注册到 EventTarget 上，当该对象触发指定的事件时，指定的回调函数就会被执行。 事件目标可以是一个文档上的元素
 Element,Document和Window或者任何其他支持事件的对象 (比如 XMLHttpRequest)。
