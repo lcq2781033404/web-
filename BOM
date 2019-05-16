@@ -11,3 +11,39 @@ window.onload = function() {
   ...
 }
 与之相反的一个方法是onunload，这个方法会在页面卸载的时候执行
+
+三.定时器
+1.setTimeOut()
+隔一段时间执行，并且只会执行一次，该方法返回一个整数，该整数为定时器的标识，可以通过该整数销毁定时器，这个方法有两个参数：
+第一个参数：要执行的函数
+第二个参数：间隔的时间，单位是毫秒
+//创建定时器
+var timerId;
+btn.onclick = function() {
+  timerId = setTimeOut(function() {
+    console.log('boom');
+  }, 3000);
+}
+
+//销毁定时器
+btn2.onclick = function() {
+  clearTimeOut(timerId);
+}
+
+2.setInterval()
+隔一段时间执行，并且会重复执行
+这个方法有两个参数：
+第一个参数：要执行的函数
+第二个参数：间隔的时间，单位是毫秒
+
+四.location对象
+loaction对象是window对象下的一个属性，使用的时候可以省略window对象。
+location可以获取或设置浏览器地址栏的URL。
+1.loacation的属性
+（1）location.href           获取或设置页面的URL地址
+
+2.location的方法
+（1）location.assign()       让页面跳转到指定的地址
+（2）location.replace()      替换页面的地址（不记录历史，所以不能后退）
+（3）location.reload()       和F5刷新功能一样，有一个参数，true表示强制从服务器获取页面；false表示如果浏览器有缓存的话，直接从缓存获取页面
+
