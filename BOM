@@ -47,3 +47,42 @@ location可以获取或设置浏览器地址栏的URL。
 （2）location.replace()      替换页面的地址（不记录历史，所以不能后退）
 （3）location.reload()       和F5刷新功能一样，有一个参数，true表示强制从服务器获取页面；false表示如果浏览器有缓存的话，直接从缓存获取页面
 
+五.URL的组成
+URL的基本格式为：
+scheme://host:port/path?query#fragment
+
+scheme      通信协议
+host        主机，IP地址
+port        端口号，可省略，省略表示使用默认端口
+path        路径
+query       数据，用于给动态网页传递参数，可有多个参数，用'&'符号隔开
+fragment    锚点
+
+六.history对象
+1.history对象的方法
+（1）histroy.forward();    前进
+（2）histroy.back();       后退
+
+七.userAgent对象
+可以获取到用户的操作系统信息，常用来区分用户是pc端访问还是移动端访问页面。
+
+八.三组和大小、位置相关的属性
+1.offset
+（1）offsetLeft
+（2）offsetTop
+（3）offsetWidth（包括内容、内边距和边框）
+（4）offsetHeight（包括内容、内边距和边框）
+（5）offsetParent 获取距离当前元素最近的定位父元素，如果没有定位父元素，则获取的是body
+
+2.client
+（1）clientLeft      获取的是border-left的宽度
+（2）clientTop       获取的是border-top的宽度
+（3）clientWidth     只包括内容和内边距，不包括边框
+（4）clientHeight    只包括内容和内边距，不包括边框
+
+3.scroll
+（1）scrollLeft      滚动条滚动出去的水平距离
+（2）scrollTop       滚动条滚动出去的垂直距离
+（3）scrollWidth     内容宽度和内边距以及未显示的内容，不包括滚动条
+（4）scrollHeight    内容的高度，包括未显示的内容 
+
