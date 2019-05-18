@@ -14,3 +14,216 @@
         随着页面滚动，当所有列中高度最小的元素到达浏览器底部的时候，就该记载新的数据显示在页面中了，即
         页面滚动出去的距离 + 浏览器可视区域的高度 > arrHeight数组中最小的元素时，开始加载新的数据
 */
+
+二.代码
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .itemBox {
+            width: 1050px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .item {
+            border: 1px solid #ccc;
+            padding: 4px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="itemBox" id="itemBox">
+        <div class="item">
+            <img src="./images/P_000.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_001.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_002.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_003.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_004.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_005.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_006.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_007.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_008.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_009.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_000.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_001.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_002.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_003.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_004.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_005.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_006.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_007.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_008.jpg" alt="">
+        </div>
+        <div class="item">
+            <img src="./images/P_009.jpg" alt="">
+        </div>
+    </div>
+</body>
+<script>
+
+    window.onload = function () {
+        /* 
+        思路分析
+        1 获取到.itemBox 宽度
+        2 获取到.item 宽度
+        3 求出列数
+        4 求出间距
+        5 实现瀑布流布局的方法
+        6 滚动页面时 加载数据
+     */
+
+        //获取元素
+        var itemBox = document.getElementById('itemBox');
+        var items = itemBox.getElementsByClassName('item');
+    
+        //获取大盒子宽度
+        var itemBoxWidth = itemBox.offsetWidth;
+    
+        //获取每张图片的宽度
+        var itemWidth = items[0].offsetWidth;     
+    
+        //求出列数
+        var col = parseInt(itemBoxWidth / itemWidth);
+    
+        //求出间距
+        var distance = (itemBoxWidth - itemWidth * col) / (col - 1);
+
+        //实现瀑布流布局
+        //用一个数组存储一列元素的高度值，每次都将下一个元素放到数组中高度值最小的那个元素下面，然后更新数组的高度重新找出高度最小的元素，并将后面的元素依次放入，以此类推
+
+        var arrHeight = [];
+
+        waterFull();
+
+        //滚动页面时就，加载数据
+        /*
+        随着页面滚动，当所有列中高度最小的元素到达浏览器底部的时候，就该记载新的数据显示在页面中了，即
+        页面滚动出去的距离 + 浏览器可视区域的高度 > arrHeight数组中最小的元素时，开始加载新的数据
+        */
+        window.onscroll = function() {
+            var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+            var browserHeight = document.body.clientHeight || document.documentElement.clientHeight;
+            if(scrollTop + browserHeight > getMin(arrHeight).minValue) {
+                var json = [
+                    { "src": "images/P_000.jpg" },
+                    { "src": "images/P_001.jpg" },
+                    { "src": "images/P_002.jpg" },
+                    { "src": "images/P_003.jpg" },
+                    { "src": "images/P_004.jpg" },
+                    { "src": "images/P_005.jpg" },
+                    { "src": "images/P_006.jpg" },
+                    { "src": "images/P_007.jpg" },
+                    { "src": "images/P_008.jpg" },
+                    { "src": "images/P_009.jpg" },
+                    { "src": "images/P_010.jpg" }
+                ];
+
+                for(var i = 0; i < json.length; i++) {
+                    var div = document.createElement('div');
+                    div.className = 'item';
+                    var img = document.createElement('img');
+                    img.src = json[i].src;
+                    div.appendChild(img);
+                    itemBox.appendChild(div);
+                }
+
+                waterFull();
+            }
+        }
+
+        //瀑布流布局函数
+        function waterFull(){
+            for(var i = 0; i < items.length; i++) {
+                //给第一行设置left值
+                if(i < col){
+                    items[i].style.left = (itemWidth + distance) * i + 'px';
+                    //把第一行的所有元素的高度存入一个数组中
+                    arrHeight[i] = items[i].offsetHeight;
+                }else{
+                    //获取到arrWidth数组中最小的值和其索引
+                    var minValue = getMin(arrHeight).minValue;
+                    var minIndex = getMin(arrHeight).minIndex;
+
+                    //将items[i]放到数组中最小高度所对应的元素下面
+                    items[i].style.left = items[minIndex].offsetLeft + 'px';
+                    items[i].style.top = minValue + distance + 'px';
+
+                    //更新数组的高度信息
+                    arrHeight[minIndex] = arrHeight[minIndex] + distance + items[i].offsetHeight;
+
+                }
+            }
+        }
+
+
+        //获取求最小值函数，返回最小值和其索引
+        function getMin(arr) {
+            var obj = {};
+            var minValue = arr[0];
+            var minIndex = 0;
+            for(var i = 1; i < arr.length; i++) {
+                if(minValue > arr[i]) {
+                    minValue = arr[i];
+                    minIndex = i;
+                }
+            }
+            obj.minValue = minValue;
+            obj.minIndex = minIndex;
+
+            return obj;
+        }
+
+    }
+
+</script>
+
+</html>
