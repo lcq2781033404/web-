@@ -78,7 +78,12 @@ fragment    锚点
 （1）clientLeft      获取的是border-left的宽度
 （2）clientTop       获取的是border-top的宽度
 （3）clientWidth     只包括内容和内边距，不包括边框
+获取浏览器可视区域宽度：
+var clientWidth = document.body.clientWidth || document.documentElement.clientWidth;//处理兼容性问题
 （4）clientHeight    只包括内容和内边距，不包括边框
+获取浏览器可视区域高度：
+var clientHeight = document.body.clientHeight || document.documentElement.clientHeight;//处理兼容性问题
+
 
 3.scroll
 （1）scrollLeft      内容（不是滚动条）滚动出去的水平距离（有兼容性问题）
