@@ -3,5 +3,257 @@
 // 2 点击序号 动画的方式 切换图片
 // 3 鼠标放到盒子上显示箭头
 // 4 实现上一张和下一张的功能
-// 5 自动切换图片
+// 5 实现上一张和下一张的无缝切换（这里需要克隆一个和第一个li相同的li，并添加到ul的最后面，当点击看到的最后一张时，切换到克隆的li，并把序号置为第一个）
+// 6 自动切换图片
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            border: 0;
+        }
+
+        .all {
+            width: 500px;
+            height: 200px;
+            padding: 7px;
+            border: 1px solid #ccc;
+            margin: 100px auto;
+            position: relative;
+        }
+
+        .screen {
+            width: 500px;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .screen li {
+            width: 500px;
+            height: 200px;
+            overflow: hidden;
+            float: left;
+        }
+
+        .screen ul {
+            position: absolute;
+            left: 0;
+            top: 0px;
+            width: 3000px;
+        }
+
+        .all ol {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            line-height: 20px;
+            text-align: center;
+        }
+
+        .all ol li {
+            float: left;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border: 1px solid #ccc;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .all ol li.current {
+            background: yellow;
+        }
+
+        #arr {
+            display: none;
+            z-index: 1000;
+
+        }
+
+        #arr span {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            margin-top: -20px;
+            background: #000;
+            cursor: pointer;
+            line-height: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-family: '黑体';
+            font-size: 30px;
+            color: #fff;
+            opacity: 0.3;
+            border: 1px solid #fff;
+        }
+
+        #arr #right {
+            right: 5px;
+            left: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="all" id='box'>
+    <div class="screen">
+        <ul>
+            <li><img src="images/wf1.jpg" width="500" height="200"/></li>
+            <li><img src="images/wf2.jpg" width="500" height="200"/></li>
+            <li><img src="images/wf3.jpg" width="500" height="200"/></li>
+            <li><img src="images/wf4.jpg" width="500" height="200"/></li>
+            <li><img src="images/wf5.jpg" width="500" height="200"/></li>
+        </ul>
+        <ol>
+        </ol>
+    </div>
+    <div id="arr">
+        <span id="left">&lt;</span>
+        <span id="right">&gt;</span>
+    </div>
+</div>
+<!-- <input type="button" name="btn" value="移动到500" id="btn" />
+<input type="button" name="btn" value="移动1000" id="btn1" />
+<div style="width: 100px;height: 100px;background-color: red;position: relative;" id="b"></div> -->
+<script>
+    //获取元素
+    var box = document.getElementById('box');
+    var screen = box.children[0];
+    var ul = screen.children[0];
+    var ol = screen.children[1];
+    var arr = document.getElementById('arr');
+    var arrLeft = document.getElementById('left');
+    var arrRight = document.getElementById('right');
+    var imgWidth = screen.offsetWidth;
+    var index = 0;
+    var count = ul.children.length;
+
+    var autoId = setInterval(function() {
+        arrRight.click();
+    }, 3000);
+
+    box.onmouseover = function() {
+        arr.style.display = 'block';
+        clearInterval(autoId);
+    }
+
+    box.onmouseout = function() {
+        arr.style.display = 'none';
+        autoId = setInterval(function() {
+            arrRight.click();
+        }, 2000);
+    }
+
+    //遍历ul的子元素，为ol生成对应数量的li
+    for(var i = 0; i<count; i++) {
+        var li = document.createElement('li');
+        ol.appendChild(li);
+        li.innerText = i+1;
+        //为li动态添加index属性并赋值，方便后面计算移动距离使用
+        li.index = i;
+        //为每一个li注册鼠标经过事件
+        li.onclick = liMouseOver;
+    }
+    //第一个li默认高亮
+    ol.children[0].className = 'current';
+
+
+    function liMouseOver(){
+        //取消其他li的高亮显示
+        for(var i = 0; i<ol.children.length; i++) {
+            ol.children[i].className = '';
+        }
+        //让当前li高亮显示
+        this.className = 'current';
+        //以动画的方式切换到当前鼠标经过的li的图片位置
+        animate(ul,-parseInt(this.index)*imgWidth);
+        //全局变量index记录了图片当前图片的索引值
+        index = this.index;
+
+    }
+
+    //点击按钮切换图片
+    arrRight.onclick = function(){
+        //判断是否是克隆的第一张图片，如果是克隆的第一张图片，此时修改ul的坐标，显示真正的第一张图片
+        if(index == count){
+            index = 0;
+            ul.style.left = index * imgWidth + 'px';
+        }
+
+        if(index < count - 1){
+            ol.children[index + 1].click();
+        }else{
+            animate(ul, -(index + 1) * imgWidth);
+            index++;
+            for(var i = 0; i < ol.children.length; i++){
+                var li = ol.children[i];
+                li.className = '';
+            }
+            ol.children[0].className = 'current';
+        }
+        
+    }
+
+    arrLeft.onclick = function(){
+        //判断是否是真正的第一张图片，如果是，则修改ul的坐标，立刻切换到克隆的第一张图片
+        if(index == 0) {
+            index = count;
+            ul.style.left = -index * imgWidth + 'px';
+        }
+        ol.children[index - 1].click();
+    }
+
+    var firstLi = ul.children[0];
+    var cloneLi = firstLi.cloneNode(true);
+    ul.appendChild(cloneLi);
+
+    
+
+    //动画函数
+    function animate (ele, target) {
+        //如果timeId已经存在，则清除定时器，并将timerId赋值为null，保证下次判断的timeId为false
+        if(ele.timerId){
+            clearInterval(ele.timerId);
+            ele.timerId = null;
+        }
+
+        ele.timerId = setInterval(function(){
+
+            var speed = 10;
+            var current = ele.offsetLeft;
+
+            if(current >= target){
+                speed = -Math.abs(speed);
+            }
+
+            if(Math.abs(current - target) < Math.abs(speed)){
+                clearInterval(ele.timerId);
+                ele.style.left = target + 'px';
+                return;
+            }
+
+            ele.style.left = ele.offsetLeft + speed + 'px';
+
+        }, 5); 
+    }
+
+    /*var btn = document.getElementById('btn');
+    var btn1 = document.getElementById('btn1');
+    var b = document.getElementById('b');
+    btn.onclick = function() {
+        animate(b, 500);
+    }
+    btn1.onclick = function() {
+        animate(b, 1000);
+    }*/
+</script>
+</body>
+</html>
