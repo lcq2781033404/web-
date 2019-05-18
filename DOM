@@ -337,6 +337,10 @@ nextElementSibling
 （2）上一个兄弟元素
 previousElementSibling
 
+7.复制节点
+复制节点使用cloneNode()方法，该方法有一个bool类型的参数，填写true表示复制节点与节点中的内容；填写false表示只复制节点，不复制内容。
+该方法返回克隆后的节点。克隆的节点没有被添加到dom中，需要使用appendChild方法。
+
 六.动态创建元素的方法
 1.document.write()（很少使用）
 document.write('<p>hello world</p>');
