@@ -81,8 +81,8 @@ fragment    锚点
 （4）clientHeight    只包括内容和内边距，不包括边框
 
 3.scroll
-（1）scrollLeft      内容（不是滚动条）滚动出去的水平距离
-（2）scrollTop       内容（不是滚动条）滚动出去的垂直距离
+（1）scrollLeft      内容（不是滚动条）滚动出去的水平距离（有兼容性问题）
+（2）scrollTop       内容（不是滚动条）滚动出去的垂直距离（有兼容性问题）
 （3）scrollWidth     内容宽度和内边距以及未显示的内容，不包括滚动条
 （4）scrollHeight    内容高度和内边距以及未显示的内容，不包括滚动条
 
