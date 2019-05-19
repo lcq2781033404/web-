@@ -15,3 +15,13 @@ window.Food = Food;//这里我把一个构造函数赋值给了window
 ;(function() {
   ...
 })()
+
+二.压缩代码
+在使用自调用的匿名函数时，通常会使用window把函数中想让外部调用的对象暴露出来，自调用的匿名函数在声明和调用的时候通常会传入两个参数，window和undefined
+;(function(window, undefined) {
+  ...
+})(window, undefined)
+这么做有两个目的：
+1.将来代码传入服务器的时候window作为参数可以被压缩。
+2.在老版本的浏览器中，undefined可以被重新赋值，而我们在自调用的匿名函数里面可能会使用到undefined，为了使得使用的undefined保持原意，所以把undefined
+传入自调用匿名函数。
