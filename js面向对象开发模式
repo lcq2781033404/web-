@@ -9,3 +9,57 @@
 
 三.创建对象的模板
 在js中，创建对象的模板是构造函数，而在其他语言中，创建对象的模板是类。
+创建构造函数：
+function Student(name, subject, score) {
+  this.name = name;
+  this.subject = subject;
+  this.score = score;
+  this.printScore = function() {
+    ...
+  }
+}
+
+var zhangsan = new Student('zhangsan', 'english', 66);
+
+四.创建对象的方式
+1.使用new Object()
+var hero = new Object();
+hero.name = 'zs';
+hero.blood = 100;
+hero.attack = function() {
+  ...
+}
+...
+
+2.使用对象字面量（创建单个对象）
+var hero = {
+  name: 'zs',
+  blood: 100,
+  attack: function() {
+    ...
+  }
+};
+
+3.工厂方法（通过函数创建多个对象）（弊端：创建出的对象都是object类型的，以后我们需要有自己的类型，比如英雄都是英雄类型，学生都是学生类型）
+function createHero(name, blood) {
+  var o = new Object();
+  o.name = name;
+  o.blood = blood;
+  o.attack = function() {
+    ...
+  };
+  return o;
+}
+
+4.构造函数方法（强烈推荐）
+构造函数名字的第一个字母要大写！！！！！
+function Student(name, subject, score) {
+  this.name = name;
+  this.subject = subject;
+  this.score = score;
+  this.printScore = function() {
+    ...
+  }
+}
+
+var zhangsan = new Student('zhangsan', 'english', 66);
