@@ -57,9 +57,54 @@ function Student(name, subject, score) {
   this.name = name;
   this.subject = subject;
   this.score = score;
+  //多个对象，会存储多个printScore方法
   this.printScore = function() {
     ...
   }
 }
 
 var zhangsan = new Student('zhangsan', 'english', 66);
+
+五.静态成员和实例成员
+1.静态成员：
+可以直接使用对象来调用属性和方法
+比如：
+var MyMath = {
+  PI: 3.14,
+  Min: function() {...}
+};
+MyMath.PI;
+MyMath.Min();
+2.实例成员：
+需要先通过构造函数实例一个对象并通过该对象调用属性和方法。
+
+六.构造函数原型
+function Student(name, subject, score) {
+  this.name = name;
+  this.subject = subject;
+  this.score = score;
+  //多个对象，会存储多个printScore方法
+  this.printScore = function() {
+    ...
+  }
+}
+
+var zhangsan = new Student('zhangsan', 'english', 66);
+
+在使用上面的构造函数实例对象的时候，每实例一个对象，就会在内存中创建开辟一个空间存储该对象对应的printScore方法，这样是很浪费内存空间的。
+使用构造函数原型就可以解决上面的问题：
+每一个构造函数都有一个属性：原型对象（prototype）
+function Student(name, subject, score) {
+  this.name = name;
+  this.subject = subject;
+  this.score = score;
+ //方法不在构造函数中声明了
+}
+//Student.prototype指向了Student构造函数的原型
+Student.prototype.printScore = function() {
+  ...
+}
+//通过构造函数创建的所有对象都可以访问构造函数原型对象中的成员
+var zhangsan = new Student('zhangsan', 'english', 66);
+zhangsan.printScore();
+ 
