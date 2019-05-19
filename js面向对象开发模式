@@ -108,3 +108,17 @@ Student.prototype.printScore = function() {
 var zhangsan = new Student('zhangsan', 'english', 66);
 zhangsan.printScore();
  
+总结：
+1.一般情况下，对象的属性在构造函数中设置。
+2.一般情况下，对象的方法在构造函数的原型中设置（节省内存）。
+eg. Student.prototype = {
+  constructor: Student,//注意这个是一定要有的，否则后面再获取对象的constructor属性的时候就不是构造函数类型了
+  sayHi: function() {
+    ...
+  },
+  printScore: functuion() {
+    ... 
+  },
+  ...
+};
+3.要先设置原型对象的属性，在创建对象，才能访问原型对象中的成员。
