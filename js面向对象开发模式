@@ -125,11 +125,12 @@ eg. Student.prototype = {
 
 七.bind方法（有兼容性问题，IE9以上才支持）
 函数也是对象，所以函数也有自己的属性和方法，这里讲一下函数的bind()方法。
-bind用于新建一个方法，bind()中第一个参数可以改变函数中this的指向。该方法最后返回一个新的函数
+fn.bind();
+bind用于新建一个方法，bind()中第一个参数可以改变函数中this的指向。该方法最后返回一个新的函数（这个方法只是改变了fn函数this的指向，而没有调用函数）
 
 八.call方法
 call()  也能改变函数的this，直接调用函数。
-fn.call();   //可以直接调用fn函数，如果call()括号里面填了参数，第一个参数可以改变fn中this的指向。
+fn.call();   //可以直接调用fn函数，如果call()括号里面填了参数，第一个参数可以改变fn中this的指向。后面的参数表示调用fn函数的实参。
 
 
 九.继承
@@ -154,4 +155,49 @@ Studeng.prototype.constructor = Student;    //别忘了把Student的原型对象
 
 但是原型继承无法设置构造函数的参数，所以不建议使用。
 
-（2）
+（2）借用构造函数继承（使用call方法）
+function Person(name, age, sex){
+  this.name = name;
+  this.age = age;
+  this.sex = sex;
+}
+function Student(name, age, sex, score){
+  Person.call(this, name, age, sex);
+  this.score = score;
+}
+注意：借用构造函数只能继承Person内的成员，由于方法的创建一般使用原型，所以Person的原型创建的方法，Student是不能继承的。
+
+（3）组合继承（即借用构造函数 + 原型继承）
+function Person(name, age, sex){
+  this.name = name;
+  this.age = age;
+  this.sex = sex;
+}
+Person.prototype.sayHi = function() {
+  console.log('hi');
+}
+function Student(name, age, sex, score){
+  Person.call(this, name, age, sex);
+  this.score = score;
+}
+Student.prototype = Person.prototype;
+Student.prototype.constructor = Student;
+
+但是这个方法也有一个小问题：如果给Student构造函数新增一个其独有的方法，则Person构造函数中也会具有这个方法（因为我们把Person.prototype
+赋值给了Student.prototype，即让Student.prototype和Person.prototype都指向了内存中的Person.prototype，所以改变Student.prototype也会
+改变Person.prototype）
+为了解决上面的问题，要把Student.prototype = Person.prototype;改成Student.prototype = new Person();
+
+十.函数声明和函数表达式
+1.函数声明
+function fn() {
+  ...
+}
+
+2.函数表达式
+var fn = function() {
+  ...
+}
+
+3.函数声明和函数表达式的区别：
+（1）由于js中具有预解析，所以声明的函数可以在声明之前调用，而表达式的函数只能在表达式之后调用。
