@@ -34,6 +34,27 @@ setInterval(function() {
 函数也是对象，所以函数也有自己的属性和方法，这里讲一下函数的bind()方法。
 fn.bind();
 bind用于新建一个方法，bind()中第一个参数可以改变函数中this的指向。该方法最后返回一个新的函数（这个方法只是改变了fn函数this的指向，而没有调用函数）
+bind的应用（为定时器指向对象）：
+var obj = {
+  name: 'zs',
+  fn: function() {
+    setInterval(function() {
+      console.log(this.name);
+    }, 300);
+  }
+};
+obj.fn();
+此时调用fn函数是不会打印出name的，因为this指向的是window，这时就需要来改变定时器中this的指向，改成如下即可：
+var obj = {
+  name: 'zs',
+  fn: function() {
+    setInterval(function() {
+      console.log(this.name);
+    }.bind(obj), 300);
+  }
+};
+obj.fn();
+
 
 2.call方法
 call()  也能改变函数的this，直接调用函数。
