@@ -36,6 +36,7 @@ btn2.onclick = function() {
 第一个参数：要执行的函数
 第二个参数：间隔的时间，单位是毫秒
 
+
 四.location对象
 loaction对象是window对象下的一个属性，使用的时候可以省略window对象。
 location可以获取或设置浏览器地址栏的URL。
