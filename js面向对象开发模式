@@ -188,7 +188,7 @@ Student.prototype.constructor = Student;
 改变Person.prototype）
 为了解决上面的问题，要把Student.prototype = Person.prototype;改成Student.prototype = new Person();
 
-十.函数声明和函数表达式
+十.定义函数的三种方式
 1.函数声明
 function fn() {
   ...
@@ -199,5 +199,8 @@ var fn = function() {
   ...
 }
 
-3.函数声明和函数表达式的区别：
+函数声明和函数表达式的区别：
 （1）由于js中具有预解析，所以声明的函数可以在声明之前调用，而表达式的函数只能在表达式之后调用。
+
+3.调用构造函数：new Funtion()（不推荐使用）
+var fn = new Funtion('var name = "zs"; console.log(zs);');//函数中的js代码以字符串形式填入括号内
