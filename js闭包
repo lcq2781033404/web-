@@ -29,12 +29,13 @@ f2();//0
 了内存中，因为Foo函数是function函数的父函数，于是Foo函数和局部变量i也被存在了内存，所以Foo函数不会在调用结束后，被内存回收机制回收。
 
 四.闭包案例（闭包延展了函数的作用域）
+1.要求点击每一个li的时候都能获取到它对应的索引
 <ul id = "heros">
 <li>关羽</li>
 <li>张飞</li>
 <li>刘备</li>
 </ul>
-看一个例子，我想点击每一个li的时候都能获取到它对应的索引
+
 <script>
     var heros = document.getElementById('heros');
     var list = heros.children;
@@ -60,3 +61,27 @@ f2();//0
     }
 </script>
 把onclick事件用自调用函数包裹起来，于是自调用函数和conlick创建的函数构成了闭包，自调用函数的参数i就会被保存起来以备onclick函数使用。
+
+2.要求点击按钮改变文字大小
+<body>
+    点击按钮改变我的大小
+    <input type="button" id="btn1" value="按钮1" />
+    <input type="button" id="btn2" value="按钮2" />
+    <input type="button" id="btn3" value="按钮3" />
+    
+    <script>
+        var btn1 = doucument.getElementById('btn1');
+        var btn2 = doucument.getElementById('btn2');
+        var btn3 = doucument.getElementById('btn3');
+        
+        function getFun(size) {
+            return function(){
+                document.body.style.fontSize = size + 'px';
+            }
+        }
+        
+        btn1.onclick = getFun(12);
+        btn2.onclick = getFun(14);
+        btn3.onclick = getFun(16);
+    </script>
+</body>
