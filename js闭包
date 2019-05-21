@@ -27,3 +27,36 @@ f2();//0
 起来，也就是构建一个闭包。这些变量将不会被内存回收器所回收，只有当内部的函数不可能被调用以后（例如被删除了，或者没有了指针），才会销毁这个闭包，而
 没有任何一个闭包引用的变量才会被下一次内存回收启动时所回收。还是看刚才的例子：首先返回的function函数赋值给全局变量f1，因此function函数就被储存在
 了内存中，因为Foo函数是function函数的父函数，于是Foo函数和局部变量i也被存在了内存，所以Foo函数不会在调用结束后，被内存回收机制回收。
+
+四.闭包案例（闭包延展了函数的作用域）
+<ul id = "heros">
+<li>关羽</li>
+<li>张飞</li>
+<li>刘备</li>
+</ul>
+看一个例子，我想点击每一个li的时候都能获取到它对应的索引
+<script>
+    var heros = document.getElementById('heros');
+    var list = heros.children;
+    for(var i = 0; i < list.length; i++) {
+        var li = list[i];
+        li.onclick = function() {
+            console.log(i);
+        }
+    }
+</script>
+
+显然，上面那么写是不行的，因为当执行onclick的时候，循环都已经走完了，每次输出i都是4。可以用闭包的方法解决：
+<script>
+    var heros = document.getElementById('heros');
+    var list = heros.children;
+    for(var i = 0; i < list.length; i++) {
+        var li = list[i];
+        (function(i) {
+            li.onclick = function() {
+                console.log(i);
+            }
+        })(i); 
+    }
+</script>
+把onclick事件用自调用函数包裹起来，于是自调用函数和conlick创建的函数构成了闭包，自调用函数的参数i就会被保存起来以备onclick函数使用。
