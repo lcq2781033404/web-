@@ -1,0 +1,69 @@
+一.递归
+1.概念
+递归即函数自己调用自己，递归和循环一样，要设置结束的条件，否则将会无限执行下去。
+
+2.案例分析
+（1）求1，2，3，...n之间数的和
+function getSum(n) {
+  if(n ==1){   //这个就是递归停止的条件
+    return 1;
+  }
+  return n + getSum(n - 1);
+}
+
+（2）求斐波那契数列（1，1，2，3，5，8，13，21，...）的第n个数
+function fn(n) {
+  if(n == 1 || n == 2){
+    return 1;
+  }
+  return fn(n - 1) + fn(n - 2);
+}
+
+3.总结归纳
+递归就是先在函数内部写出要计算的公式（比如求斐波那契数列写了fn(n - 1) + fn(n - 2)），然后设置递归的结束条件即可。
+
+
+二.拷贝
+1.浅拷贝
+当把A对象复制给B对象的时候，仅能把第一层的值复制过去，如果A对象中还有一个对象，则复制到B对象中的仅仅是对象的引用，即改变A对象内的对象属性也会改变B的：
+var obj1 = {
+  name: 'zs',
+  sex: 'male',
+  dog: {
+    name: 'o',
+    age: 2
+  }
+};
+function copy(o1, o2) {
+  for (var key in o1) {
+    o2[key] = o1[key];
+  }
+}
+var obj2 = {};
+function(obj1, obj2)l
+此时修改obj2.name不会影响obj1，但是修改obj2.dog.name就会影响obj1.
+
+2.深拷贝
+深拷贝会拷贝对象内的所有层，使用递归的方法比较好。
+var obj1 = {
+  name: 'zs',
+  sex: 'male',
+  dog: {
+    name: 'o',
+    age: 2
+  }
+};
+function deepCopy(o1, o2) {
+  for (var key in o1) {
+    var item = o1[key];
+    if(item instanceof Object) {
+      o2[key] = {};
+      deepCopy(item, o2[key]);
+    }else if(item instanceof Array){
+      var o2[key] = [];
+      deepCopy(item, o2[key]);
+    }else{
+      o2[key] = o1[key];
+    }
+  }
+}
