@@ -58,5 +58,9 @@ regularExpression.test(str);     //正则对象有一个test方法，括号内�
 2.var regularExpression = /ab\d/;    //直接将正则表达式填写在//中间，i和g这两个参数在//后面写即可
 
 
+六.表单验证练习
+
+
+
 
 
