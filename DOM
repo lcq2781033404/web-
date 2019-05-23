@@ -147,11 +147,13 @@ btn.onclick = functon(){
   alert('hehe');
 }
 
-（2）获得、失去焦点事件
+（2）文本框事件
 ①获得焦点
 onfocus
 ②失去焦点
 onblur
+③当文本改变并且失去焦点
+onchange
 
 （3）鼠标事件
 ①鼠标移入
