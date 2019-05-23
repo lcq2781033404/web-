@@ -1,0 +1,47 @@
+一.js框架库
+js框架库是一个封装了很多函数和兼容性代码的js文件，jquery就是一个js的框架库。
+
+二.JQuery简介
+1.JQuery中的顶级对象
+$符号是JQuery中的顶级对象
+
+2.JQuery的加载事件
+JQuery中有三种加载的事件：
+（1）window（页面中的所有内容（标签、图片、文字内容）加载完毕之后才触发）
+$(window).load(function(){
+  ... 
+});
+
+（2）document（页面中基本标签加载完毕就触发）
+$(document).ready(function(){
+  ...
+});
+
+（3）jQuery（和document一样，页面中基本标签加载完毕就触发）
+jQuery(function(){
+  ... 
+});
+或者
+$(function(){
+  ... 
+});
+
+三.jQuery和DOM对象的相互转换
+1.为什么jQuery和DOM对象需要相互转换
+很多时候操作DOM对象有兼容性问题，这时将DOM对象转换为jQuery对象，使用jQuery处理问题会更方便。
+jQuery中的有些方法处理的可能并不是很好，或者不是我们需要的，这个时候要将jQuery对象转换为DOM对象使用原生的js代码实现功能。
+
+2.将DOM对象转换为jQuery对象
+将DOM对象放入$()中，即可将DOM对象转换为jQuery对象。比如：
+var btn = document.getElementById('btn');     //变量btn就是一个DOM对象
+$(btn).click(function(){
+  $(this).css("backgroundColor","red");       //注意，this也是DOM对象，所以要将其用$()包裹起来
+});
+
+3.将jQuery对象转换为DOM对象
+将jQuery对象转换为DOM对象有两种方式：
+（1）$(btn).get(0)
+（2）$(btn)[0]
+
+四.jQuery选择器
+
