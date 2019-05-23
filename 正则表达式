@@ -89,9 +89,42 @@ var res = str.match(reg);
 参数1：填写要替换的字符
 参数2：填写替换字符
 
+注意：该方法只会替换第一个找到的字符串，如果像替换所有的指定字符，则需要和正则表达式配合使用
+str.replace(/\s/g, '');
+也可以只用split和join方法：
+str.split(' ').join('');
+
 七.表单验证练习
+<body>
+    QQ号：<input type="text" id="txtQQ"><span></span><br>
+    邮箱：<input type="text" id="txtEMail"><span></span><br>
+    手机：<input type="text" id="txtPhone"><span></span><br>
+    生日：<input type="text" id="txtBirthday"><span></span><br>
+    姓名：<input type="text" id="txtName"><span></span><br>
+
+    <script>
+      var txtQQ = document.getElementById('txtQQ');
+      txtQQ.onblur = function() {
+        var reg = /^[1-9]\d{4,11}$/;
+        var span = this.nextSibling;
+        if(!reg.test(this.value)) {
+          span.innerText = '请输入正确的QQ号';
+          span.style.color = 'red';
+        }else{
+          span.innerText = '';
+          span.style.color = '';
+        }
+      }
+    </script>
+</body>
 
 
+八.贪婪模式和非贪婪模式
+1.贪婪模式
+正则表达式默认情况下是贪婪的，即它在找到匹配的字符的时候会继续往后查找是否有下一个匹配的字符。
+
+2.非贪婪模式
+非贪婪模式就是找到了匹配的字符之后就不会继续查找了，只需要在正则表达式后加一个?即可把贪婪模式转换为非贪婪模式。
 
 
 
