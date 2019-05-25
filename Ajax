@@ -16,3 +16,19 @@ Ajax可以做什么
 1.安装wamp（windows apache mysql php）
 
 2.设置访问权限
+默认不能通过ip地址访问，要修改apache下的httpconfig文件，搜索deny，将deny from all 改成allow from all
+
+3.网站根目录修改
+网站的根目录默认存储在www文件夹下面，在httpconfig文件中搜索documentroot修改即可
+
+4.虚拟主机配置
+配置虚拟主机可以让apache同时维护多个网站根目录。
+在httpconfig文件中搜索virtual hosts
+
+五.网站类型
+1.静态网站
+静态网站即提前写好的网站页面（html，css，js等）
+静态网站的缺点：静态页面可维护性很低，且用户和界面之间没有交互性。
+
+2.动态网站
+动态网站的html页面或数据等是动态生成的，页面数量明显降低。
