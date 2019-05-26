@@ -32,3 +32,152 @@ Ajax可以做什么
 
 2.动态网站
 动态网站的html页面或数据等是动态生成的，页面数量明显降低。
+
+
+六.原生Ajax实现页面局部更新
+使用Ajax发送请求需要如下几步：
+
+1.创建XMLHttpRequest对象（有兼容性问题）
+var xhr = new XMLHttpRequest();
+注意，这里有兼容性问题，IE6以下的浏览器没有XMLHttpRequest对象，针对IE6以下的浏览器，创建请求对象要这么写：
+var xhr = new ActiveXObject('Microsoft.XMLHTTP');
+
+兼容性处理：
+var xhr = null;
+if(window.XMLHttpRequest){
+  xhr = new XMLHttpRequest();
+}else{
+  xhr = new ActiveXObject('Microsoft.XMLHTTP');
+}
+也可以使用try catch：
+var xhr = ull;
+try{
+  xhr = new XMLHttpRequest();
+}catch(e){
+  xhr = new ActiveXObject('Microsoft.XMLHTTP');
+}
+
+
+2.准备发送（调用open方法）
+xhr.open('get', 'check.php?username=' + username + '&password=' + password , true);
+这个方法有三个参数：
+参数1：请求的方式（get、post等）
+参数2：请求的url地址，如果是get请求方式，url地址里面需要传递参数，post请求方式则不需要
+参数3：是否异步（可省略，true表示异步，false表示同步，默认为异步）
+
+（1）get请求方式
+注意：在使用get请求方式的时候，url地址中的参数要进行转码，否则在IE中输入中文会乱码，使用encodeURI()方法转码。
+var param = 'usrname=' + username + '&password=' + password;
+xhr.open('get', 'check.php?' + encodeURI(param), true);
+
+（2）post请求方式
+post请求方式，参数不需要在url地址中传递，在send方法中传递，并且不需要将参数转码。
+但是post请求方式需要设置请求头：
+xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+
+
+3.执行发送动作（调用send方法）
+xhr.send(null);
+send方法的参数根据请求的方式不同而不同：
+如果是get请求方式，则参数要填null。
+如果是post请求方式，参数填写传输的数据，比如把上面的用户名和密码传递过来：
+var param = 'usrname=' + username + '&password=' + password;
+xhr.open('get', 'check.php', true);
+xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+xhr.send(param);
+
+
+4.声明回调函数（由回调函数接收服务器返回的数据）（这个函数由浏览器调用）
+（1）声明回调函数，首先需要判断服务器端数据是否已经回来，使用readyState属性，这个属性有5个值，每个值代表的含义都不同：
+值          含义
+0           xhr对象创建完成
+1           已经执行了发送动作（已经执行了send方法）
+2           浏览器已经收到了服务器响应的数据，但是数据还没解析
+3           正在解析数据
+4           数据解析完成，可以使用了
+
+（2）收到数据之后，还需要判断数据是否正常，正常才能使用，使用status属性来判断，这个属性返回http常见的状态码，有如下几个值：
+值          含义
+200         响应成功
+404         没有找到请求的资源
+500         服务器端错误
+
+（3）响应成功之后，就可以获取服务器端的数据进行使用了，使用responseText属性（早期使用responseXML，现在不怎么使用了）返回数据：
+早期使用的responseXML是一种XML数据格式，比如下面的数据就是XML的数据格式：
+<?xml version="1.0" encoding="utf-8" ?>
+<booklist>
+    <book>
+        <name>三国演义</name>
+        <author>罗贯中</author>
+        <desc>一个杀伐纷争的年代</desc>
+    </book>
+    <book>
+        <name>水浒传</name>
+        <author>施耐庵</author>
+        <desc>108条好汉的故事</desc>
+    </book>
+</booklist>
+解析XML的数据可以通过js的操作dom来获取元素的值：
+
+目前使用的responseText方法返回的是json格式的数据，便于操作：
+{
+    "name":"zhansan",
+    "age":12,
+    "lover":["coding","swimming","singing"],
+    "friend":{
+        "high":"180cm",
+        "weight":"80kg",
+        "lover":["swimming","singing","dancing"],
+        "friend":{}
+    }
+}
+注意：json数据的键必须用""包裹！！！
+
+xhr.onreadystatechange = function(){
+  if(xhr.readyState == 4){           //判断服务器端数据是否已经回来并且解析完成
+    if(xhr.status == 200){           //判断数据是否正常
+      var data = xhr.responseText;   //获取数据
+      
+      if(data == '1'){
+        console.log('登陆成功');
+      }else if(data == '2'){
+        console.log('用户名或密码错误');
+      }
+    }
+  }
+}
+
+
+七.json格式数据如何解析
+举个例子：
+{
+    "name":"zhansan",
+    "age":12,
+    "lover":["coding","swimming","singing"],
+    "friend":{
+        "high":"180cm",
+        "weight":"80kg",
+        "lover":["swimming","singing","dancing"],
+        "friend":{}
+    }
+}
+从服务器获取到的json数据是字符串类型的，首先要将其转换为对象（使用JSON.parse方法）：
+JSON.parse(data);
+还可以把对象转换为json格式的字符串（调试用），方法如下：
+JSON.stringify(obj);
+
+转换为对象之后，就可以用对象的属性和方法访问其成员。
+两个比较好用的方法：
+（1）json_encode()
+把数组或对象转换为json形式的字符串。
+
+八.js事件处理机制理解
+js的事件处理机制为：单线程+事件队列。
+就是说js从上到下执行代码，当执行到事件的时候，不会立刻执行，而是将其放到事件队列中，然后继续执行主线上的代码，当主线上的代码都执行完了，才会
+去依次执行事件队列中的事件函数。即事件队列中的事件执行需要同时满足两个条件：
+（1）主线程已经空闲
+（2）任务满足触发条件（比如定时器到期、特定事件被触发、ajax回调函数）
+
+
+九.jQuery库中Ajax方法的使用
+
