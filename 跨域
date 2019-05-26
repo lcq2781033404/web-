@@ -7,14 +7,42 @@
 
 二.跨域解决方案
 1.jsonp（主流的跨域解决方案）
-（1）jsonp的原理
-通过script标签的src属性进行跨域请求。
+（1）jsonp的原理（通过script标签的src属性进行跨域请求）
+动态创建script标签，然后通过它的src属性发送跨域请求，然后服务器端响应的数据格式为【函数调用（foo(实参)）】，所以在发送请求之前必须先声明一个函数，
+并且函数的名字与参数中传递的名字要一致。这里声明的函数是由服务器响应的内容（实际就是一段js代码-函数调用）来调用
+
 （2）实现
-<script type="text/javascript" src="http://tom.com/data.php"></script>
-<script type="text/javascript">
-
+使用script标签的src属性可以跨域访问其他页面，使用js代码动态的创建script标签，在其src的属性值的页面中返回一个js函数，函数的参数就是服务器要传给
+客户端的数据（服务器响应的内容为函数调用）。
+<script>
+  var script = document.createElement('script');
+  script.src = 'tom.com/data.php';
+  var head = document.getElementsByTagName('head')[0];
+  head.appendChild(script);
+  function foo(data){
+    console.log(data.username, data.password);
+  }
 </script>
-使用script标签的src属性可以跨域访问其他页面，
 
+tom.com/data.php页面代码：
+<?php 
+  $arr = array("username"=>"zs", "password"=>"123");
+  echo 'foo('.json_encode($arr).')';     //这里php输出了一段js的函数调用！！！！！
+?>
 
+但是这样前端和后端就必须保持两边的foo函数名字一致，但是其实后端是根本就不关心这个函数叫什么的，有没有什么方法可以前端自定义这个foo函数的名字呢，方法如下：
+<script>
+  var script = document.createElement('script');
+  script.src = 'tom.com/data.php?callback=cb';
+  var head = document.getElementsByTagName('head')[0];
+  head.appendChild(script);
+  function cb(data){
+    console.log(data.username, data.password);
+  }
+</script>
 
+<?php 
+  $arr = array("username"=>"zs", "password"=>"123");
+  $cb = $_GET['callback'];
+  echo $cb.'('.json_encode($arr).')';     //这里php输出了一段js的函数调用！！！！！
+?>
