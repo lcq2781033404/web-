@@ -46,3 +46,5 @@ tom.com/data.php页面代码：
   $cb = $_GET['callback'];
   echo $cb.'('.json_encode($arr).')';     //这里php输出了一段js的函数调用！！！！！
 ?>
+
+三.jQuery框架实现跨域
