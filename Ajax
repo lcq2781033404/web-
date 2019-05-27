@@ -271,7 +271,7 @@ function ajax(obj){
                     // data = eval("("+ data +")");
                     data = JSON.parse(data);
                 }
-                defaults.success(data);
+                defaults.success(data);       //这里要调用success回调函数
             }
         }
     }
