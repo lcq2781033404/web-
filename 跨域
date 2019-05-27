@@ -48,3 +48,61 @@ tom.com/data.php页面代码：
 ?>
 
 三.jQuery框架实现跨域
+jQuery实现跨域依旧使用$.ajax()方法，格式也和之前的ajax异步请求相似，但是这里实现的是跨域传递数据功能，与之前的ajax在实现原理上面存在区别。
+        $(function(){
+            $("#btn").click(function(){
+                $.ajax({
+                    type:'get',          //跨域通过url地址传参，这里的请求方式只能填写get
+                    url:'http://tom.com/jsonp.php',
+                    dataType:'jsonp',              //这里的类型一定要写jsonp
+                    data:{},
+                    success:function(data){
+                        console.log(data.username,data.password);
+                    },
+                    error:function(data){
+                        console.dir(data);
+                        console.log('error');
+                    }
+                });
+            });
+        });
+
+
+http://tom.com/jsonp.php页面代码：
+//根据跨域的实现原理，后端依旧需要返回一个js的函数调用
+<?php
+  $cb = $_GET['callback'];
+  $arr = array("username"=>"zs", "password"=>"123");
+  echo $cb.'('.json_encode($arr).')';                //这里php输出了一段js的函数调用！！！！！
+?>
+
+虽然前端没有声明callback函数，但是jQuery帮我们自动封装了一个，所以这么写也能完成跨域获取数据的请求，但是这样有一个局限就是后端必须通过
+$_GET['callback']获取函数名字，如果把callback换成其他的名字或者不写，就会报错。
+如果前端想要自己定义参数的名字，只需要在$.ajax()方法中写一个jsonp属性即可：
+        $(function(){
+            $("#btn").click(function(){
+                $.ajax({
+                    type:'get',
+                    url:'http://tom.com/jsonp.php',
+                    dataType:'jsonp',
+                    jsonp:'cb',//jsonp属性的作用就是自定义参数名字（callback=abc 这里的名字指的是等号前面的键，后端根据这个键获取方法名，
+                                 jquery的默认参数名称是callback）
+                    jsonpCallback:'abc',//这个属性的作用就是自定义回调函数的名字（callback=abc ，这里的名字指的是等号后面的值）
+                    data:{},
+                    success:function(data){
+                        console.log(data.username,data.password);
+                    },
+                    error:function(data){
+                        console.dir(data);
+                        console.log('error');
+                    }
+                });
+            });
+        });
+        
+http://tom.com/jsonp.php页面代码：   
+<?php
+  $cb = $_GET['cb'];
+  $arr = array("username"=>"zs", "password"=>"123");
+  echo $cb.'('.json_encode($arr).')';                //这里php输出了一段js的函数调用！！！！！
+?>
