@@ -4,4 +4,81 @@
 二.常用模板引擎介绍
 市面上有很多模板引擎，不同的引擎性能也不一样，其中tx开发的artTemplate模板引擎性能最佳，所以重点学习它。
 
-三.
+三.模板引擎的使用流程
+1.引入框架
+<script type="text/javascript" src="template.js"></script>
+
+2.制定模板
+使用artTemplate模板引擎的语法定义一个模板，并为其命名id，方便后面调用。
+    <script type="text/html" id="template">       //注意这个type一定是text/html
+        <h1>{{title}}</h1>
+        {{if books}}
+            {{each books as value i}}
+                <div>{{value}}</div>
+            {{/each}}
+        {{/if}}
+    </script>
+    
+3.调用框架方法（template方法）
+调用模板框架的方法生成数据，template()方法的作用就是把模板和数据拼接到一块生成一个静态HTML片段，该方法返回这个HTML的片段，这个方法有两个参数：
+（1）参数1：模板id（就是之前制定模板时定义的id值）
+（2）参数2：用来渲染的数据。
+
+var data = {
+    title : '图书信息',
+    books:['三国演义','水浒传','西游记','红楼梦']
+};
+var html = template('template',data);
+var con = document.getElementById('container');
+con.innerHTML = html;
+
+
+
+
+举一个完整的例子：
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板引擎</title>
+    <script type="text/javascript" src="./template.js"></script>
+    <script type="text/html" id="template">
+        <h1>{{title}}</h1>
+        {{if books}}
+            {{each books as value i}}
+                <div>{{value}}</div>
+            {{/each}}
+        {{/if}}
+    </script>
+    <script type="text/javascript">
+    window.onload = function(){
+        var data = {
+            title : '图书信息',
+            books:['三国演义','水浒传','西游记','红楼梦']
+        };
+        // template的作用就是把模板和数据拼接到一块生成一个静态HTML片段，实际就是该方法的返回值
+        // 参数一：模板id
+        // 参数二：用来渲染的数据
+        var html = template('template',data);
+        var con = document.getElementById('container');
+        con.innerHTML = html;
+    }
+        
+    </script>
+</head>
+<body>
+    <div id="container"></div>
+</body>
+</html>
+
+
+
+四.基础语法
+1.转义与不转义
+（1）转义：把数据中带有的html标签转义成为普通的字符（默认情况是转义的）。
+比如：{{value}}
+
+（2）不转义：把数据中带有的html标签解析出来，想要数据不转义，在数据前面加一个#符号即可：
+{{#value}}
+
+
