@@ -1,0 +1,9 @@
+一.常见浏览器内核
+1.IE浏览器：         trident内核
+2.FireFox浏览器：    gecko内核
+3.Opera浏览器：      以前是Presto内核，现在是Blink内核
+4.Chorme：          以前是Webkit内核，现在是Blink内核
+Safari：            webkit内核
+
+二.HTML文件开头的Doctype作用是什么
+告知浏览器文档使用哪种规范解析页面。
