@@ -26,3 +26,8 @@ src用于替换当前元素；href用于在当前文档和引用资源之间建�
 2.href 是 Hypertext Reference 的缩写，指向网络资源所在位置，建立和当前元素（锚点）或当前文档（链接）之间的链接，如果我们在文档中添加
 <link href=”common.css” rel=”stylesheet”/>
 那么浏览器会识别该文档为 css 文件，就会并行下载资源并且不会停止对当前文档的处理。这也是为什么建议使用 link 方式来加载 css，而不是使用@import 方式。
+
+五.解决超链接访问后hover样式不出现的问题
+原因：a:visited和a:hover的顺序放错了
+
+a标签的四种状态排序原则：love hate原则---l(Link) ov(visited)e h(hover)a(active)te
