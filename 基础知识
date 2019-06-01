@@ -31,3 +31,10 @@ src用于替换当前元素；href用于在当前文档和引用资源之间建�
 原因：a:visited和a:hover的顺序放错了
 
 a标签的四种状态排序原则：love hate原则---l(Link) ov(visited)e h(hover)a(active)te
+
+六.rgba()和opacity()透明效果的区别
+rgba()和 opacity 都能实现透明效果，但最大的不同是 opacity 作用于元素，以及元素内的
+所有内容的透明度。
+而 rgba()只作用于元素的颜色或其背景色。（设置 rgba 透明的元素的子元素不会继承透明
+效果！）
+
