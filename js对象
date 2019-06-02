@@ -89,14 +89,57 @@ arr.sort(function(a, b){
 });
 
 （4）操作方法
-concat()      //把参数拼接到当前数组
+concat()      //把参数拼接到当前数组后面
+该方法不会改变现有的数组，会返回拼接后的数组，参数内可以写要拼接的元素，也可以写要拼接的数组名称
+
 slice()       //从当前数组中截取一个新的数组
+该方法不会改变现有的数组，会返回截取后的数组，有两个参数：
+参数1：必需，规定从何处开始选取（填索引）。如果是负数，那么它规定从数组尾部开始算起的位置。也就是说，-1 指最后一个元素，-2 指倒数第二个元素，以此类推。
+参数2：可选。规定从何处结束选取（填索引）。该参数是数组片断结束处的数组下标。如果没有指定该参数，那么切分的数组包含从 start 到数组结束的所有元素。
+如果这个参数是负数，那么它规定的是从数组尾部开始算起的元素。
+
 splice()      //删除或替换当前数组的某些项目
+该方法会改变现有的数组，会返回被删除的项目，有三个参数：
+参数1：必需，整数，规定添加/删除项目的索引，使用负数可从数组结尾处规定位置。
+参数2：必需：要删除的项目数量。如果设置为 0，则不会删除项目。
+参数3：可选，向数组添加的新项目。
+举例：
+<script type="text/javascript">
+
+	var arr = new Array(6)
+	arr[0] = "George"
+	arr[1] = "John"
+	arr[2] = "Thomas"
+	arr[3] = "James"
+	arr[4] = "Adrew"
+	arr[5] = "Martin"
+
+	document.write(arr + "<br />")
+	arr.splice(2,1,"William")
+	document.write(arr)
+
+</script>
+输出：
+
+George,John,Thomas,James,Adrew,Martin
+George,John,William,James,Adrew,Martin
 
 （5）位置方法
-indexOf()    //返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1(从前往后找)。
+indexOf()       //返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1(从前往后找)。
+该方法有两个参数：
+参数1：必需，规定需检索的字符串值。
+参数2：可选的整数参数。规定在字符串中开始检索的位置。它的合法取值是 0 到 stringObject.length - 1。如省略该参数，则将从字符串的首字符开始检索。
 
-lastIndexOf()   
+lastIndexOf()   //返回一个指定的字符串值最后出现的位置，如果不存在，则返回-1(从后往前找)。
+比如：
+var str="Hello world!"
+document.write(str.lastIndexOf("o",10) + "<br />")   //返回7
+
+var str="Hello world!"
+document.write(str.lastIndexOf("o",5) + "<br />")   //返回4
+
+var str="Hello world!"
+document.write(str.lastIndexOf("o",1) + "<br />")   //返回-1
 
 （6）迭代方法（下面的这些方法都是html5中的方法，存在浏览器兼容问题）
 ervery()
@@ -112,6 +155,7 @@ some()
 
 （7）join
 array.join();可以分隔数组中的每一个元素，默认使用逗号分隔，如果想用其他符号分隔，可以在join括号内填写分隔符。
+该方法可以把数组中的所有元素通过参数内的符号（没有参数则默认使用逗号）进行分隔，并放入一个字符串内，然后返回这个字符串。
 
 （7）清空数组的方法
 ①字面量法（推荐）
