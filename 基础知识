@@ -38,3 +38,13 @@ rgba()和 opacity 都能实现透明效果，但最大的不同是 opacity 作�
 而 rgba()只作用于元素的颜色或其背景色。（设置 rgba 透明的元素的子元素不会继承透明
 效果！）
 
+六.css样式初始化（Normalize.css）
+Normalize.css是一种CSS reset的替代方案。它在默认的HTML元素样式上提供了跨浏览器的高度一致性。相比于传统的CSS reset，Normalize.css是一种现代的、
+为HTML5准备的优质替代方案（https://necolas.github.io/normalize.css/7.0.0/normalize.css）
+创造normalize.css有下面这几个目的：
+保护有用的浏览器默认样式而不是完全去掉它们
+一般化的样式：为大部分HTML元素提供修复浏览器自身的bug并保证各浏览器的一致性
+优化CSS可用性：用一些小技巧
+解释代码：用注释和详细的文档来
+
+
