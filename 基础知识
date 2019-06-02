@@ -76,3 +76,6 @@ IE的宽度和高度还包含了padding和border。
 4）用margin:0 auto设置水平居中
 使用margin:0 auto在standards模式下可以使元素水平居中，但在quirks模式下却会失效,quirk模式下的解决办法，用text-align属性:
 body{text-align:center};#content{text-align:left}
+
+八.IE的双边距 BUG：块级元素 float 后设置横向 margin，ie6 显示的 margin 比设置的较大。如何解决？
+只需要给浮动元素加上display:inline;这样的CSS属性就可以了
