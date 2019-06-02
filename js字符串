@@ -13,6 +13,26 @@ str = 'ghl';
 5.replace()         //字符串替换，只会替换第一个找到的字符串
 6.trim()            //去除字符串前后的空格，字符串中间的空格无法去掉
 7.split()           //把一个字符串分割成字符串数组
+该方法不改变原有字符串，并且返回分割后的字符串数组，有两个参数：
+参数1：必需，字符串或正则表达式，从该参数指定的地方分割 stringObject。
+参数2：可选，该参数可指定返回的数组的最大长度。如果设置了该参数，返回的子串不会多于这个参数指定的数组。如果没有设置该参数，整个字符串都会被分割，
+不考虑它的长度。
+比如：
+<script type="text/javascript">
+
+var str="How are you doing today?"
+
+document.write(str.split(" ") + "<br />")
+document.write(str.split("") + "<br />")
+document.write(str.split(" ",3))
+
+</script>
+
+输出：
+
+How,are,you,doing,today?
+H,o,w, ,a,r,e, ,y,o,u, ,d,o,i,n,g, ,t,o,d,a,y,?
+How,are,you
 
 三.实际应用
 1.获取url中的参数
