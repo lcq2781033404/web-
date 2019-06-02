@@ -142,7 +142,7 @@ function Student(score){
 }
 
 Student.prototype = new Person();           //模拟继承：把Student的原型对象赋为Person。这样Student的对象就可以访问Person的成员。
-Studeng.prototype.constructor = Student;    //别忘了把Student的原型对象的类型赋值为Student，否则就是Person类型了。
+Student.prototype.constructor = Student;    //别忘了把Student的原型对象的类型赋值为Student，否则就是Person类型了。
 
 但是原型继承无法设置构造函数的参数，所以不建议使用。
 
@@ -178,6 +178,7 @@ Student.prototype.constructor = Student;
 赋值给了Student.prototype，即让Student.prototype和Person.prototype都指向了内存中的Person.prototype，所以改变Student.prototype也会
 改变Person.prototype）
 为了解决上面的问题，要把Student.prototype = Person.prototype;改成Student.prototype = new Person();
+
 
 八.定义函数的三种方式
 1.函数声明
