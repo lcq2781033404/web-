@@ -35,3 +35,31 @@ div:full-screen{
   ...
 }
 :full-screen伪类选择器规定元素在全屏状态下的样式，有兼容性问题，要搭配浏览器前缀食用。
+
+三.Web本地存储
+1.特性
+（1）设置、读取方便，页面刷新不丢失数据
+（2）容量大，sessionStorage约5M，localStorage约20M.
+（3）只能存储字符串，可以将对象JSON.stringify()编码后存储 
+
+2.window.sessionStorage
+生命周期为关闭浏览器窗口
+在同一窗口下数据可以共享
+
+3.window.localStorage
+永久生效，除非手动删除（服务器方式访问然后清除缓存）
+可以多窗口共享
+
+4.方法详解
+（1）setItem(key, value)   设置存储内容
+val = document.getElementById('username').value;
+window.sessionStorage.setItem('name', val);
+
+（2）getItem(key)          读取存储内容
+console.log(window.sessionStorage.getItem('name'));
+
+（3）removeItem(key)       删除键值为key的存储内容
+window.sessionStorage.removeItem('name');
+
+（4）clear()               清空所有存储内容
+window.sessionStorage.clear();
