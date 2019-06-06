@@ -250,6 +250,8 @@ e.currentTarget         事件处理函数所处的对象（相当于this）
 e.type                  获取事件名称
 e.clientX               鼠标相对于浏览器可视区域的X坐标
 e.clientY               鼠标相对于浏览器可视区域的Y坐标
+event.offsetX           鼠标相对于事件源元素（srcElement）的X坐标，只有IE事件有这个属性，标准事件没有对应的属性。
+event.offsetY           鼠标相对于事件源元素（srcElement）的Y坐标，只有IE事件有这个属性，标准事件没有对应的属性。
 e.pageX                 鼠标相对于当前页面的X坐标（有兼容性问题，IE9以后才支持）
 e.pageY                 鼠标相对于当前页面的Y坐标（有兼容性问题，IE9以后才支持）
 想要处理e.pagex的兼容性问题，可以通过e.clientX来进行计算：
