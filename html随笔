@@ -179,12 +179,14 @@ datalist：定义选项列表，请与input元素配合使用该元素
   <option>王尼玛</option>
 </datalist>
 这样，在选中输入框是，下面就会出现选择列表
+
 fieldset：将表单内相关元素分组，打包。
 比如：
 <fieldset>
   <legend>用户登录</legend>
   用户名：<input type="text" value="请输入用户名" />
 </fieldset>
+
 多媒体标签
 ①embed：定义嵌入的内容
 <embed src=""></embed>
@@ -229,3 +231,18 @@ input标签需要有name属性
 <input type="text" required />
 ⑥accesskey：规定使元素获得焦点的快捷键，采用alt+字母的形式
 <input type="text" accesskey="s" />
+
+11.html5标签解决兼容性问题
+有两个方法
+（1）虽然html5标签都为block元素，但是有的浏览器会把他解析为inline元素，所以在css中要重新将其置为block元素。
+在IE9以下的浏览器不解析这些html5新标签，所以要使用js代码的createElement方法再次生成html5标签。
+document.createElement('header');
+
+（2）上面的方法还是太麻烦了，直接引入一个js文件包（html5shiv.min.js）就可以解决这个问题
+（这个文件包只是解决了IE9以下的问题，css中还是要将这些新标签置为block）。
+由于只有IE9以下才需要这个文件包，所以在引入包的时候要加一个条件判断（又叫条件注释）：
+<!--[if lt IE 9]>
+  <script src="js/respond.js"></script>          respond.js目的是为了解决IE低版本的css3媒体查询
+  <script src="js/html5shiv.min.js"></script>
+<![endif]-->
+
