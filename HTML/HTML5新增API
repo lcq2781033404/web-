@@ -1,3 +1,37 @@
+HTML5 API存在兼容性问题，IE9以上的浏览器才支持（部分高版本浏览器也存在兼容性问题）。
 一.检测网络连接状态
 以前，我们使用window.navigator.online来检测网络是否可用。这个属性返回一个bool类型的值，联网状态返回true，断网状态返回false。
-但是上面的方法在不同的浏览器中会存在很多的差异所以我们可以用HTML5的新事件online和offline。他们监听的对象都是window。
+但是上面的方法在不同的浏览器中会存在很多的差异所以我们可以用HTML5的新事件online和offline。他们监听的对象都是window。见下例：
+window.addEventListener('online', function(){
+  alert('当前网络可用');
+});
+window.addEventListener('offline', function(){
+  alert('当前网络不可用');
+});
+
+二.全屏显示
+这个方法高版本浏览器也存在兼容性问题，不同浏览器需要添加不同的前缀。
+1.添加全屏显示
+DOM.requestFullScreen();
+btn.onclick = function(){
+  img.requestFullScreen();
+}
+兼容性处理
+btn.onclick = function(){
+  if(img.requestFullScreen){
+    img.requestFullScreen();
+  }else if(img.webkitRequestFullScreen){
+    img.webkitRequestFullScreen();
+  }else if(){
+    ...
+  }
+}
+
+2.取消全屏显示（取消全屏显示由document调用）
+document.cancelFullScreen();
+
+3.全屏显示伪类选择器
+div:full-screen{
+  ...
+}
+:full-screen伪类选择器规定元素在全屏状态下的样式，有兼容性问题，要搭配浏览器前缀食用。
