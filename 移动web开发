@@ -1,1 +1,16 @@
+一.移动端viewport设置
+使用meta标签来完成对viewport的设置，该meta标签建议写在<meta charset="utf-8">之后，设置方法如下：
+<meta name="viewport" content="width=device-width,initial-scale=1">         
+device-width为设备的宽度，initial-scale用于设置初始的缩放比例，initial-scale = ideal viewport / layout viewport
+content属性中除了有width和initial-scale之外，还有很多属性可以进行设置，不同属性之间使用逗号分隔：
+maximum-scale：设置最大缩放比例
+minimum-scale：设置最小缩放比例
+user-scalable：设置是否允许用户进行缩放（填写yes或no）
 
+二.移动端开发的两种方案
+相比于pc的屏幕，移动设备的屏幕小很多，也无法放下像pc端那么复杂的页面，所以不能直接把pc端的页面搬到移动设备上显示，有两种解决方法：
+1.针对移动设备单独写一套页面
+2.做一个响应式的页面，这个页面在pc端能用，在移动端也可以使用。
+
+三.移动端主流浏览器
+移动端的主流浏览器包括：QQ浏览器、百度浏览器、Safari浏览器、UC浏览器，这些浏览器的内核均为webkit内核
