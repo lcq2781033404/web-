@@ -26,3 +26,38 @@ user-scalable：设置是否允许用户进行缩放（填写yes或no）
 （1）中间的搜索框的宽度设置为和父元素一样宽。
 （2）两边的logo和登陆按钮依旧使用定位的方式。
 （3）这样两边的内容就会盖住一部分中间的搜索框，只要让搜索框的内容在没有被盖住的地方显示就行，给中间的搜索框加：padding: 0 100px;
+
+五.移动端特有事件
+1.触屏事件
+（1）事件类型
+touchstart事件：手指触摸屏幕时触发
+touchmove事件：手指在屏幕上移动时触发
+touchend事件：手指离开屏幕时触发
+比如：
+div.addEventListener('touchstart', function(){
+  ... 
+});
+
+（2）事件源对象（touchEvent）
+属性：
+touches：当前屏幕上所有的手指对象
+targetTouches：当前元素上的手指对象
+changedTouches：当前屏幕上变换的手指对象（从无到有，从有到无）
+比如：
+div.addEventListener('touchstart', function(e){
+  e.touches;
+});
+
+上面这三个属性中，每一个属性都是一个对象，对象中有如下的属性和方法：
+属性：
+clientX          当前触摸点相对于当前视口左上角的x距离
+clientY          当前触摸点相对于当前视口左上角的y距离
+pageX            当前触摸点相对于当前页面左上角的x距离（包含滚动条的距离）
+pageY            当前触摸点相对于当前页面左上角的y距离（包含滚动条的距离）
+screenX          当前触摸点相对于屏幕左上角的x距离
+screenY          当前触摸点相对于屏幕左上角的y距离
+
+使用方法：
+div.addEventListener('touchstart', function(e){
+  e.targetTouches[0].clientX;
+});
