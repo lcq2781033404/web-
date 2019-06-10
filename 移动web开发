@@ -61,3 +61,6 @@ screenY          当前触摸点相对于屏幕左上角的y距离
 div.addEventListener('touchstart', function(e){
   e.targetTouches[0].clientX;
 });
+
+
+六.移动端框架zepto.js
