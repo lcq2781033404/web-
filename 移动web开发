@@ -64,3 +64,5 @@ div.addEventListener('touchstart', function(e){
 
 
 六.移动端框架zepto.js
+Zepto是一个轻量级的JavaScript库，它的文件大小只有10K左右，兼容现代高级浏览器，主要用于移动端的开发，它有着与jQuery类似的API。
+就像zepto官网说的如果你会使用jQuery，那你也会用zepto。
