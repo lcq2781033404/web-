@@ -73,3 +73,29 @@ div.addEventListener('touchstart', function(e){
 七.移动端框架zepto.js
 Zepto是一个轻量级的JavaScript库，它的文件大小只有10K左右，兼容现代高级浏览器，主要用于移动端的开发，它有着与jQuery类似的API。
 就像zepto官网说的如果你会使用jQuery，那你也会用zepto。
+
+1.click函数延迟问题
+click函数在移动端使用的时候会延迟触发，因为它需要判断用户是单击还是双击，所以在单击后不会立刻处理，而是进行延迟检测，在这个时间内再次点击则属于
+双击，否则属于单击。基于click在移动端的这种原理，在移动端触发click方法会存在延迟，所以移动端不推荐使用原生的click方法。
+
+2.点透问题
+使用zepto插件封装的tap事件的时候，如果tap事件对应元素的下方的元素也有一个click的事件，触发tap事件的时候也会同时触发下方元素的click事件，这就是点透。
+使用fastclick插件可以解决点透问题和tap事件不能在pc端使用的问题。（fastclick插件实际上就是解决了click函数的延迟问题）。
+
+八.移动端常用插件
+1.点击插件：fastclick
+
+2.滚动插件：iscroll
+滚动最推荐的html结构：
+<div class="wrapper">
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+</div>
+
+3.zepto插件
+
+4.轮播图滑动插件：swipe
+
