@@ -1,0 +1,46 @@
+一.Bootstrap模板
+需要先引入Bootstrap的模板文件才能使用Bootstrap提供的功能
+
+二.Bootstrap布局容器
+Bootstrap需要为网页内容和栅格系统包裹一个布局容器才能正常使用，布局容器有两类：.container和.container-fluid。这两类布局容器不能相互嵌套。
+.container布局容器：
+根据屏幕的宽度变化动态修改元素宽度，在宽度大于768px时不会100%填充
+.container-fluid布局容器：
+无论屏幕宽度如何都会100%填充满
+
+三.栅格系统
+1.概述
+栅格系统是来描述设置当前子元素在指定屏幕下占据当前屏幕默认12等分中n等分。创建步骤如下：
+（1）.添加容器：.container或.container-fluid
+（2）.在容器中添加.row
+（3）.在.row中添加子元素，并设置栅格样式
+（4）.在子元素中添加具体的内容。
+
+2.栅格元素偏移（offset）（使用margin-left实现的）
+col-xs-offset-2   
+注意：
+（1）偏移的距离以栅格作为单位
+（2）偏移元素后面的元素也会相应偏移相同的距离，可能造成后面的元素换行显示
+
+3.栅格元素列排序（push是向右，pull是向左）（使用定位实现的）
+col-xs-push-2
+col-xs-pull-2
+注意：
+（1）偏移的距离以栅格作为单位
+（2）由于使用定位实现，偏移元素不会影响后面元素的位置，但是可能和其他元素重叠。
+
+4.栅格元素嵌套列
+嵌套列即列里面嵌套行。
+<div class="col-xs-6">
+  <div class="row">
+    <div class="col-xs-6"></div>
+    <div class="col-xs-6"></div>
+  </div>
+</div>
+
+5.响应式工具
+设置元素在不同屏幕宽度下的显示与隐藏
+hidden-xs
+hidden-sm
+hidden-md
+hidden-lg
