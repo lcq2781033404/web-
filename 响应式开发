@@ -11,4 +11,42 @@
 响应式开发原理：媒体查询
 
 三.媒体查询
-媒体查询是来设置不同屏幕宽度下的样式。
+1.媒体查询是来设置不同屏幕宽度下的样式。语法如下：
+        /*w:768~992 green  max-width: 768px  屏幕的宽度小于768px*/
+        @media screen and (max-width: 768px){
+            body{
+                background-color: green;
+            }
+        }
+        /*w:992!1200 blue  max-width: 992px:当屏幕的宽度小于992的时候*/
+        @media screen and (max-width: 992px){
+            body{
+                background-color: blue;
+            }
+        }
+        /*w>1200 pink  max-width: 1200px  屏幕的宽度小于1200*/
+        @media screen and (max-width: 1200px){
+            body{
+                background-color: pink;
+            }
+        }
+
+书写建议：
+（1）.如果是判断最小值 (min-width)，那么就应该从小到大写--bootstrap就是判断最小值，从小到大写
+（2）.如果是判断最大值 (max-width)，那么就应该从大到小写
+
+2.媒体查询不但能根据屏幕宽度修改样式，还能根据屏幕宽度引入不同的css样式文件：
+<link rel="stylesheet" media="screen and (min-width:992px) and (max-width:1200px)" href="b.css">
+上面的代码，在宽度为992~1200之间时，使用b.css的样式
+
+3.min-width和min-device-width的区别
+min-width指的是可视区域的宽度
+min-device-width指的是设备的宽度
+推荐使用min-width，这样在pc端拖拽改变浏览器宽度也能进行媒体查询。
+
+四.常见的响应式框架
+1.bootstrap
+
+2.Amaze UI
+
+3.Framework 7（针对IOS）
