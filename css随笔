@@ -856,7 +856,22 @@ keywords是页面关键字，是搜索引擎关注点之一。
 格式：
  <meta name="Keywords" content="关键词内容" />
 
-
+三十三.rem（css3新增长度单位）
+rem是css3新增的一个长度单位，1rem的大小和根元素（html）的字号大小一样，html没有设置字号则参照浏览器默认字号。
+rem使用场景：
+由于我们想让页面在不同屏幕大小的设备下显示的比例相同，所以需要为屏幕划分固定的份数，每个元素的宽度都由具体份数决定（类似bootstrap的栅格），这样在不同
+屏幕大小下，每一个份数宽度就会不同，比如我要把页面宽度分为20份，在320px的宽度下，每一份就是16px，在360px的宽度下，每一份就是18px，而rem单位就是用来
+定义在不同屏幕宽度下每一份的大小的，比如下例：
+@media screen and (device-width: 320px) {
+	html {
+		font-size: 16px;
+	}
+}
+@media screen and (device-width: 360px) {
+	html {
+		font-size: 18px;
+	}
+}
 
 
 
