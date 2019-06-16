@@ -127,3 +127,95 @@ function foo(){
 箭头函数中的this取决于函数的定义，而不是函数的调用。
 箭头函数不可以new
 箭头函数不能使用arguments获取参数列表
+
+5.类与继承
+在nodejs中使用class声明类：
+class Animal{
+  //构造函数
+  constructor(name){
+    this.name = name;
+  }
+  //普通方法
+  showName(){
+    console.log(this.name);
+  }
+  //静态方法
+  static showInfo(){
+    console.log("静态方法不能由实例成员调用，只能由类来调用");
+  }
+}
+let cat = new Animal("Tom");
+
+类的继承（extends）
+class Dog extends Animal{
+  constructor(name,color){
+    super(name);      //super用来调用父类
+    this.color = color;
+  }
+}
+
+四.nodejs基础
+1.Buffer基本操作
+Buffer对象是node处理二进制数据的一个接口，它是node原生提供的全局对象，可以直接使用，不需要require("buffer")
+
+（1）实例化
+alloc()
+let buf1 = Buffer.alloc(5);
+from()
+let buf2 = Buffer.from("hello");
+let buf3 = Buffer.from(array);
+
+（2）静态方法
+Buffer.isEncoding()           //判断是否支持该编码
+Buffer.isBuffer()             //判断是否为Buffer对象
+Buffer.byteLength()           //返回指定编码的字节长度，默认utf8
+Buffer.concat()               //将一组Buffer对象合并为一个Buffer对象
+
+（3）实例方法
+write()                       //向Buffer对象中写入内容
+slice()                       //截取新的Buffer对象，返回截取的Buffer对象
+toString()                    //把Buffer对象转换成字符串
+toJson()                      //把Buffer对象转换成JSON形式的字符串
+
+2.核心模块API
+（1）路径操作
+想要使用路径操作的API，先要引入：
+const path = require("path");
+具体方法见官方文档
+
+（2）文件操作
+文件操作涉及到nodejs的一个核心思想：异步I/O处理
+在nodejs中，最常用的I/O有两种：文件操作和网络操作
+在浏览器中也存在异步操作：
+a.定时任务
+b.事件处理
+c.Ajax回调处理
+
+nodejs中的事件模型与浏览器中的事件模型类似，都是单线程+事件队列
+要使用文件操作的API，需要先引入：
+const fs = require("fs");
+
+（3）目录操作
+a.创建目录
+fs.mkdir(path[, mode], callback);
+
+b.读取目录
+fs.readdir(path[, options],callback);
+
+五.包管理工具使用
+1.初识包概念
+多个模块可以形成包，不过要满足特定的规则才能形成规范的包。
+2.npm常用命令
+npm包的安装有两种方式：本地安装和全局安装（全局安装在本地安装的基础上加-g）
+全局安装的包位于Node.js环境的node_modules目录下，全局安装的包一般用于命令行工具。
+本地安装的包在当前目录的node_module里面，一般用于实际开发工作。
+
+（1）安装包（版本号可以不指定，如果没有指定版本号，安装最新的版本）
+npm install -g 包名称(@版本号)（全局安装）
+npm install 包名称(@版本号)（本地安装）
+（2）更新包
+npm update -g 包名称
+npm update 包名称
+（3）卸载包
+npm uninstall -g 包名称
+npm uninstall 包名称
