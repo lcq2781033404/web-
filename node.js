@@ -219,3 +219,132 @@ npm update 包名称
 （3）卸载包
 npm uninstall -g 包名称
 npm uninstall 包名称
+
+六.nodejs实现服务器配置
+1.实现静态服务器功能步骤
+（1）.首先引入http模块
+const http = require("http");
+
+（2）.创建服务器对象
+let server = http.createServer();
+
+（3）.绑定请求事件
+server.on("request", (req, res)=>{     //回调函数有两个参数，第一个参数req是Class:http.IncomingMessage的实例对象，代表请求的信息，
+                                       //第二个参数res是Class.http.serverResponse的实例对象，代表响应的信息
+  res.end("这是响应的结果");
+});
+
+（4）.绑定端口
+server.listen(3000);
+这样，一个简单的服务器就创建好了，在cmd中运行该文件，然后打开浏览器，输入localhost:3000即可访问该页面，上面的代码也可以这么写：
+const http = require("http");
+http.createServer((req, res)=>{
+  res.end("这是响应的结果");
+}).listen(3000);
+
+（5）.处理路径分发（即不同的路径下显示不同的内容）
+//req.url可以获取URL中的路径（端口之后的路径）
+server.on("request", (req, res)=>{
+  if(req.url.startsWith("/index")){
+    res.end("打开了index.html页面");
+  }else if(req.url.startsWith("/about")){
+    res.end("打开了about.html页面");
+  }...
+}
+  
+判断了url之后，就可以根据不同的url加载不同的页面内容，代码如下：
+const http = require("http");
+const path = require("path");
+const fs = require("fs");
+let readFile = (url, res) =>{
+  fs.readFile(path.join(__dirname,"www", url), "utf8", (error, fileContent)=>{
+    if(error){
+      res.end("server error");
+    }else{
+      res.end(fileContent);
+    }
+  }); 
+}
+server.on("request", (req, res)=>{
+  if(req.url.startsWith("/index")){
+    readFile("index.html", res);
+  }else if(req.url.startsWith("/about")){
+    readFile("about.html", res);
+  }
+}
+          
+上面的代码使用if判断url地址读取不同文件，不够灵活，可以优化：
+const http = require("http");
+const path = require("path");
+const fs = require("fs");
+const mime = require("mime.json");
+let server = http.createServer();
+
+server.on("request", (req, res)=>{
+  fs.readFile(path.join(__dirname, "www", url) ,"utf8", (error, fileContent)=>{
+    if(error){
+      //设置页面头信息
+      res.writeHead(404, {
+        "Content-Type":"text/plain; charset=utf8"
+      });
+      res.end("server error");
+    }else{
+      //设置默认的头部信息
+      let dtype = "text/html";
+      //获取请求文件的后缀
+      let ext = path.extname(req.url);
+      //如果请求的文件后缀合理，就获取到标准的响应格式
+      if(mime[ext]){
+        dtype = mime[ext];
+      }
+      //如果响应的内容是文本，就设置成utf8编码
+      if(dtype.startsWith("text")){
+        dtype += "; charset=utf8";
+      }
+      //设置响应头信息
+      res.wirteHead(200,{
+        "Content-Type":dtype
+      });
+      res.end(fileContent);
+    }
+  });
+}          
+server.listen(3000);
+  
+2.参数传递与获取
+（1）get参数处理
+get参数的处理在url模块，所以要先引用该模块
+const url = require("url");
+
+let str  = "http://www.baidu.com/abc?flag=123&pass=666";
+//parse方法可以把字符串转换为对象格式，这样就可以访问url地址中各个部分的内容
+let ret = url.parse(str, true);
+console.log(ret.query.pass);
+//format方法与parse方法互逆，可以将对象转换为url字符串
+let str1 = url.format(ret);
+  
+（2）post参数处理
+post参数处理使用querystring模块。
+const querystring = require("querystring");
+let param = "username=lisi&password=123";
+let obj = querystring.parse(param);
+console.log(obj.username,obj.password);
+//在post方式中，使用stringify方法把对象转换为字符串
+let str = querystring.stringify(obj);
+
+传值的具体过程如下：
+const http = require("http");
+const querystring = require("querystring");
+http.createServer((req, res)=>{
+  let pdata = '';
+  //每次传值的时候都会调用这个函数
+  req.on("data", (chunk)=>{
+    pdata += chunk;
+  });
+  req.on("end", ()=>{
+    let obj = querystring.parse(pdata);
+    res.end(obj);
+  });
+}).listen(3000, ()=>{
+  console.log("running");
+})
