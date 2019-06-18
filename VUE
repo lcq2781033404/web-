@@ -1,0 +1,81 @@
+一.MVC和MVVM
+1.MVC
+MVC是后端的分层开发概念。
+M：Model层，主要处理数据的crud（增删改查）
+V：视图层，前端页面
+C：业务逻辑层
+
+2.MVVM
+MVVM是前端视图层的概念，主要关注于视图层分离，也就是说，MVVM把前端的视图层，分为了三部分：Model、View、ViewModel
+
+二.VUE基本代码
+1.导入vue包文件
+2.创建vue实例
+var vm = new Vue({         //vm可以看作是MVVM中的VM 
+  el: '#dv'                //这个属性表示当前我们new的这个Vue实例要控制页面上的哪个区域
+  data: {                  //data属性中存放的是el中要用到的数据，data就可以看作是MVVM中的M
+    msg: 'hello world'     //data中的数据如果想要渲染到页面中，不需要再手动操作DOM元素，直接在页面中书写msg变量即可
+  }
+});
+注意：
+（1）vm实例中，如果想要获取data里面的数据，或者想要调用methods中的方法，必须通过this.数据属性名或者this.方法名来访问。这里的this表示vue实例对象
+（2）vm实例会监听自己身上data中所有数据的改变，只要数据发生变化，就会自动把最新的数据从data上同步到页面中去，这样我们只需要关心数据，不需要关心如何
+重新渲染页面。
+<--! 下面的html代码可以看作是MVVM中的V -->
+<div id="dv">
+  <p>{{ msg }}</p>   <--! 这里的{{ msg }}是插值表达式 -->
+</div>
+
+三.Vue指令
+1.v-cloak
+使用v-cloak能够解决插值表达式的闪烁问题，使用方法如下：
+<style>
+  [v-cloak] {
+    display: none;
+  }
+</style>
+<div id="dv">
+  <p v-cloak>{{ msg }}</p>   <--! 在p标签中加一个v-cloak的属性，然后给这个属性添加一个display为none的样式，表示这段内容没有加载好的时候隐藏 -->
+</div>
+
+2.v-text
+v-text的作用和插值表达式相同，都可以向页面渲染数据，使用方法如下：
+<div id="dv">
+  <p v-text="msg"></p>   <--! v-text属性的值就是数据名称 -->
+</div>
+
+v-text和插值表达式区别如下：
+（1）默认v-text是没有闪烁问题的
+（2）v-text会覆盖元素中原本的内容，但是插值表达式只会替换自己的占位符，不会把整个元素的内容清空
+
+3.v-html
+v-html的使用方式和v-text相同，唯一一点不同就是，v-html可以解析内容中的html标签，而v-text和插值表达式不会解析内容中的html标签。
+
+4.v-bind（v-bind会把引号内的内容作为js代码解析）
+v-bind是vue中提供的用于绑定属性的指令，如果我们想给html标签属性值赋为vue的变量，这时候直接填写变量名是不行的，需要使用v-bind做绑定：
+<input type="button" value="按钮" v-bind:title="msg" />
+var vm = new Vue({         
+  el: '#dv'                
+  data: {                  
+    msg: 'hello world'     
+  }
+});
+v-bind也可以简写，上面的input标签简写如下：
+<input type="button" value="按钮" :title="msg" />
+
+5.v-on
+v-on可以为dom元素绑定事件，事件的方法在Vue构造函数的methods属性中找：
+<input type="button" value="按钮" v-bind:title="msg" v-on:click="show" />
+var vm = new Vue({         
+  el: '#dv',              
+  data: {                  
+    msg: 'hello world'     
+  },
+  methods: {              //methods属性定义了当前vue实例所有可用的方法 
+    show: function(){
+      alert("hello");
+    }
+  }
+  v-on也有简写的方式，可以使用@代替：
+  <input type="button" value="按钮" v-bind:title="msg" @click="show" />
+});
