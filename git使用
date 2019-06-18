@@ -1,0 +1,55 @@
+一.初始化git仓库
+在要建立git仓库的文件夹内部右键，点击git bash，会弹出一个操作窗口，在操作窗口中输入git init
+
+
+二.设置个人信息
+一个项目文件夹中会有多个人提交代码，为了区分是谁提交的代码，需要配置每个人的个人信息。
+在操作窗口中输入：
+git config --global user.name "xiaoming"
+git config --global user.email "xiaoming@xx.com"
+
+
+三.把代码存储到.git仓库中
+有两步：
+1.git add 要提交文件的路径（比如./readme.md）
+如果直接写git add ./  则表示会把当前目录中所有的修改都提交
+
+2.git commit -m "提交说明"
+注：
+（1）git status命令可以查看当前是否有文件修改。
+（2）git log 可以查看提交日志，git reflog 可以查看所有的版本修改记录
+
+上面的两步也可以合并成一步：
+git commit --all -m "这种方式可以直接将代码传到git上"
+
+
+四.git版本回退
+git版本回退有两种方式：
+1.通过索引回退
+git reset --hard Head~0（Head0表示回退到最近的一次提交，Head1表示回退两次提交，以此类推）
+
+2.通过版本号回退
+git reset --hard 版本号（版本号就是git log里面每一条提交记录中最前面的字符）
+
+五.git分支操作
+1.创建分支
+git branch 分知名
+
+2.查看已有分支
+git branch
+
+3.切换分支
+git checkout 分知名
+
+4.合并分支
+git merge 分知名（将该分支的所有内容合并到当前的分支）
+
+5.删除分支
+git branch -d 分知名
+
+五.git本地代码上传到服务器
+git本地的代码上传的服务器可以方便别人或者自己下载更新使用，github就可以充当一个git的服务器。把git本地代码上传到github的步骤如下：
+1.在github创建一个仓储
+2.复制创建好的仓储的http地址
+3.在本地git操作窗口中输入：git push http地址（就是上面复制的地址） 服务器分支（服务器也是有分支的，要明确上传的分支）
+
