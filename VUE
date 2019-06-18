@@ -79,3 +79,24 @@ var vm = new Vue({
   v-on也有简写的方式，可以使用@代替：
   <input type="button" value="按钮" v-bind:title="msg" @click="show" />
 });
+
+6.v-model（这是唯一可以实现双向数据绑定的指令，双向绑定及修改了M层的数据，V层对应改变并且修改了V层的数据，M层也对应改变）
+<input type="text" v-model="msg" />
+var vm = new Vue({         
+  el: '#dv'                
+  data: {                  
+    msg: 'hello world'     
+  }
+});
+这样，打开页面，发现输入框中已经有了hello world 字样，并且修改输入框中的文字，data中的msg也会对应改变
+注意：v-model只能运用在表单元素中！！！！
+
+
+四.事件修饰符
+.stop              //阻止冒泡
+.prevent           //阻止默认事件
+.capture           //添加事件监听器时使用事件捕获方式
+.self              //只当事件在该元素本身（比如不是子元素）触发时触发回调
+.once              //事件只触发一次
+使用方法如下：
+<input type="button" value="按钮" v-bind:title="msg" @click.stop="show" />
