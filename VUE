@@ -100,3 +100,162 @@ var vm = new Vue({
 .once              //事件只触发一次
 使用方法如下：
 <input type="button" value="按钮" v-bind:title="msg" @click.stop="show" />
+
+
+五.在vue中使用样式
+1.使用class样式
+在vue中，可以使用v-bind为class属性绑定元素样式，class属性值的填写方式有四种：
+（1）数组方式（很少使用，还没有原来直接写类名方便）
+在class属性值中填写数组，数组中填写要引用的class类名：
+<style>
+  .red {
+    color: red;
+  }
+  .thin{
+    font-weight: 200;
+  }
+  .italic{
+    font-style:italic;
+  }
+</style>
+<body>
+  <div id="dv">
+    <h1 :class="['red', 'thin']">这是一个H1标签</h1>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+        msg: "hello world",
+      }
+      methods: {}
+    });
+  </script>
+</body>
+
+（2）数组中使用三元表达式
+可以在class属性值的数组中使用ifelse的三元表达式：
+<style>
+  .red {
+    color: red;
+  }
+  .thin{
+    font-weight: 200;
+  }
+  .italic{
+    font-style:italic;
+  }
+  .active{
+    background-color:yellow;
+  }
+</style>
+<body>
+  <div id="dv">
+    <h1 :class="['red', 'thin', flag?'active':'']">这是一个H1标签</h1>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+        flag: true,
+      }
+      methods: {}
+    });
+  </script>
+</body>
+
+（3）在数组中使用对象
+上面写三元表达式的可读性比较差，可以使用对象替代：
+<style>
+  .red {
+    color: red;
+  }
+  .thin{
+    font-weight: 200;
+  }
+  .italic{
+    font-style:italic;
+  }
+  .active{
+    background-color:yellow;
+  }
+</style>
+<body>
+  <div id="dv">
+    <h1 :class="['red', 'thin', {'active':flag}]">这是一个H1标签</h1>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+        flag: true,
+      }
+      methods: {}
+    });
+  </script>
+</body>
+
+（4）直接使用对象
+可以不使用数组直接使用对象，对象内的属性名不需要加引号
+<style>
+  .red {
+    color: red;
+  }
+  .thin{
+    font-weight: 200;
+  }
+  .italic{
+    font-style:italic;
+  }
+  .active{
+    background-color:yellow;
+  }
+</style>
+<body>
+  <div id="dv">
+    <h1 :class="{ red:true, thin:true }">这是一个H1标签</h1>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+        flag: true,
+      }
+      methods: {}
+    });
+  </script>
+</body>
+
+上面的代码，也可以把class属性值的对象直接写到data里面，然后调用data里面的对象名：
+<style>
+  .red {
+    color: red;
+  }
+  .thin{
+    font-weight: 200;
+  }
+  .italic{
+    font-style:italic;
+  }
+  .active{
+    background-color:yellow;
+  }
+</style>
+<body>
+  <div id="dv">
+    <h1 :class="classObj">这是一个H1标签</h1>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+        flag: true,
+        classObj: { red:true, thin:true }
+      }
+      methods: {}
+    });
+  </script>
+</body>
+
+
+2.使用内联样式
