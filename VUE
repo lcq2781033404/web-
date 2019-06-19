@@ -80,6 +80,9 @@ var vm = new Vue({
   <input type="button" value="按钮" v-bind:title="msg" @click="show" />
 });
 
+注意：使用v-on为元素指定处理函数的时候，如果在函数名字后面加了小括号，可以给函数传参。
+<input type="button" value="按钮" v-bind:title="msg" @click="show()" />
+
 6.v-model（这是唯一可以实现双向数据绑定的指令，双向绑定及修改了M层的数据，V层对应改变并且修改了V层的数据，M层也对应改变）
 <input type="text" v-model="msg" />
 var vm = new Vue({         
