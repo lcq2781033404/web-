@@ -351,3 +351,6 @@ v-show属性值填写true或者false，填写true的时候会会设置元素disp
 <h1 :style="{color:'red', 'font-weight': 200}">这是一个H1标签</h1>
 （2）将样式对象定义到data中，并直接引用到:style中
 （3）在:style中通过数组，引用多个data上的样式对象。
+
+六.过滤器
+vue.js允许你自定义过滤器，可被用作一些常见的文本格式化。过滤器可以用在两个地方，mustache差值和v-bind表达式，过滤器应该被添加在JavaScript表达式的尾部。
