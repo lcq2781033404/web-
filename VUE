@@ -353,4 +353,34 @@ v-show属性值填写true或者false，填写true的时候会会设置元素disp
 （3）在:style中通过数组，引用多个data上的样式对象。
 
 六.过滤器
-vue.js允许你自定义过滤器，可被用作一些常见的文本格式化。过滤器可以用在两个地方，mustache差值和v-bind表达式，过滤器应该被添加在JavaScript表达式的尾部。
+vue允许你自定义过滤器，可被用作一些常见的文本格式化。过滤器可以用在两个地方，mustache差值和v-bind表达式，过滤器应该被添加在JavaScript表达式的尾部。
+1.定义过滤器
+使用filter方法定义过滤器，这个方法有两个参数：
+参数1：过滤器名称，后面调用过滤器会用到
+参数2：调用该过滤器需要执行的函数，这个函数的第一个参数已经被规定死了，永远都是调用过滤器时传递过来的数据。
+Vue.filter('过滤器名称', function(data){
+  return '这就是调用过滤器的数据' + data;
+});
+
+2.调用过滤器
+使用管道符|可以调用过滤器，管道符后面填写调用的过滤器名称，调用方法如下：
+<p>{{ msg | msgFun }}</p>
+
+举例如下：
+<body>
+  <div id="dv">
+    <p>{{ msg | msgFormat('可恶') }}</p>
+  </div>
+  <script>
+    Vue.filter('msgFilter', function(msg, arg){
+      return msg.replace(/机灵/g, arg);     //这个arg参数就是调用过滤器时的参数
+    });
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+        msg: '你可真是个机灵的人';
+      }
+      methods: {}
+    });
+  </script>
+</body>
