@@ -91,6 +91,91 @@ var vm = new Vue({
 这样，打开页面，发现输入框中已经有了hello world 字样，并且修改输入框中的文字，data中的msg也会对应改变
 注意：v-model只能运用在表单元素中！！！！
 
+7.v-for
+（1）遍历普通数组
+<div id="dv">
+  <p v-for="(value, i) in list">索引：{{i}}-------------值：{{value}}</p>
+</div>
+var vm = new Vue({         
+  el: '#dv'                
+  data: {                  
+    list: [1,2,3,4,5,6] 
+  }
+});
+最后的输出结果为：
+索引：0-------------值：1
+索引：1-------------值：2
+索引：2-------------值：3
+索引：3-------------值：4
+索引：4-------------值：5
+索引：5-------------值：6
+
+（2）遍历对象数组
+<div id="dv">
+  <p v-for="(value, i) in list">索引：{{i}}------------------编号：{{value.id}}-------------姓名：{{value.name}}</p>
+</div>
+var vm = new Vue({         
+  el: '#dv'                
+  data: {                  
+    list: [
+      {
+        id: 1,
+        name: "zs"
+      },
+      {
+        id: 2,
+        name: "ls"
+      },
+      {
+        id: 3,
+        name: "ww"
+      },
+    ] 
+  }
+});
+（3）遍历对象
+注意：在遍历对象的键值对的时候，除了有value key，在第三个位置还有一个索引
+<div id="dv">
+  <p v-for="(value, key, i) in list">索引：{{i}}------------------键：{{key}}-------------值：{{value}}</p>
+</div>
+var vm = new Vue({         
+  el: '#dv'                
+  data: {                  
+    user: {
+      id: 1,
+      name: "zs",
+      sex: "male"
+    }
+  }
+});
+
+注意：在2.20+的vue版本中，在使用v-for的时候，需要为元素指定key属性以便于针对遍历的每一个元素绑定唯一的id，并且key属性要使用v-bind绑定，key属性
+的值应为number或者string类型。
+<div id="dv">
+  <p v-for="(value, i) in list" :key="value.id">索引：{{i}}------------------编号：{{value.id}}-------------姓名：{{value.name}}</p>
+</div>
+
+8.v-if（有较高的切换性能消耗）
+v-if属性值填写true或者false，填写true的时候会重新创建元素，填写false的时候，会删除元素。
+<body>
+  <div id="dv">
+    <h1 v-if="flag">这是一个H1标签</h1>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+        flag: true,
+      }
+      methods: {}
+    });
+  </script>
+</body>
+
+9.v-show（有较高的初始渲染消耗）
+v-show属性值填写true或者false，填写true的时候会会设置元素display为block，填写false的时候，会设置元素display为none。
+和v-if的区别就是v-if会删除或重新生成元素，而v-show只会设置元素的显示或隐藏。
+
 
 四.事件修饰符
 .stop              //阻止冒泡
@@ -259,3 +344,7 @@ var vm = new Vue({
 
 
 2.使用内联样式
+（1）直接在元素上通过:style的形式，书写样式对象
+<h1 :style="{color:'red', 'font-weight': 200}">这是一个H1标签</h1>
+（2）将样式对象定义到data中，并直接引用到:style中
+（3）在:style中通过数组，引用多个data上的样式对象。
