@@ -180,7 +180,67 @@ v-show属性值填写true或者false，填写true的时候会会设置元素disp
 和v-if的区别就是v-if会删除或重新生成元素，而v-show只会设置元素的显示或隐藏。
 
 
-四.事件修饰符
+四.自定义VUE指令
+vue中，所有的指令都以v-开头，我们在自定义指令的时候也要遵循这个原则。
+1.定义全局指令
+定义全局指令使用directive方法，这个方法参数如下：
+参数1：填写自定义指令的名称，注意，在定义指令名称的时候，前面不需要加v-
+参数2：是一个对象，这个对象上有一些指令相关的处理函数（钩子函数），这些函数可以在特定的阶段执行相关的操作：
+bind:function(){}           //当指令绑定到元素上的时候，会立即执行bind函数，只执行一次（一般用于样式相关修改）
+inserted:function(){}       //当元素插入到DOM中的时候，会执行inserted函数，只执行一次（一般用于行为相关修改）
+updated:function(){}        //当VNode更新的时候，会执行updated函数，可执行多次
+
+注意：在上面的每一个函数中，第一个参数永远是el，表示被绑定指令的那个元素，这个el参数是一个原生js对象（DOM对象）
+
+比如我想要页面一加载的时候就让一个文本框获得焦点，代码如下：
+<input type="text" v-focus />
+
+Vue.directive('focus', {
+  inserted:function(el){
+    el.focus();
+  }
+}); 
+
+2.定义私有指令
+私有指令在vm对象的directives属性中定义，定义方法如下：
+<body>
+  <div id="dv">
+    <p v-fontweight="700">{{ msg | msgFormat('可恶') }}</p>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+        msg: '你可真是个机灵的人';
+      }
+      methods: {},
+      filters {
+        msgFormat: function(msg, arg){
+          return msg.replace(/机灵/g, arg);     //这个arg参数就是调用过滤器时的参数
+        },
+        directives: {
+          'fontweight': {
+            bind:function(el, binding){
+              el.style.fontWeight = binding.value;
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+3.函数简写
+大多数情况下，我们可能想在bind和update钩子上做重复动作，并且不想关心其他的钩子函数，可以这样写：
+directives: {
+  'fontweight': function(el, binding){
+      el.style.fontWeight = binding.value;
+   }
+}
+这个方法等同于把代码写到bind和update中去
+
+
+五.事件修饰符
 .stop              //阻止冒泡
 .prevent           //阻止默认事件
 .capture           //添加事件监听器时使用事件捕获方式
@@ -190,7 +250,22 @@ v-show属性值填写true或者false，填写true的时候会会设置元素disp
 <input type="button" value="按钮" v-bind:title="msg" @click.stop="show" />
 
 
-五.在vue中使用样式
+六.按键修饰符
+按键修饰符只能给键盘事件使用，比如：<p @keyup.enter="add"><p>
+常用的键盘修饰符如下：
+.enter
+.tab
+.delete
+.esc
+.space
+.up
+.down
+.left
+.right
+如果想使用其他的键盘修饰符，也可以使用键盘码，不仅如此，vue还支持我们自定义键盘修饰符
+Vue.config.keyCodes.f2 = 113;     //这里自定义了一个f2的键盘修饰符
+
+七.在vue中使用样式
 1.使用class样式
 在vue中，可以使用v-bind为class属性绑定元素样式，class属性值的填写方式有四种：
 （1）数组方式（很少使用，还没有原来直接写类名方便）
@@ -352,7 +427,7 @@ v-show属性值填写true或者false，填写true的时候会会设置元素disp
 （2）将样式对象定义到data中，并直接引用到:style中
 （3）在:style中通过数组，引用多个data上的样式对象。
 
-六.过滤器
+八.过滤器
 vue允许你自定义过滤器，可被用作一些常见的文本格式化。过滤器可以用在两个地方，mustache差值和v-bind表达式，过滤器应该被添加在JavaScript表达式的尾部。
 1.定义过滤器
 使用filter方法定义过滤器，这个方法有两个参数：
@@ -384,3 +459,69 @@ Vue.filter('过滤器名称', function(data){
     });
   </script>
 </body>
+
+3.全局过滤器和私有过滤器
+（1）全局过滤器
+全局过滤器就是所有的vm实例都共享的，比如上面的例子中创建的过滤器就是全局过滤器
+
+（2）私有过滤器
+私有过滤器在vm对象的filters属性中定义，定义方法如下：
+<body>
+  <div id="dv">
+    <p>{{ msg | msgFormat('可恶') }}</p>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+        msg: '你可真是个机灵的人';
+      }
+      methods: {},
+      filters {
+        msgFormat: function(msg, arg){
+          return msg.replace(/机灵/g, arg);     //这个arg参数就是调用过滤器时的参数
+        }
+      }
+    });
+  </script>
+</body>
+如果私有过滤器和全局过滤器重名，则元素调用过滤器时会优先调用自己的私有过滤器。
+
+
+九.vue实例的生命周期
+1.概念
+从vue实例创建、运行到销毁期间，总是伴随着各种各样的事件，这些事件统称为生命周期。
+生命周期钩子，就是生命周期事件的别名。生命周期钩子 = 生命周期函数 = 生命周期事件
+
+2.生命周期函数分类
+生命周期函数和data、methods等属性平级
+（1）创建期间的生命周期函数
+①beforeCreate()生命周期函数
+这个生命周期函数会在实例被完全创建出来之前执行，这个时候，data和methods里面的数据都还没有被初始化。
+
+②created()生命周期函数
+执行这个生命周期函数的时候，data和methods里面的数据已经被初始化好了。（这是最早能操作data和methods里面数据的生命周期函数）
+
+③beforeMount()生命周期函数
+当模板已经在内存中编译完成并且尚未把模板渲染到页面的时候，会执行这个生命周期函数，所以这个时候页面中的元素数据没有被赋值，只是模板字符串。
+
+④mounted()生命周期函数
+当内存中的模板已经挂载到页面中，并且用户可以看到的时候，会执行这个生命周期函数。这个函数是实例创建期间的最后一个生命周期函数，当执行完这个函数，
+实例就已经被完全创建好了。
+
+（2）运行期间的生命周期函数
+下面的这两个生命周期函数只有data的数据改变的时候才会触发，否则不会触发
+①beforeUpdate()生命周期函数
+当这个函数触发的时候，表示界面还没有被更新，但是数据已经被更新了。
+
+②updated()生命周期函数
+当这个函数触发的时候，页面也data数据已经保持同步了，都是最新的
+
+（3）销毁期间的生命周期函数
+①befroeDestroy()生命周期函数
+当执行这个函数的时候，从运行阶段进入销毁阶段，这时候所有的指令都处于可用状态，还没有真正销毁
+
+②destroyed()生命周期函数
+已经完全销毁
+
+
