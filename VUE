@@ -609,3 +609,60 @@ jsonp方法和get方法一样，有两个参数：
 一个完整的动画包含进入和离开两个阶段。
 1.使用过渡类名实现动画
 
+
+
+十二.vue组件
+组件的出现，是为了拆分vue实例的代码量，能让我们以不同的组件，来划分不同的功能模块。
+组件化和模块化的区别：
+模块化是从代码逻辑的角度进行划分的。
+组件化是从UI界面的角度进行划分的，组件化方便UI组件的重用。
+1.创建组件的方式
+（1）使用Vue.extend来创建全局的vue组件
+这个方法有一个返回值，表示创建出来的是组件模板对象
+var com1 = Vue.extend({
+  template: '<h3>这是使用Vue.extend创建的组件</h3>',        //通过template属性，指定了组件要展示的HTML结构
+});
+Vue.component('myCom1', com1);                             //这个方法将组件模板和组建名绑定，有两个参数，第一个参数表示组件名称，
+                                                           第二个参数表示上面创建出来的组件模板对象
+通过上面的代码就创建好了一个组件，如果要使用这个组件，直接把组件的名称以HTML标签的形式，引入到页面中，注意如果组件名使用了驼峰命名，要把大写变为小写
+，并且中间用-连接：
+<my-com1></my-com1>  //这个要放到#dv里面
+
+（2）上面的简写
+Vue.component('myCom1', {
+  template: '<h3>这是使用Vue.extend创建的组件</h3>',
+});
+<my-com1></my-com1>
+注意：上面两种创建组件模板的方法中，组件的template属性，必须只能有一个根元素标签（不能有两个同级的根元素标签，但是可以有嵌套的关系）
+
+（3）在被vue实例化对象控制的#dv外面，使用template标签，定义组件的HTML结构
+Vue.component('myCom1', {
+  template: '#tmp',
+});
+<template id="tmp">
+  <h3>这是使用Vue.extend创建的组件</h3>
+</template>
+
+<my-com1></my-com1>
+
+2.定义私有组件
+私有过滤器在vm对象的components属性中定义，定义方法如下：
+<script>
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+        msg: '你可真是个机灵的人';
+      }
+      methods: {},
+      filters {
+        msgFormat: function(msg, arg){
+          return msg.replace(/机灵/g, arg);     //这个arg参数就是调用过滤器时的参数
+        }
+      },
+      components: {
+        myCom1: {
+          template: '<h3>这是使用Vue.extend创建的组件</h3>',
+        }
+      }
+    });
+  </script>
