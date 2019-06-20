@@ -525,3 +525,87 @@ Vue.filter('过滤器名称', function(data){
 已经完全销毁
 
 
+十.vue-resource实现get、post、jsonp请求
+首先需要下载vue-resource包并导入，这个包依赖于vue包，所以要先导入vue包，再导入vue-resource包，导入了这个包之后，vue就多了一个$http属性，可以使用。
+1.get请求
+<div id="dv">
+    <input type="button" value="get请求" @click="getInfo" />
+</div>
+ <script>
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+        msg: '你可真是个机灵的人';
+      }
+      methods: {
+        getInfo: function(){
+          this.$http.get(url).then(function(result){   
+            if(result.body.status == 0){
+              console.log(result.body);
+            }else{
+              console.log('获取数据失败');
+            }
+          });          
+        }
+      },
+    });
+  </script>
+//get方法有两个参数，第一个参数填写请求的url地址（必需参数），第二个参数填写一些选项（可选参数），然后通过.then方法（用promise封装）获取服务器
+发来的数据，then方法有两个参数，分别是成功回调函数（必需参数）（成功回调函数有一个参数result，通过result.body可以获取服务器返回的数据）和失败回调
+函数（可选参数）
+
+2.post请求
+<div id="dv">
+    <input type="button" value="post请求" @click="postInfo" />
+</div>
+ <script>
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+        msg: '你可真是个机灵的人';
+      }
+      methods: {
+        postInfo: function(){
+          this.$http.post(url, {}, {emulateJSON: true}).then(function(result){   
+            console.log(result.body);
+          });          
+        }
+      },
+    });
+  </script>
+  
+  post方法有三个参数：
+  参数1：必需，填写请求的url地址
+  参数2：必需，填写要提交给服务器的数据，对象类型
+  参数3：可选，一些选项
+  注意：通过这种方式手动发起的post请求默认没有表单格式，所以，有的服务器处理不了，可以在第三个参数中配置表单的格式为普通表单数据格式。
+  
+  3.jsonp请求
+  <div id="dv">
+    <input type="button" value="jsonp请求" @click="jsonpInfo" />
+</div>
+ <script>
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+        msg: '你可真是个机灵的人';
+      }
+      methods: {
+        jsonpInfo: function(){
+          this.$http.jsonp(url).then(function(result){   
+            console.log(result.body);
+          });          
+        }
+      },
+    });
+  </script>
+jsonp方法和get方法一样，有两个参数：
+参数1：必需，填写请求的url地址
+参数2：可选，一些选项
+
+
+十一.vue动画
+动画能够提高用户的体验，帮助用户更好的理解页面中的功能。
+一个完整的动画包含进入和离开两个阶段。
+1.使用过渡类名实现动画
+
