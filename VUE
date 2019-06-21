@@ -666,3 +666,53 @@ Vue.component('myCom1', {
       }
     });
   </script>
+  
+3.组件中的data和methods
+定义组件模板的时候，除了为其指定template属性之外，还可以为其指定data和methods属性。
+（1）组件中的data属性
+组件的data和vue实例的data有区别，组件中的data是一个返回值类型必需为对象的方法：
+Vue.component('mycom', {
+  template: '<h3>组件-----------{{msg}}</h3>',         //组件中data的使用方式和实例完全一样
+  data: function(){
+    return {
+      msg: '这是组件中自己定义的数据',
+    };
+  }
+});
+
+（2）组件中的methods属性
+组件中的methods属性的使用方法和vue实例中methods属性的使用方法一样。
+
+4.component标签的使用
+vue提供了一个component标签，来展示对应名称的组件
+<component :is="componentId"></component>
+component是一个占位符，is属性用来指定要展示的组件名称
+看一个通过component标签来切换显示组件的例子：
+<body>
+  <div id="dv">
+    <a href="" @click.prevent="componentName = 'login'">登陆</a>
+    <a href="" @click.prevent="componentName = 'register'">注册</a>
+    <component :is="componentName"></component>
+  </div>
+  
+  <script>
+    Vue.component('login', {
+      template: '<h3>这是登陆组件</h3>'
+    });
+    Vue.component('register', {
+      template: '<h3>这是注册组件</h3>'
+    });
+    var vm = new Vue({
+      el: '#dv',
+      data: {
+        componentName = 'login'
+      }
+    });
+  </script>
+</body>
+
+5.父子组件传值
+（1）父组件向子组件传值
+
+
+（2）子组件向父组件传值
