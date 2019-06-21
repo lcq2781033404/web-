@@ -892,3 +892,52 @@ vue实例对象中有一个属性router，可以在这个属性中填写刚刚�
 
 （3）将切换的组件显示在页面中
 通过路由规则匹配显示的组件要包裹在<router-view></router-view>中，这个标签是vue-router提供的元素，路由规则匹配到的组件，会展示到这个标签中。
+
+（4）路由跳转标签的使用
+在vue.router中，推荐使用<router-link></router-link>标签（在页面中默认会将其渲染为a标签）作为路由跳转的链接，to属性指定跳转的路由地址：
+<router-link to="/login">登录</router-link>
+
+（5）路由重定向的使用
+路由的重定向用于页面初始加载的时候为其默认指定一个路由地址，使用redirect完成路由重定向：
+var routerObj = new VueRouter({
+  routes: [    
+    {path: '/', redirect: '/login'} 
+    {path: '/login', component: login} 
+  ]
+});
+
+（6）在路由规则中传递参数
+有两种方法：
+①使用query方式传递参数
+可以在在路由中，使用查询字符串给路由传递参数，此时不需要修改路由匹配规则也能匹配上
+<router-link to="/login?id=10">登录</router-link>
+var routerObj = new VueRouter({
+  routes: [    
+    {path: '/login', component: login}          //这里依旧能和上面的/login?id=10匹配上
+  ]
+});
+如果想要获取到传递的参数，则在显示的组件中使用$route属性即可：
+var login = {
+  template: '<h3>登录</h3>',
+  created: function(){
+    console.log(this.$route.query.id);
+  }
+};
+
+②使用params方式传递参数
+这种方式是在路由规则处加一个冒号占位符，占位符后面填写传递的参数，然后在引用路由url的地方填写传递的实参值：
+<router-link to="/login/10">登录</router-link>
+var routerObj = new VueRouter({
+  routes: [    
+    {path: '/login/:id', component: login}          
+  ]
+});
+获取参数值的方法如下：
+var login = {
+  template: '<h3>登录</h3>',
+  created: function(){
+    console.log(this.$route.params.id);
+  }
+};
+
+3.路由的嵌套
