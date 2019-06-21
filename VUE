@@ -713,6 +713,115 @@ component是一个占位符，is属性用来指定要展示的组件名称
 
 5.父子组件传值
 （1）父组件向子组件传值
+默认情况下，子组件无法访问到父组件中data上的数据和methods中的方法。
+父组件在引用子组件的时候，可以把需要传递给子组件的数据，以属性绑定（v-bind）的形式，传递到子组件内部。然后把父组件传递过来的属性在子组件的
+props属性中定义一下，就能在子组件中使用父组件的数据了。（组件中props中的所有数据，都是通过父组件传递给子组件的，props中的数据是只读的）
+<body>
+  <div id="dv">
+    <com1 :parentMsg="msg"><com1>
+  </div>
+  
+  <script>
+    //可以把vm实例理解为一个父组件，vm实例里面的components属性的值为子组件
+    var vm = new Vue({
+      el: '#dv',
+      data: {
+        msg: '这是父组件的数据'
+      },
+      methods: {},
+      components: {
+        com1: {
+          template: '<h3>这是子组件引用的父组件的值---{{parentMsg}}</h3>',
+          props: ['parentMsg']                              
+        }
+      }
+    });
+  </script>
+</body>
+
+（2）父组件向子组件传递方法
+父组件使用v-on事件绑定机制向子组件传递方法，子组件要使用$emit()方法调用
+<body>
+  <div id="dv">
+    <com1 @func="show"><com1>
+    <template id="tmp">
+      <div>
+        <h3>这是子组件</h3>
+        <input type="button" @click="myClick" value="点击调用父组件方法" />
+      </div>
+    </template>
+  </div>
+  
+  <script>
+    //可以把vm实例理解为一个父组件，vm实例里面的components属性的值为子组件
+    var vm = new Vue({
+      el: '#dv',
+      data: {
+        msg: '这是父组件的数据'
+      },
+      methods: {
+        show: function(){
+          console.log('这是父组件的方法');
+        }
+      },
+      components: {
+        com1: {
+          template: 'tmp',
+          methods: {
+            myClick: function(){
+              this.$emit('func');
+            }
+          }                          
+        }
+      }
+    });
+  </script>
+</body>
 
 
-（2）子组件向父组件传值
+（3）子组件向父组件传值
+通过父组件向子组件传递的方法，把子组件的数据放到方法的参数中，这样父组件在这个方法里面获取到这个参数值并且保存，即可完成子组件向父组件传值。
+<body>
+  <div id="dv">
+    <com1 @func="show"><com1>
+    <template id="tmp">
+      <div>
+        <h3>这是子组件</h3>
+        <input type="button" @click="myClick" value="点击调用父组件方法" />
+      </div>
+    </template>
+  </div>
+  
+  <script>
+    //可以把vm实例理解为一个父组件，vm实例里面的components属性的值为子组件
+    var vm = new Vue({
+      el: '#dv',
+      data: {
+        msg: '这是父组件的数据',
+        msgFromSon: null
+      },
+      methods: {
+        show: function(data){
+          console.log('这是父组件的方法' + data);
+          msgFromSon = data;
+        }
+      },
+      components: {
+        com1: {
+          template: 'tmp',
+          data: function(){
+            return {
+              sonMsg: '这是子组件的数据',
+            };
+          },
+          methods: {
+            myClick: function(){
+              this.$emit('func', this.sonMsg);         //$emit函数的第一个参数填写调用的方法名，后面的参数填写该方法的参数值
+            }
+          }                          
+        }
+      }
+    });
+  </script>
+</body>
+
