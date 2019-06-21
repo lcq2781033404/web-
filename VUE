@@ -825,3 +825,69 @@ props属性中定义一下，就能在子组件中使用父组件的数据了。
   </script>
 </body>
 
+6.使用this.$refs来获取元素和组件
+需要在要获取的元素上设置ref属性，然后在vm实例中调用$refs方法
+<body>
+  <div id="dv">
+    <input type="button" value="获取h1" @click="getElement" />
+    <h1 ref="myh1">这是一个H1标签</h1>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: "#dv",
+      data: {
+      },
+      methods: {
+        getElement: function(){
+          console.log(this.$refs.myh1.innerText);
+        }
+      }
+    });
+  </script>
+</body>
+
+使用$ref可以获取组件以及组件内部的数据和方法。
+
+
+十三.vue路由
+1.概念
+（1）后端路由
+对于普通的网站，所有的超链接都是URL地址，所有的URL地址都对应服务器上对应的资源。
+
+（2）前端路由
+对于单页面应用程序来说，主要通过URL中的hash（URL中#后面的内容都叫hash）来实现不同页面之间的切换，同时，hash有一个特点：http请求中不会包含hash
+相关的内容，所以单页面程序 中的页面跳转主要用hash实现。
+在单页面应用程序中，这种通过hash改变来切换页面的方式，称作为前端路由。
+
+2.插件安装及使用
+直接下载vue-router.js，然后导入到页面中。
+或者输入指令：npm install vue-router
+
+3.vue-router基本使用
+（1）创建路由实例并配置路由规则
+当导入了vue-router包之后，在window全局对象中，就有了一个路由的构造函数，叫做VueRouter，在创建构造函数实例的时候，可以为构造函数，传递一个配置对象。
+var routerObj = new VueRouter({
+  routes: [                             //这个配置对象中的routes表示路由的匹配规则，由于路由的匹配规则不止一个，所以这是数组类型
+    {path: '/login', component: login}  //每个路由规则，都是一个对象，这个对象身上有两个必须的属性
+                                        //属性1 是path，表示监听哪个路由链接地址
+                                        //属性2 是component，表示如果路由是属性1匹配到的path，则展示component属性对应的那个组件的模板对象名称
+  ]
+});
+
+（2）将路由实例和vue实例关联起来
+vue实例对象中有一个属性router，可以在这个属性中填写刚刚创建的路由实例名称：
+<script>
+    var routerObj = new VueRouter({
+      routes: [                             
+        {path: '/login', component: login} 
+      ]
+    });
+    var vm = new Vue({
+      el: "#dv",
+      data: {},
+      methods: {},
+      router: routerObj
+    });
+  </script>
+
+
