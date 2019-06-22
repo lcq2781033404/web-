@@ -941,3 +941,128 @@ var login = {
 };
 
 3.路由的嵌套
+很多时候，一个路由里面会嵌套子路由，我们希望展示子路由的同时，他们的父路由也会展示，这是就要用到路由的嵌套，在routes的对象里面新增一个属性：
+var routerObj = new VueRouter({
+  routes: [    
+    {
+      path: '/account', 
+      component: account
+      children: {
+        {path: 'login', component: login}      //login组件是account的子组件
+      }
+    }          
+  ]
+});
+同时，还需要在子组件处加一个<router-view></router-view>标签，用于显示子路由。
+
+4.使用命名视图实现经典布局
+所谓经典布局即页面上方是一个头部，下方分为左右两部分。
+<body>
+  <div id="app">
+
+    <router-view></router-view>
+    <div class="container">
+      <router-view name="left"></router-view>
+      <router-view name="main"></router-view>
+    </div>
+
+  </div>
+
+  <script>
+
+    var header = {
+      template: '<h1 class="header">Header头部区域</h1>'
+    }
+
+    var leftBox = {
+      template: '<h1 class="left">Left侧边栏区域</h1>'
+    }
+
+    var mainBox = {
+      template: '<h1 class="main">mainBox主体区域</h1>'
+    }
+
+    // 创建路由对象
+    var router = new VueRouter({
+      routes: [
+        /* { path: '/', component: header },
+        { path: '/left', component: leftBox },
+        { path: '/main', component: mainBox } */
+
+
+        {
+          path: '/', components: {
+            'default': header,
+            'left': leftBox,
+            'main': mainBox
+          }
+        }
+      ]
+    })
+
+    // 创建 Vue 实例，得到 ViewModel
+    var vm = new Vue({
+      el: '#app',
+      data: {},
+      methods: {},
+      router
+    });
+  </script>
+</body>
+
+
+
+十四.watch的使用
+vue实例中和el、data等属性平级的有一个watch属性，可以用来监听data中指定数据的变化，然后触发这个watch中对应的函数
+1.使用watch属性监听文本框
+var vm = new Vue({
+      el: '#app',
+      data: {
+        data1: '',
+        data2: '',
+        data3: '',
+      },
+      methods: {},
+      watch: {
+        data1: function(){},             //当data1数据改变时触发这个函数
+        data2: function(){},
+        data3: function(){},
+      }
+    });
+    
+2.通过watch监听路由的改变
+var vm = new Vue({
+      el: '#app',
+      data: {
+        
+      },
+      methods: {},
+      watch: {
+        '$route.path': function(newVal, oldVal){
+          console.log(newVal + '---------' + oldVal);
+        }
+      }
+    });
+    
+    
+十五.computed使用
+vue实例中和el、data等属性平级的有一个computed属性，在computed中，可以定义一些属性，这些属性叫做 计算属性（计算属性的本质就是方法，只不过我们
+在使用这些计算属性的时候，是把他们的名称直接当作属性来使用，并不会把计算属性当作方法来调用）
+var vm = new Vue({
+      el: '#app',
+      data: {
+        data1: '',
+        data2: '',
+      },
+      methods: {},
+      computed: {
+        'data3': function(){
+          renturn this.data1 + '-' + this.data2;             //只要计算属性方法中的值发生变化，立刻就会触发这个计算属性方法
+                                                             //计算属性的求值结果会被缓存起来，方便下次直接调用
+                                                             //计算属性方法必须有return值！！！
+        }
+      }
+    });
+    
+//调用计算属性，在调用的时候，不要加()，要当作属性来调用
+<input type="text" v-model="data3">
