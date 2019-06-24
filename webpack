@@ -40,4 +40,98 @@ module.exports = {
   }
 }
 
-设置好了配置文件之后，在cmd中输入webpack即可运行该配置文件
+设置好了配置文件之后，在cmd中输入webpack即可运行该配置文件，把本地的js代码打包编译到内存中
+
+5.webpack-dev-server的使用
+使用webpack每次修改代码都需要重新手动打包编译，很麻烦，webpack-dev-server这个插件可以实现自动打包编译的功能。
+运行npm i webpack-dev-server -D把这个插件安装到项目本地开发依赖。
+注意：
+（1）由于我们是在项目本地安装的webpack-dev-server，所以无法把它当作脚本命令在cmd终端中直接运行（只有安装到全局-g的工具，才能在cmd正常执行）所以，
+安装完毕后，需要在package.json配置文件中配置这条命令，配置方法如下：
+在scripts属性中新增一条属性："dev": "webpack-dev-server"
+（2）webpack-dev-server这个工具，如果想要正常运行，要求在本地项目中也必须安装webpack（npm i webpack -D即使全局已经安装了本地也要安装）3
+（3）把页面中引入的bundle.js变成从根路径引入：
+<script src="/bundle.js"></script>
+（4）webpack-dev-server帮我们打包生成的bundle.js文件，并没有存放到实际的物理磁盘上，而是直接托管到了电脑的内存中，所以我们在项目的根目录中是找不到
+打包好的bundle.js的。
+然后，我们在终端中直接输入npm run dev即可运行该插件，运行后，每次我们配置的需要打包编译的文件变化的时候这个插件都会为我们自动打包编译。
+
+6.webpack-dev-server的常用命令
+在package.json配置文件中的script属性配置："dev": "webpack-dev-server"的时候，可以在后面增加一些参数来改变一些设置：
+--open                //打包完毕后自动打开浏览器
+--port 3000           //修改打开浏览器的端口号为3000
+--contentBase src     //修改打开浏览器默认打开的目录为src
+--hot                 //启用热更新功能（每次打包只打包修改的数据）
+
+"dev": "webpack-dev-server --open --port 3000 --contentBase src --hot "
+
+7.webpack-plugin的使用
+ （1）插件作用
+ 根据本地路径下的index模板页面在内存中生成对应的页面，这样我们在浏览器中访问的页面就是内存中的html页面了
+ 
+ （2）安装流程
+ ①在终端输入安装指令：npm i html-webpack-plugin -D
+ ②在webpack.config.js配置文件中，导入安装的插件：
+ const htmlWebpackPlugin = require('html-webpack-plugin');
+ ③只要是插件，都一定要放到module.exports中的plugins属性中去：
+ module.exports = {
+  entry: path.join(__dirname, 'src/main.js'),             //入口，表示要使用webpack打包哪个文件
+  output: {                                               //出口相关配置
+    path: path.join(__dirname, 'dist'),                   //指定打包好的文件存在哪个路径下
+    filename: 'bundle.js'                                 //指定输出文件的名称
+  }
+  //plugins用于配置插件
+  plugins: [
+    //创建一个在内存中生成html页面的插件
+    new htmlWebpackPlugin({
+      template: path.join(__dirname, 'src/index.html'),    //指定模板页面的路径
+      filename: 'index.html',                              //指定在内存中生成页面的名称
+    }),
+  ]
+}
+ 
+8.loader配置和使用
+直接引入项目路径下的css文件会向服务器发起二次ajax请求，所以css样式文件最好也从内存中读取。
+由于webpack默认只能打包处理js类型的文件，而无法处理其他的非js类型的文件。这时候就需要再安装一些插件，这里需要安装loader。
+（1）loader的安装和配置
+①如果要打包处理css文件，需要安装npm i style-loader css-loader -D
+②在webpack.config.js这个配置文件中，新增一个配置节点对象，叫做module，这个对象中，有一个rules属性，是数组类型，里面存放了所有第三方文件的匹配和
+处理规则。
+ module.exports = {
+  entry: path.join(__dirname, 'src/main.js'),             //入口，表示要使用webpack打包哪个文件
+  output: {                                               //出口相关配置
+    path: path.join(__dirname, 'dist'),                   //指定打包好的文件存在哪个路径下
+    filename: 'bundle.js'                                 //指定输出文件的名称
+  }
+  //plugins用于配置插件
+  plugins: [
+    //创建一个在内存中生成html页面的插件
+    new htmlWebpackPlugin({
+      template: path.join(__dirname, 'src/index.html'),    //指定模板页面的路径
+      filename: 'index.html',                              //指定在内存中生成页面的名称
+    }),
+  ],
+  //module用于配置所有第三方模块加载器
+  module: {
+    rules: [
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] }   //配置处理.css文件的第三方loader规则
+    ],
+  }
+}
+
+（2）安装处理less文件的loader
+npm i less-loader -D
+
+（3）url-loader
+默认情况下，webpack无法处理css文件中的地址（不管是图片还是字体库，只要是url地址，都处理不了），所以又需要导入url-loader插件了。
+安装：npm i url-loader file-loader -D
+ 
+
+9.webpack处理第三方文件类型的过程
+（1）发现这个要处理的文件不是js文件，然后去配置文件中，查找有没有对应的第三方loader规则。
+（2）如果能找到对应的规则，就会调用对应的loader处理这种文件类型。
+（3）在调用loader的时候，是从后面往前调用的。
+（4）当最后的一个loader调用完毕，会把处理的结果，直接交给webpack进行打包合并，最终输出到bundle.js中去。
+
+
+
