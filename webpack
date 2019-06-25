@@ -171,4 +171,20 @@ import Vue form '../node_modules/vue/dist/vue.js';
 npm i vue-loader vue-template-complier -D
  
  
+ 四.在webpack中使用路由
+ 1.下载包
+ npm i vue-router -S
+ 
+ 2.导入包
+ import vueRouter from 'vue-router';
+ 
+ 3.手动安装
+ Vue.use(vueRouter);
+ 
+ 4.创建router对象
+ var router = new vueRouter({
+  routes: [
+    { path: '/account', component: account }                 //component后面的account是我们定义的一个组件，使用前需要先用import导入
+  ]
+ });
 
