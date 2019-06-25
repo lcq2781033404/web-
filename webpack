@@ -155,3 +155,20 @@ npm i less-loader -D
   "presets": ["env", "stage-0"],
   "plugins": ["transform-runtime"]
 }
+
+
+三.使用webpack导入vue
+1.安装vue包
+npm i vue -S
+
+2.导入包
+import Vue from 'Vue';      //这里导入的包是功能不完整的包，只提供了runtime-only的方式，并没有提供像网页中那样的使用方式。所以不能用这种方式导入。
+正确的导入包的姿势：
+import Vue form '../node_modules/vue/dist/vue.js';
+
+3.创建组件
+在webpack中，推荐额外创建一个.vue的文件来存放组件模板，所以需要安装能解析这种文件的loader：
+npm i vue-loader vue-template-complier -D
+ 
+ 
+
