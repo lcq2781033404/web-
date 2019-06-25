@@ -1066,3 +1066,22 @@ var vm = new Vue({
     
 //调用计算属性，在调用的时候，不要加()，要当作属性来调用
 <input type="text" v-model="data3">
+
+
+十六.render的使用
+vue实例中和el、data等属性平级的有一个render属性，使用方法如下：
+    var login = {
+      template: '<h1>这是登录组件</h1>'
+    }
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        data1: '',
+        data2: '',
+      },
+      methods: {},
+      render: function(createElements){             //createElements是一个方法，调用它能够把指定的组件模板渲染为html结构
+         var html = createElements(login);
+         return html;                               //这里return的结果会替换掉页面中el指定的那个容器（即id为app的容器）。 
+      }
+    });
