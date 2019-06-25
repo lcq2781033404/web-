@@ -122,7 +122,7 @@ module.exports = {
 （2）安装处理less文件的loader
 npm i less-loader -D
 
-（3）url-loader
+（3）url-loader 
 默认情况下，webpack无法处理css文件中的地址（不管是图片还是字体库，只要是url地址，都处理不了），所以又需要导入url-loader插件了。
 安装：npm i url-loader file-loader -D
  
@@ -134,4 +134,24 @@ npm i less-loader -D
 （4）当最后的一个loader调用完毕，会把处理的结果，直接交给webpack进行打包合并，最终输出到bundle.js中去。
 
 
+10.babel的使用
+在webpack中，默认只能处理一部分ES6的新语法，一些更高级的ES6语法或者ES7语法webpack是处理不了的。这时候，就需要借助于第三方的loader，来帮助webpack
+处理这些高级的语法，当第三方loader把高级语法转为低级的语法之后，会把结果交给webpack去打包到bundle.js中。
+通过Babel，可以帮我们将高级的语法转换为低级的语法。
+（1）配置
+①在webpack中，可以运行如下两套命令，安装两套包，去安装Babel相关的loader功能：
+第一套包：npm i babel-core babel-loader babel-plugin-transform-runtime -D
+第二套包：npm i babel-preset-env babel-preset-stage-0 -D 
 
+②打开webpack的配置文件webpack.config.js，在module节点下的rules数组中，添加一个新的匹配规则： 
+{ test:/\.js$/, use: 'babel-loader', exclude:/node_modules/ }            
+//这个配置规则中的exclude:/node_modules/表示排除掉node_modules目录，因为如果不排除这个文件夹，则babel会把node_modules中的所有第三方js文件全都
+打包编译，这样很消耗cpu，打包速度很慢。并且这些js文件打包后项目无法正常运行。
+
+③在项目的根目录中，新建一个叫做.babelrc的babel配置文件，这个配置文件为json格式。
+
+④在.babelrc文件中写如下的配置：
+{
+  "presets": ["env", "stage-0"],
+  "plugins": ["transform-runtime"]
+}
