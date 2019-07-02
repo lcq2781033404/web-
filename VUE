@@ -527,6 +527,8 @@ Vue.filter('过滤器名称', function(data){
 
 十.vue-resource实现get、post、jsonp请求
 首先需要下载vue-resource包并导入，这个包依赖于vue包，所以要先导入vue包，再导入vue-resource包，导入了这个包之后，vue就多了一个$http属性，可以使用。
+import VueRouter from 'vue-router';
+Vue.use(VueRouter);
 1.get请求
 <div id="dv">
     <input type="button" value="get请求" @click="getInfo" />
