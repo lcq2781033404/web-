@@ -1061,7 +1061,7 @@ var vm = new Vue({
       },
       methods: {},
       computed: {
-        'data3': function(){
+        data3: function(){
           renturn this.data1 + '-' + this.data2;             //只要计算属性方法中的值发生变化，立刻就会触发这个计算属性方法
                                                              //计算属性的求值结果会被缓存起来，方便下次直接调用
                                                              //计算属性方法必须有return值！！！
@@ -1070,7 +1070,10 @@ var vm = new Vue({
     });
     
 //调用计算属性，在调用的时候，不要加()，要当作属性来调用
-<input type="text" v-model="data3">
+<div id="app">
+  <p>{{data3}}<p>
+</div>
+
 
 
 十六.render的使用
