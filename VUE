@@ -179,6 +179,9 @@ v-if属性值填写true或者false，填写true的时候会重新创建元素，
 v-show属性值填写true或者false，填写true的时候会会设置元素display为block，填写false的时候，会设置元素display为none。
 和v-if的区别就是v-if会删除或重新生成元素，而v-show只会设置元素的显示或隐藏。
 
+10.v-once（提高静态内容的显示效率）
+具有v-once指令的内容会被放到内存中，如果这个内容需要反复的隐藏和显示，使用v-once可以提高一些性能。
+
 
 四.自定义VUE指令
 vue中，所有的指令都以v-开头，我们在自定义指令的时候也要遵循这个原则。
@@ -246,6 +249,28 @@ directives: {
 .capture           //添加事件监听器时使用事件捕获方式
 .self              //只当事件在该元素本身（比如不是子元素）触发时触发回调
 .once              //事件只触发一次
+.native            //表示触发的是原生事件
+比如：
+<div id="dv">
+  <child @click="handle"></child>
+</div>
+<script>
+  Vue.component('child',{
+    template: '<h1>child</h1>'
+  });
+  var vm = new Vue({
+    el: '#dv',
+    methods: {
+      handle: function(){
+        alert(111);
+      }
+    }
+  });
+</script>
+上面这种方式点击child触发不了handle方法，因为子组件想触发父组件（vm）的方法，要使用$emit，除了使用emit外，可以在@click后面加一个native表示触发
+原生事件，这样就可以调用了。
+<child @click.native="handle"></child>
+
 使用方法如下：
 <input type="button" value="按钮" v-bind:title="msg" @click.stop="show" />
 
@@ -608,9 +633,88 @@ jsonp方法和get方法一样，有两个参数：
 
 十一.vue动画
 动画能够提高用户的体验，帮助用户更好的理解页面中的功能。
+1.过渡动画的原理及使用
+想要一个元素具有动画效果，需要将其用transition标签包裹起来。
 一个完整的动画包含进入和离开两个阶段。
-1.使用过渡类名实现动画
+（1）进入：
+v-enter
+v-enter-to
+v-enter-active
 
+（2）离开：
+v-leave
+v-leave-to
+v-leave-active
+
+2.在vue中使用animate.css库
+（1）自定义动画效果
+<style>
+  @keyframes bounce {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+    .v-enter-active{
+      transforme-origin: left center;
+      animation: bounce 1s;
+    }
+    .v-leave-active{
+      transforme-origin: left center;
+      animation: bounce 1s reverse;
+    }
+  }
+</style>
+（2）animate.css库介绍
+上面这种自己定义动画的效果有时很难达到预期的效果，这时候可以直接使用animate.css库提供的动画效果。
+导入animate.css库文件：<link rel="stylesheet" href="./animate.css" />
+<transition enter-active-class="animated swing" leave-active-class="animated swing"></transition>
+//注意：这里在填写动画名字的时候，前面一定要有animated，表示引用的animate.css库文件。
+
+3.vue中的js动画和Velocity.js的结合
+（1）动画钩子函数
+动画钩子函数挂载在transition标签中，函数在vm实例的methods属性中定义：
+<div id="dv">
+  <transition @before-enter="handleBeforeEnter">
+    <div v-show="show">hello world</div>
+  </transition>
+</div>
+<script>
+  var vm = new Vue({
+    el: '#dv',
+    data: {
+      show: true
+    },
+    methods: {
+      handleBeforeEnter: function(el){
+        el.style.color = 'red';
+      }
+    }
+  });
+</script>
+
+入场动画：
+①before-enter函数：
+这个函数有一个参数，表示被transition标签包裹的元素
+②enter函数：
+这个函数有两个参数。参数1表示被transition标签包裹的元素，参数2是一个回调函数，表示动画被执行完毕了（当动画执行结束之后要手动调用一下done函数）
+③after-enter函数：
+这个函数在enter函数调用done回调之后执行，这个函数有一个参数，表示被transition标签包裹的元素
+
+出场动画使用方法同理：
+①before-leave函数：
+②leave函数：
+③after-leave函数：
+
+（2）Velocity.js动画库
+
+
+4.transition-group标签
+transition-group标签可以给列表添加动画，使用方法和transition一样。
 
 
 十二.vue组件
@@ -685,7 +789,7 @@ Vue.component('mycom', {
 （2）组件中的methods属性
 组件中的methods属性的使用方法和vue实例中methods属性的使用方法一样。
 
-4.component标签的使用
+4.component标签的使用（component是一个动态组件）
 vue提供了一个component标签，来展示对应名称的组件
 <component :is="componentId"></component>
 component是一个占位符，is属性用来指定要展示的组件名称
@@ -827,7 +931,49 @@ props属性中定义一下，就能在子组件中使用父组件的数据了。
   </script>
 </body>
 
-6.使用this.$refs来获取元素和组件
+
+6.非父子组件传值
+即需要传值的两个组件之间不是父子关系，这种传值有两种方法：
+（1）使用vue官方提供的数据层框架：vuex
+vuex的机制为总线机制（也叫发布订阅模式或者观察者模式），示例如下（这个例子实现了两个child组件之间（兄弟组件）的互相传值）：
+<div id="dv">
+  <child :content="zhangsan"></child>
+  <child :content="lisi"></child>
+</div>
+<script>
+  
+  Vue.prototype.bus = new Vue();             //在vue的prototype上挂载一个bus属性，这个属性指向vue的实例，以后每次创建的vue实例都会有bus属性
+  Vue.component('child', {
+    props: {
+      content: String
+    },
+    template: '<div @click="handleClick">{{content}}</div>',
+    data: function(){
+      return {
+        selfContent: this.content
+      }
+    },
+    methods: {
+      handleClick: function(){
+        this.bus.$emit('change', this.selfContent);  //通过bus中的$emit方法向外触发change事件，并传递content参数
+      }
+    },
+    mounted: function(){
+      var _this = this;
+      this.bus.$on('change', function(msg){          //监听触发的change事件，监听到后执行一个函数，这个函数的msg参数就是change事件传递的参数
+        _this.selfContent = msg;                     //这里会监听到两次change事件，因为我们在页面中写了两个child，当任意一个child触发了点击
+                                                       事件时，两个child组件都监听到。
+      });
+    }
+  });
+  var vm = new Vue({
+    el: '#dv',
+    
+  });
+</script>
+
+
+7.使用this.$refs来获取元素和组件
 需要在要获取的元素上设置ref属性，然后在vm实例中调用$refs方法
 <body>
   <div id="dv">
@@ -1093,3 +1239,76 @@ vue实例中和el、data等属性平级的有一个render属性，使用方法�
          return html;                               //这里return的结果会替换掉页面中el指定的那个容器（即id为app的容器）。 
       }
     });
+
+
+十七.在vue中使用插槽（slot标签）
+插槽主要用于父组件向子组件传递DOM结构，虽然用上面的父子组件传值也能实现，但是会造成不好阅读的情况。
+1.普通使用
+<div id="dv">
+  <child>
+    <p>p标签就是父组件向子组件传递的DOM结构<p>
+  </child>
+</div>
+<script>
+       
+  Vue.component('child', {
+    template: '<div>
+                 <p>子组件内容</p>
+                 <slot></slot>     //这里就会放置父组件向子组件传递的DOM结构
+               </div>',
+  });
+  var vm = new Vue({
+    el: '#dv',
+  });
+</script>
+
+2.具名插槽
+slot会把child下的所有dom都显示出来，但是我们有时只需要显示部分的内容，这时候用到具名插槽：
+<div id="dv">
+  <child>
+    <div slot="header">header</div>
+    <div slot="footer">footer</div>
+  </child>
+</div>
+<script>
+       
+  Vue.component('child', {
+    template: '<div>
+                 <slot name="header"></slot>    
+                 <p>子组件内容</p>
+                 <slot name="footer"></slot>     
+               </div>',
+  });
+  var vm = new Vue({
+    el: '#dv',
+  });
+</script>
+
+3.作用域插槽
+当子组件的dom元素需要循环显示，并且显示的内容并不由子组件决定，而是由外部决定的时候，要用到作用域插槽：
+<div id="dv">
+  <child>
+    <template slot-scope="dataFromChild">            //作用域插槽一定要使用template包裹，slot-scope属性表示从子组件接收要显示的数据
+      <li>{{dataFromChild.item}}</li>
+    </template>
+  </child> 
+</div>
+<script>
+       
+  Vue.component('child', {
+    data: function(){
+      return: {
+        list: [1, 2, 3, 4, 5]
+      }
+    },
+    template: '<div>
+                 <p>子组件内容</p>
+                 <ul>
+                  <slot v-for="item in list :item=item"></slot>      //这里的:item=item表示向父组件传递item数据
+                 </ul>
+               </div>',
+  });
+  var vm = new Vue({
+    el: '#dv',
+  });
+</script>
