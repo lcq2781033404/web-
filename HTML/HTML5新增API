@@ -63,3 +63,19 @@ window.sessionStorage.removeItem('name');
 
 （4）clear()               清空所有存储内容
 window.sessionStorage.clear();
+
+
+四.文件读取
+html5提供的文件读取api可以把上传的文件内容或者图片的缩略图显示在页面上。
+通过FileReader对象可以读取本地存储的文件，使用File对象来指定所要读取的文件或数据。其中，File对象可以是来自用户在一个元素上选择文件后返回的FileList
+对象，也可以来自由拖放操作生成的dataTransfer。
+<input type="file" id-"inpu" />
+<script>
+  var inpu = document.getElementById("inpu");
+  inpu.addEventListener('change', function(){
+   console.log(this.files);                 //files是上传文件的集合，存储了每个文件的基本信息
+   //读取文件
+   var reader = new FileReader();           //创建一个文件读取实例
+   
+  });
+</script>
