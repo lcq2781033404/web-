@@ -10,7 +10,7 @@ window.addEventListener('offline', function(){
 });
 
 二.全屏显示
-这个方法高版本浏览器也存在兼容性问题，不同浏览器需要添加不同的前缀。
+这个方法高版本浏览器也存在兼容性问题，不同浏览器需要添加不同的前缀（webkit、moz、o、ms（msRequestFullscreen，这里s要小写，其他内核的s大写））。
 1.添加全屏显示
 DOM.requestFullScreen();
 btn.onclick = function(){
@@ -27,7 +27,7 @@ btn.onclick = function(){
   }
 }
 
-2.取消全屏显示（取消全屏显示由document调用）
+2.取消全屏显示（取消全屏显示由document调用），不同浏览器需要添加不同的前缀（webkit、moz、o、ms）。
 document.cancelFullScreen();
 
 3.全屏显示伪类选择器
@@ -69,13 +69,97 @@ window.sessionStorage.clear();
 html5提供的文件读取api可以把上传的文件内容或者图片的缩略图显示在页面上。
 通过FileReader对象可以读取本地存储的文件，使用File对象来指定所要读取的文件或数据。其中，File对象可以是来自用户在一个元素上选择文件后返回的FileList
 对象，也可以来自由拖放操作生成的dataTransfer。
-<input type="file" id-"inpu" />
+<input type="file" id="inpu" />
+<div id="dv"></div>
 <script>
   var inpu = document.getElementById("inpu");
+  var dv = document.getElementById("dv");
   inpu.addEventListener('change', function(){
    console.log(this.files);                 //files是上传文件的集合，存储了每个文件的基本信息
    //读取文件
-   var reader = new FileReader();           //创建一个文件读取实例
-   
+   var reader = new FileReader();           //创建一个文件读取实例，FileReader是H5新增内置对象，可以读取文件内容
+   reader.readAsText(this.files[0]);        //读取文件列表中第一个文件的文字内容，读取完毕后，会把内容存放到reader的result属性里面
+   reader.onload = function () {            //当文件读取完毕后，会调用onload方法
+    console.log(this.result);               //打印读取的内容
+    dv.innerHTML = this.result;
+   }
   });
 </script>
+上面的例子可以把文本格式的文件内容读取并显示在页面上，如果想要读取图片并在页面显示缩略图，方法也是类似的：
+<input type="file" id="inpu" />
+<img src="" id="img" />
+<script>
+  var inpu = document.getElementById("inpu");
+  var dv = document.getElementById("dv");
+  inpu.addEventListener('change', function(){
+   console.log(this.files);                 //files是上传文件的集合，存储了每个文件的基本信息
+   //读取文件
+   var reader = new FileReader();           //创建一个文件读取实例，FileReader是H5新增内置对象，可以读取文件内容
+   reader.readAsDataURL(this.files[0]);        //读取文件列表中第一个文件的文字内容，读取完毕后，会把内容存放到reader的result属性里面
+   reader.onload = function () {            //当文件读取完毕后，会调用onload方法
+    console.log(this.result);               //打印读取的内容
+    img.src = this.result;
+   }
+  });
+</script>
+
+五.地理定位
+在H5中，增加了获取用户地理信息的API，这样使我们可以基于用户位置开发互联网应用，即基于位置服务。
+<body>
+	<p id="demo">点击这个按钮，获得您的坐标：</p>
+	<button onclick="getLocation()">试一下</button>
+	<script>
+		var x=document.getElementById("demo");
+
+		function getLocation()   // 当我们点击了按钮就会触发这个函数
+		  {
+		  if (navigator.geolocation)  // 判断我们当前的设备是否支持 地理定位 
+		    {
+
+		    	// 如果支持 就 获得当前的 地理位置  调用  getCurrentPosition 方法
+		    navigator.geolocation.getCurrentPosition(showPosition,showError);
+		       // showPosition  如果调用成功  调用这个函数 显示 当前位置
+		       // showError   如果调用失败  调用这个函数 
+		    }
+		     
+		  else{  // 如果设备不支持  就返回这句话  当前浏览器不支持 地理定位
+		  	x.innerHTML="Geolocation is not supported by this browser.";}
+		  }
+
+
+		  	// 调用 成功的函数   返回当前位置的经纬度
+		function showPosition(position)
+		  {
+		  x.innerHTML=  
+
+		  "Latitude: " + position.coords.latitude +    //  获得当前的纬度
+
+		  "<br />Longitude: " + position.coords.longitude;	 // 获得当前的经度
+		  }
+        // 调用 失败 的函数   返回当前位置的经纬度
+		function showError(error)
+		  {
+		  switch(error.code) 
+		    {
+		    case error.PERMISSION_DENIED:
+		      x.innerHTML="User denied the request for Geolocation."
+		      // 用户无法定位的要求
+		      break;
+		    case error.POSITION_UNAVAILABLE:
+		      x.innerHTML="Location information is unavailable."
+		      // 位置信息不可用
+		      break;
+		    case error.TIMEOUT:
+		      x.innerHTML="The request to get user location timed out."
+		      // 获取用户位置的请求超时。
+		      break;
+		    case error.UNKNOWN_ERROR:
+		      x.innerHTML="An unknown error occurred."
+		      // 发生了一个不明错误
+		      break;
+		    }
+		  }
+	</script>
+</body>
+
+六.
