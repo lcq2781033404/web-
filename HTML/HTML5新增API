@@ -162,4 +162,99 @@ html5提供的文件读取api可以把上传的文件内容或者图片的缩略
 	</script>
 </body>
 
-六.
+六.拖拽和释放
+在h5中，拖放是标准的一部分，任何元素都能够拖放。
+拖拽：Drag
+释放：Drop
+想要让元素可被拖放，需要为其设置draggable=true（链接和图片默认是可拖动的，不需要设置draggable属性）
+拖拽API的相关事件：
+
+被拖动的源对象可以触发的事件：
+（1）ondragstart：源对象开始被拖动
+（2）ondrag：源对象被拖动过程中（鼠标可能在移动也可能未移动）
+（3）ondragend：源对象被拖动结束
+
+拖动源对象进入目标对象可以触发的事件：
+（1）ondragenter：目标对象被源对象拖动着进入
+（2）ondragover：目标对象被源对象拖动着悬停在上方
+（3）ondragleave：源对象拖动着离开了目标对象
+（4）ondrop：源对象拖动着在目标对象上方释放（ondrop事件默认会被浏览器阻止，如果想要触发，需要在ondragover事件中阻止默认行为）
+
+DataTransfer属性：
+在进行拖放操作时，DataTransfer对象用来保存被拖动的数据。它可以保存一项或多项数据，一种或多种数据类型。
+
+<body>
+	<div id="div1">
+		<p id="p1" draggable="true">拖拽内容1</p>
+		<p id="p2" draggable="true">拖拽内容2</p>
+		<p id="p3" draggable="true">拖拽内容3</p>
+		<p id="p4" draggable="true">拖拽内容4</p>
+	</div>
+	<div id="div2"></div>
+	<div id="div3"></div>
+	<script>
+	// 完整的拖拽   +  释放   
+	// 1. 我们有很多盒子， 那个需要拖放 就 给这个盒子设置 可拖放效果
+	// 2. 找到源文件 设置拖拽效果 
+	// (1)ondragstart：源对象开始被拖动
+		// var p = document.querySelector("#p1");
+		//var obj = null;  用于存放我们拖放对象 源对象
+		document.ondragstart = function(event) {
+			console.log("源对象开始被拖动");
+			// event.target  事件对象里面的事件目标
+			console.log(event.target.id);
+			 //obj = event.target;  把当前对象给 obj 然后追加到 新目标对象里面就阔以了
+			 // event.dataTransfer.setData("类型", 数据) 在我们start 里面设置 当我们开始拖拽的时候，就存储数据
+			 // 类型  text/html   URL  
+			 // 记录 当前源对象的id 名字
+			 event.dataTransfer.setData("text/html", event.target.id);  
+			 // 我们传递的是 id  字符型形式  text
+
+		}
+	// (2)ondrag：源对象被拖动过程中(鼠标可能在移动也可能未移动)
+		document.ondrag = function() {
+			console.log("源对象被拖动过程中");
+			// 不断的执行
+		}
+
+	// (3)ondragend：源对象被拖动结束
+ 		document.ondragend = function() {
+			console.log("源对象被拖动结束");
+		}
+	
+	// 3. 找到目标对象  设置 释放效果  onmouseenter   onmouseover 
+	    // var target = document.querySelector("#div2");
+   //  (1)ondragenter：目标对象被源对象拖动着进入
+ 		document.ondragenter = function(event) {
+ 			console.log("目标对象被源对象拖动着进入");
+ 			console.log(event.target);
+ 		}
+	// (2)ondragover：目标对象被源对象拖动着悬停在上方
+		document.ondragover = function(e) {
+ 			console.log("目标对象被源对象悬停在上方");
+ 			// 不断的执行
+ 			// 如果想要触发 ondrop 事件 则需要在over 里面 阻止  默认行为
+ 			return false;
+ 			// e.preventDefault()
+
+ 		}
+	// (3)ondragleave：源对象拖动着离开了目标对象
+		document.ondragleave = function() {
+ 			console.log("离开了");
+ 		}
+	// (4)ondrop：源对象拖动着在目标对象上方释放/松手 
+		document.ondrop = function(event) {
+ 			console.log("上方释放/松手");
+ 			// 当我们的源对象 在 目标对象上  释放   就可以吧 源对象放入目标对象里面了 追加
+ 			// 目标对象. appendChild(源对象)
+ 			// event.target.appendChild(obj);
+ 			// 拖拽的时候 ，不用删除原来的  
+ 			// 获取 dataTransfer里面的数据
+ 			var id = event.dataTransfer.getData("text/html");
+ 			// console.log(id);
+ 			event.target.appendChild(document.getElementById(id));
+ 			// 因为我们追加的 源对象  p  id 只是id名字， 需要 通过id 获取元素 追加到 目标对象里面
+ 			// 所以我们 document.getElementById(id)
+ 		}
+	</script>
+</body>
