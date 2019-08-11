@@ -1,0 +1,74 @@
+一.前言
+Javascript语言的执行环境是"单线程"（single thread，就是指一次只能完成一件任务。如果有多个任务，就必须排队，前面一个任务完成，再执行后面一个任务，
+以此类推）。
+这种模式的好处是实现起来比较简单，执行环境相对单纯；坏处是只要有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行。
+常见的浏览器无响应（假死），往往就是因为某一段Javascript代码长时间运行（比如死循环），导致整个页面卡在这个地方，其他任务无法执行。
+为了解决这个问题，Javascript语言将任务的执行模式分成两种：同步（Synchronous）和异步（Asynchronous）。
+
+“同步模式" 就是上一段的模式，后一个任务等待前一个任务结束，然后再执行，程序的执行顺序与任务的排列顺序是一致的、同步的；
+"异步模式"则完全不同，每一个任务有一个或多个回调函数（callback），前一个任务结束后，不是执行后一个任务，而是执行回调函数，后一个任务则是不等前一个任
+务结束就执行，所以程序的执行顺序与任务的排列顺序是不一致的、异步的。
+注意：异步操作拿到的操作结果无法通过return返回给函数调用者！！！！！
+
+“异步模式" 非常重要。在浏览器端，耗时很长的操作都应该异步执行，避免浏览器失去响应，最好的例子就是Ajax操作。
+在服务器端，"异步模式"甚至是唯一的模式，因为执行环境是单线程的，如果允许同步执行所有http请求，服务器性能会急剧下降，很快就会失去响应。
+
+二.异步处理的几种方法
+1.回调
+2.事件
+3.订阅发布模式
+4.Promise
+（1）Promise是一个构造函数，可以通过new得到一个Promise的实例。
+（2）在Promise上有两个函数，分别为resolve（成功的回调）和reject（失败的回调）。
+（3）Promise表示一个异步操作，每当我们new一个Promise实例，这个实例就表示一个具体的异步操作。
+（4）我们可以在new出来的Promise实例上，调用.then()方法，预先为这个Promise异步操作指定成功和失败的回调函数。
+举一个读取文件的例子：
+var fs = require("fs");
+function getFileByPath(fpath) {
+  var promise = new Promise(function(resolve, reject) {
+    fs.readFile(fpath, "utf-8", (err, data)=>{
+      if(err) return reject(err);
+      resolve(data);
+    })
+  });
+  return promise;
+}
+var p = getFileByPath("./files/2.txt");
+p.then(function(data) {
+  ...
+}, function(err) {
+  ...
+});
+
+（5）每当new一个Promise实例的时候，就会立即执行这个异步操作中的代码，如下例：
+var promise = new Promise(function(){
+  console.log("new一个Promise实例的时候，会立即执行这段代码");
+});
+如果想要上面的代码在调用的时候才执行，只需要把new Promise的操作放到函数中即可。
+
+（6）promise的正确使用方式
+还是以上面的读文件为例，需求是顺序读取文件1，2，3：
+var fs = require("fs");
+function getFileByPath(fpath) {
+  var promise = new Promise(function(resolve, reject) {
+    fs.readFile(fpath, "utf-8", (err, data)=>{
+      if(err) return reject(err);
+      resolve(data);
+    })
+  });
+  return promise;
+}
+
+getFileByPath("./files/1.txt")
+.then(function(data) {
+  console.log(data);
+  return getFileByPath("./files/2.txt");
+})
+.then(function(data) {
+  console.log(data);
+  return getFileByPath("./files/3.txt");
+})
+.then(function(data) {
+  console.log(data);
+  
+})
