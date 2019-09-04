@@ -637,14 +637,16 @@ jsonp方法和get方法一样，有两个参数：
 想要一个元素具有动画效果，需要将其用transition标签包裹起来。
 一个完整的动画包含进入和离开两个阶段。
 （1）进入：
+元素的透明度从0变成1就是一个进入动画，在这个从0变成1的过程中，enter是开始，enter-actve是过程，enter-to是结束
 v-enter
-v-enter-to
 v-enter-active
+v-enter-to
 
 （2）离开：
+元素的透明度从1变成0就是一个离开动画，在这个从1变成0的过程中，leave是开始，leave-active是过程，leave-to是结束
 v-leave
-v-leave-to
 v-leave-active
+v-leave-to
 
 2.在vue中使用animate.css库
 （1）自定义动画效果
