@@ -15,9 +15,87 @@ Javascript语言的执行环境是"单线程"（single thread，就是指一次�
 
 二.异步处理的几种方法
 1.回调
+回调函数是异步编程最基本的方法，其优点是简单、容易理解和部署，缺点是不利于代码的阅读和维护，各个部分之间高度耦合（Coupling），流程会很混乱，
+而且每个任务只能指定一个回调函数。
+举例：
+var fs=require('fs');
+
+function getMime(){
+    //1
+    fs.readFile('mime.json',function(err,data){
+        //console.log(data.toString());
+        return data;//3
+    })
+    //2
+    //return '123';
+}
+console.log(getMime()); 
+ /*由于异步操作没有拿到数据，解决的办法是为其指定一个回调函数*/
+ 
+var fs=require('fs');
+function getMime(callback){
+    fs.readFile('mime.json',function(err,data){
+        callback(data);
+    })
+}
+getMime(function(result){
+    console.log(result.toString());
+})
+
 2.事件
+这种方法的优点：比较容易理解，可以绑定多个事件，每一个事件可以指定多个回调函数，而且可以去耦合，有利于实现模块化。
+这种方法的缺点：整个程序都要变成事件驱动型，运行流程会变得不清晰。
+
+还是以f1和f2为例。首先，为f1绑定一个事件（采用jquery写法）。
+f1.on('done',f2);
+
+上面代码意思是，当f1发生done事件，就执行f2。
+然后对f1进行改写：
+
+function f1(){
+    settimeout(function(){
+       //f1的任务代码
+       f1.trigger('done');  
+    },1000);
+}
+
+f1.trigger('done')表示，执行完成后，立即触发done事件，从而开始执行f2.
+
 3.订阅发布模式
+我们假定，存在一个"信号中心"，某个任务执行完成，就向信号中心"发布"（publish）一个信号，其他任务可以向信号中心"订阅"（subscribe）这个信号，
+从而知道什么时候自己可以开始执行。这就叫做"发布/订阅模式"（publish-subscribe pattern），又称"观察者模式"（observer pattern）。
+
+这个模式有多种实现，下面采用的是Ben Alman的Tiny Pub/Sub，这是jQuery的一个插件。
+
+首先，f2向"信号中心"jQuery订阅"done"信号。
+jQuery.subscribe("done", f2);
+
+然后，f1进行如下改写：
+function f1(){
+　　setTimeout(function () {
+　　　　// f1的任务代码
+　　　　jQuery.publish("done");
+　　}, 1000);
+}
+jQuery.publish("done")的意思是，f1执行完成后，向"信号中心"jQuery发布"done"信号，从而引发f2的执行。
+
+此外，f2完成执行后，也可以取消订阅（unsubscribe）
+jQuery.unsubscribe("done", f2);
+
+这种方法的性质与"事件监听"类似，但是明显优于后者。因为我们可以通过查看"消息中心"，了解存在多少信号、每个信号有多少订阅者，从而监控程序的运行。
+
 4.Promise
+4.1概述
+（1）promise对象是commonJS工作组提出的一种规范，一种模式，目的是为了异步编程提供统一接口。
+（2）promise是一种模式，promise可以帮忙管理异步方式返回的代码。他将代码进行封装并添加一个类似于事件处理的管理层。我们可以使用promise来注册代码，
+这些代码会在在promise成功或者失败后运行。
+（3）promise完成之后，对应的代码也会执行。我们可以注册任意数量的函数再成功或者失败后运行，也可以在任何时候注册事件处理程序。
+（4）promise有两种状态：1、等待（pending）；2、完成（settled）。
+（5）promise会一直处于等待状态，直到它所包装的异步调用返回/超时/结束。
+（6）这时候promise状态变成完成。完成状态分成两类：1、解决（resolved）；2、拒绝（rejected）。
+（7）promise解决（resolved）：意味着顺利结束。promise拒绝（rejected）意味着没有顺利结束。
+
+4.2使用方法
 （1）Promise是一个构造函数，可以通过new得到一个Promise的实例。
 （2）在Promise上有两个函数，分别为resolve（成功的回调）和reject（失败的回调）。
 （3）Promise表示一个异步操作，每当我们new一个Promise实例，这个实例就表示一个具体的异步操作。
@@ -72,3 +150,79 @@ getFileByPath("./files/1.txt")
   console.log(data);
   
 })
+
+5.async/await
+（1）字面理解
+先从字面意思来理解，async 是“异步”的意思，而 await 是等待的意思。
+所以应该很好理解 async 用于申明一个 异步的function（实际上是async function 对象），而 await 用于等待一个异步任务执行完成的的结果。
+并且 await 只能出现在 async 函数中（即await 关键字仅仅在 async function中有效）。
+
+（2）async、await 如何执行
+async 告诉程序这是一个异步操作，await 是一个操作符，即 await 后面是一个表达式。
+ // async
+async function testAsync() {
+    return "hello async";
+}
+const data = testAsync();
+console.log(data);
+当调用一个 async 函数时，会返回一个 Promise 对象。
+
+既然返回的是Promise 对象，所以在最外层不能用 await 获取其返回值的情况下，那么肯定可以用原来的方式：then() 链来处理这个 Promise 对象 如
+// async
+async function testAsync() {
+    return "hello async";
+}
+let data = testAsync().then( (data) => {
+    console.log(data) // hello async                                                 
+    return data
+});
+console.log(data);
+如果 async 函数没有返回值，又怎么样呢？很容易想到，它会返回 Promise.resolve(undefined)。
+联想一下 Promise 的特点无等待，所以在没有 await 的情况下执行 async 函数，它会立即执行，返回一个 Promise 对象，并且，绝不会阻塞后面的语句。
+
+（3）await 操作符
+async 函数返回一个 Promise 对象，当函数执行的时候，一旦遇到 await 就会先返回，等到触发的异步操作完成，再接着执行函数体内后面的语句。
+await会暂停当前async 函数执行，并且await 后面是一个表达式，即这个await 等待的是一个表达式（这个表达式返回promise 对象或者一个具体的值）：
+①假如这个表达式如果返回的是一个Promise 对象， 那么它的返回值，实际上就是 Promise 的回调函数 resolve 的参数，如果这个Promise rejected 了，
+await 表达式会把 Promise 的异常抛出。
+②假如这个表达式如果返回的是一个常量，那么会把这个常量转为Promise.resolve(xx)，同理如果没有返回值也是Promise.resolve(underfind)
+async function testAwait() {
+    const data = await "hello await";
+    console.log(data)                                          
+    return data
+}
+
+（4）async/await 的优势
+作个简单的比较
+上面已经说明了 async 会将其后的函数（函数表达式或 Lambda）的返回值封装成一个 Promise 对象，而 await 会等待这个 Promise 完成，
+并将其 resolve 的结果返回出来。
+现在举例，用 setTimeout 模拟耗时的异步操作，先来看看不用 async/await 会怎么写
+
+function takeLongTime() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("long_time_value"), 1000);
+    });
+}
+
+takeLongTime().then(v => {
+    console.log("got", v);
+});
+
+如果改用 async/await 呢，会是这样
+function takeLongTime() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("long_time_value"), 1000);
+    });
+}
+
+async function test() {
+    const v = await takeLongTime();
+    console.log(v);
+}
+test();
+
+又一个疑问产生了，这两段代码，两种方式对异步调用的处理（实际就是对 Promise 对象的处理）差别并不明显，甚至使用 async/await 还需要多写一些代码，
+那它的优势到底在哪？
+async/await 的优势在于处理 then 链。
+单一的 Promise 链并不能发现 async/await 的优势，但是，如果需要处理由多个 Promise 组成的 then 链的时候，优势就能体现出来了
+（很有意思，Promise 通过 then 链来解决多层回调的问题，现在又用 async/await 来进一步优化它）。
