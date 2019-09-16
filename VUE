@@ -94,6 +94,46 @@ var vm = new Vue({
 这样，打开页面，发现输入框中已经有了hello world 字样，并且修改输入框中的文字，data中的msg也会对应改变
 注意：v-model只能运用在表单元素中！！！！
 
+（1）v-model绑定复选框的值
+如果只有一个复选框，当复选框选中时v-model绑定的值为true，否则为false。
+如果有多个复选框都绑定了相同的变量，则复选框选中的value值会存入数组。
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+<script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <p>单个复选框：</p>
+  <input type="checkbox" id="checkbox" v-model="checked">
+  <label for="checkbox">{{ checked }}</label>
+	
+  <p>多个复选框：</p>
+  <input type="checkbox" id="runoob" value="Runoob" v-model="checkedNames">
+  <label for="runoob">Runoob</label>
+  <input type="checkbox" id="google" value="Google" v-model="checkedNames">
+  <label for="google">Google</label>
+  <input type="checkbox" id="taobao" value="Taobao" v-model="checkedNames">
+  <label for="taobao">taobao</label>
+  <br>
+  <span>选择的值为: {{ checkedNames }}</span>
+</div>
+
+<script>
+new Vue({
+  el: '#app',
+  data: {
+	checked : false,
+    checkedNames: []
+  }
+})
+</script>
+</body>
+</html>
+
+
 7.v-for
 （1）遍历普通数组
 <div id="dv">
