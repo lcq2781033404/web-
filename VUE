@@ -1222,6 +1222,54 @@ var vm = new Vue({
   <p>{{data3}}<p>
 </div>
 
+computed 属性默认只有 getter ，不过在需要时你也可以提供一个 setter ：
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+<script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <p>{{ site }}</p>
+</div>
+
+<script>
+var vm = new Vue({
+  el: '#app',
+  data: {
+	name: 'Google',
+	url: 'http://www.google.com'
+  },
+  computed: {
+    site: {
+      // getter
+      get: function () {
+        return this.name + ' ' + this.url
+      },
+      // setter
+      set: function (newValue) {
+        var names = newValue.split(' ')
+        this.name = names[0]
+        this.url = names[names.length - 1]
+      }
+    }
+  }
+})
+// 调用 setter， vm.name 和 vm.url 也会被对应更新
+vm.site = '菜鸟教程 http://www.runoob.com';
+document.write('name: ' + vm.name);
+document.write('<br>');
+document.write('url: ' + vm.url);
+</script>
+</body>
+</html>
+
+输出结果：
+菜鸟教程 http://www.runoob.com
+name: 菜鸟教程
+url: http://www.runoob.com
 
 
 十六.render的使用
