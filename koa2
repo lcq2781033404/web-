@@ -3,3 +3,21 @@
 
 2.创建项目
 运行 koa2 项目名称 即可创建一个koa项目，如果想使用ejs引擎创建项目，则需要运行koa2 -e 项目名称，比如 koa2 -e koa2-learn
+
+3.koa2中间件
+（1）koa2中间件原理
+中间件写法样例：
+function pv(ctx) {
+    global.console.log(ctx.path)
+
+}
+
+module.exports = function() {
+    return async function(ctx, next) {
+        pv(ctx)
+        await next() //表示当前中间件处理完毕交给下一个中间件处理
+    }
+}
+
+4.koa路由
+（1）路由的写法
