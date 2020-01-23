@@ -1,0 +1,5 @@
+1.脚手架安装
+运行 npm install -g koa-generator安装koa-generator脚手架
+
+2.创建项目
+运行 koa2 项目名称 即可创建一个koa项目，如果想使用ejs引擎创建项目，则需要运行koa2 -e 项目名称，比如 koa2 -e koa2-learn
