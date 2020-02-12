@@ -6,11 +6,11 @@
 项目创建成功后，运行 npm install初始化安装项目依赖
 
 3.koa2中间件
-（1）koa2中间件原理
-中间件写法样例：
+（1）中间件写法样例：
+//执行处理过程的函数
 function pv(ctx) {
+    //ctx是一个挂载request和response信息的全局对象
     global.console.log(ctx.path)
-
 }
 
 module.exports = function() {
@@ -20,5 +20,10 @@ module.exports = function() {
     }
 }
 
+（2）引入写好的中间件
+在app.js中引入写好的中间件：
+//引入自定义中间件
+const pv = require('./middleware/koa-pv')
+app.use(pv())
 4.koa路由
 （1）路由的写法
