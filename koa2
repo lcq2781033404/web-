@@ -25,5 +25,10 @@ module.exports = function() {
 //引入自定义中间件
 const pv = require('./middleware/koa-pv')
 app.use(pv())
+
 4.koa路由
-（1）路由的写法
+
+5.cookie和session
+cookie的读写
+ctx.cookies.set('pid',Math.random())
+ctx.cookies.get('pid')
