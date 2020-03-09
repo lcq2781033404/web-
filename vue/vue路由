@@ -102,9 +102,16 @@ var login = {
 如果想对路由参数的变化作出响应的话，可以使用 watch 监听 $route 对象：
 watch: {
     '$route' (to, from) {
-      // 对路由变化作出响应...
+      // 对路由变化作出响应...to是要跳转到的组件对象，from是跳转组件对象
     }
 }
+也可以监听$route.path的变化：
+watch: { 
+     '$route.path': function(newVal, oldVal){ 
+     console.log(newVal + '---------' + oldVal); 
+     } 
+ } 
+ 
 
 4.路由的嵌套
 很多时候，一个路由里面会嵌套子路由，我们希望展示子路由的同时，他们的父路由也会展示，这是就要用到路由的嵌套，在routes的对象里面新增一个属性：
