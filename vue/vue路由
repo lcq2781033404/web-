@@ -126,7 +126,8 @@ var routerObj = new VueRouter({
     }          
   ]
 });
-同时，还需要在子组件处加一个<router-view></router-view>标签，用于显示子路由。
+同时，还需要在父路由对应的组件里加一个<router-view></router-view>标签，用于显示子路由。比如上面的例子，要在account组件中<router-view>标签
+显示login组件
 
 5.使用命名视图实现经典布局
 所谓经典布局即页面上方是一个头部，下方分为左右两部分。
