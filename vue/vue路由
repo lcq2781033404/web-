@@ -42,7 +42,7 @@ vue实例对象中有一个属性router，可以在这个属性中填写刚刚�
   </script>
 
 （3）将切换的组件显示在页面中
-通过路由规则匹配显示的组件要包裹在<router-view></router-view>中，这个标签是vue-router提供的元素，路由规则匹配到的组件，会展示到这个标签中。
+通过路由规则匹配的组件显示在<router-view></router-view>中，这个标签是vue-router提供的元素，路由规则匹配到的组件，会展示到这个标签中。
 
 （4）路由跳转标签的使用
 在vue.router中，推荐使用<router-link></router-link>标签（在页面中默认会将其渲染为a标签）作为路由跳转的链接，to属性指定跳转的路由地址：
@@ -91,22 +91,37 @@ var login = {
   }
 };
 
-3.路由的嵌套
+可以在一个路由中设置多段“路径参数”，对应的值都会设置到 $route.params 中。例如：
+模式	                                     匹配路径	              $route.params
+/user/:username	                          /user/evan	           { username: 'evan' }
+/user/:username/post/:post_id	        /user/evan/post/123	       { username: 'evan', post_id: '123' }
+
+（7）响应路由参数的变化
+注意，当使用路由参数时，例如从 /user/foo 导航到 /user/bar，原来的组件实例会被复用。因为两个路由都渲染同个组件，比起销毁再创建，复用则显得更加高效。
+不过，这也意味着组件的生命周期钩子不会再被调用。
+如果想对路由参数的变化作出响应的话，可以使用 watch 监听 $route 对象：
+watch: {
+    '$route' (to, from) {
+      // 对路由变化作出响应...
+    }
+}
+
+4.路由的嵌套
 很多时候，一个路由里面会嵌套子路由，我们希望展示子路由的同时，他们的父路由也会展示，这是就要用到路由的嵌套，在routes的对象里面新增一个属性：
 var routerObj = new VueRouter({
   routes: [    
     {
       path: '/account', 
       component: account
-      children: {
+      children: [
         {path: 'login', component: login}      //login组件是account的子组件
-      }
+      ]
     }          
   ]
 });
 同时，还需要在子组件处加一个<router-view></router-view>标签，用于显示子路由。
 
-4.使用命名视图实现经典布局
+5.使用命名视图实现经典布局
 所谓经典布局即页面上方是一个头部，下方分为左右两部分。
 <body>
   <div id="app">
