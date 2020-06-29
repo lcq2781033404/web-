@@ -129,7 +129,7 @@ eg. Student.prototype = {
 继承是类型和类型之间的关系。
 继承的目的：把子类型中共同的成员提取到父类型中，使代码更简洁。
 
-2.如何继承
+2.继承的几种方式
 （1）原型继承
 由于js中没有专门的继承的语法，所以使用原型来模拟继承。比如：
 function Person(name, age, sex){
@@ -158,7 +158,7 @@ function Student(name, age, sex, score){
 }
 注意：借用构造函数只能继承Person内的成员，由于方法的创建一般使用原型，所以Person的原型创建的方法，Student是不能继承的。
 
-（3）组合继承（即借用构造函数 + 原型继承）
+（3）组合继承（即借用构造函数 + 原型继承）（经常使用）
 function Person(name, age, sex){
   this.name = name;
   this.age = age;
@@ -171,14 +171,64 @@ function Student(name, age, sex, score){
   Person.call(this, name, age, sex);
   this.score = score;
 }
-Student.prototype = Person.prototype;
+Student.prototype = newPerson();
+Student.prototype.constructor = Student;
+这个方法由于调用了两次父类，所以产生了两份实例，会占用一丢丢内存。
+
+（4）寄生组合继承（近乎完美的解决方案，推荐使用）
+function Person(name, age, sex){
+  this.name = name;
+  this.age = age;
+  this.sex = sex;
+}
+Person.prototype.sayHi = function() {
+  console.log('hi');
+}
+function Student(name, age, sex, score){
+  Person.call(this, name, age, sex); //继承父类属性
+  this.score = score;
+}
+//继承父类方法
+(function(){
+  // 创建空类
+  let Super = function(){};
+  Super.prototype = Person.prototype;
+  //父类的实例作为子类的原型
+  Student.prototype = new Super();
+})();
+//修复构造函数指向问题
 Student.prototype.constructor = Student;
 
-但是这个方法也有一个小问题：如果给Student构造函数新增一个其独有的方法，则Person构造函数中也会具有这个方法（因为我们把Person.prototype
-赋值给了Student.prototype，即让Student.prototype和Person.prototype都指向了内存中的Person.prototype，所以改变Student.prototype也会
-改变Person.prototype）
-为了解决上面的问题，要把Student.prototype = Person.prototype;改成Student.prototype = new Person();
-
+（5）es6继承
+代码量少，易懂
+//class 相当于es5中构造函数
+//class中定义方法时，前后不能加function，全部定义在class的protopyte属性中
+//class中定义的所有方法是不可枚举的
+//class中只能定义方法，不能定义对象，变量等
+//class和方法内默认都是严格模式
+//es5中constructor为隐式属性
+class People{
+  constructor(name='wang',age='27'){
+    this.name = name;
+    this.age = age;
+  }
+  eat(){
+    console.log(`${this.name} ${this.age} eat food`)
+  }
+}
+//继承父类
+class Woman extends People{ 
+   constructor(name = 'ren',age = '27'){ 
+     //继承父类属性
+     super(name, age); 
+   } 
+    eat(){ 
+     //继承父类方法
+      super.eat() 
+    } 
+} 
+let wonmanObj=new Woman('xiaoxiami'); 
+wonmanObj.eat();
 
 八.定义函数的三种方式
 1.函数声明
