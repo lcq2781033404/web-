@@ -31,6 +31,7 @@ webpack是前端的一个项目构建工具，基于node.js开发出来。
 在项目文件夹里面新建一个webpack的配置文件，命名为webpack.config.js。
 这个配置其实就是一个js文件，通过node中的模块操作，向外暴露了一个配置对象exports。
 在配置文件中，需要手动指定入口（要打包的文件）和出口（文件打包后的输出路径）。
+```javascript
 const path = require('path');
 module.exports = {
   entry: path.join(__dirname, 'src/main.js'),             //入口，表示要使用webpack打包哪个文件
@@ -39,7 +40,7 @@ module.exports = {
     filename: 'bundle.js'                                 //指定输出文件的名称
   }
 }
-
+```
 设置好了配置文件之后，在cmd中输入webpack即可运行该配置文件，把本地的js代码打包编译到内存中
 
 5.webpack-dev-server的使用
