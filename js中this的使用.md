@@ -36,7 +36,7 @@ setInterval(function() {
 函数也是对象，所以函数也有自己的属性和方法，这里讲一下函数的bind()方法。
 fn.bind();
 bind用于新建一个方法，bind()中第一个参数可以改变函数中this的指向。该方法最后返回一个新的函数（这个方法只是改变了fn函数this的指向，而没有调用函数）
--bind的应用（为定时器指向对象）：-
+**bind的应用（为定时器指向对象）：**
 ```javascript
 var obj = {
   name: 'zs',
@@ -77,6 +77,30 @@ var obj = {
 };
 Array.prototype.push.call(obj, 1000);//这样就通过数组的push方法给obj对象添加了一项值为1000的数据
 ```
+**call和bind的区别：**
+```javascript
+function func(a, b, c) {
+    console.log(a, b, c);
+}
+var func1 = func.bind(null,'linxin');
+
+func('A', 'B', 'C');            // A B C
+func1('A', 'B', 'C');           // linxin A B
+func1('B', 'C');                // linxin B C
+func.call(null, 'linxin');      // linxin undefined undefined
+```
+call 是把第二个及以后的参数作为 func 方法的实参传进去，而 func1 方法的实参实则是在 bind 中参数的基础上再往后排。
 ### 3.apply方法
 直接调用函数，并且可以改变函数的this指向（这点和call一样）
 但是apply的第二个参数并不是调用函数的函数本身的参数，而是传入一个数组。可以把传入的数组展开方便后续操作。
+```javascript
+var obj = {
+    name : 'linxin'
+}
+
+function func(firstName, lastName){
+    console.log(firstName + ' ' + this.name + ' ' + lastName);
+}
+
+func.apply(obj, ['A', 'B']);    // A linxin B
+```
