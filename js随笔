@@ -1,7 +1,7 @@
 一.数据类型
 
 1.基础数据类型
-（1）int类型
+（1）number类型
 （2）string类型
 string类型之间可以使用“+”来进行拼接，string类型和int类型或者bool类型使用“+”拼接时，会先将他们转换为string类型再拼接。
 获取字符串长度的方法   XX.length
