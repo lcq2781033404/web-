@@ -239,9 +239,9 @@ vue中路由跳转有四种方式：
 当你点击 \<router-link\> 时，this.$router.push这个方法会在内部调用，所以说，点击 \<router-link :to="..."\> 等同于调用 this.$router.push。
 | 声明式 | 编程式 |
 | :----: | :----: |
-| \<router-link :to="..."\> | this.$router.push(...) |  
-该方法的参数可以是一个字符串路径，或者一个描述地址的对象。例如：
+| \<router-link :to="..."\> | this.$router.push(...) |
 ```javascript
+// 该方法的参数可以是一个字符串路径，或者一个描述地址的对象。例如：
 // 字符串
 router.push('home')
 // 对象
