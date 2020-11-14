@@ -10,39 +10,60 @@
 或者输入指令：npm install vue-router
 
 ## 3.vue-router基本使用
-（1）创建路由实例并配置路由规则
-导入包：
+### （1）创建路由实例并配置路由规则
+```javascript
+// 导入包：
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
-当导入了vue-router包之后，在window全局对象中，就有了一个路由的构造函数，叫做VueRouter，在创建构造函数实例的时候，可以为构造函数，传递一个配置对象。
+const User = {
+  template: '<div>User</div>'
+}
+// 当导入了vue-router包之后，在window全局对象中，就有了一个路由的构造函数，叫做VueRouter，在创建构造函数实例的时候，可以为构造函数，传递一个配置对象。
 var routerObj = new VueRouter({
-  routes: [                             //这个配置对象中的routes表示路由的匹配规则，由于路由的匹配规则不止一个，所以这是数组类型
-    {path: '/login', component: login}  //每个路由规则，都是一个对象，这个对象身上有两个必须的属性
-                                        //属性1 是path，表示监听哪个路由链接地址
-                                        //属性2 是component，表示如果路由是属性1匹配到的path，则展示component属性对应的那个组件的模板对象名称
+  routes: [                             // 这个配置对象中的routes表示路由的匹配规则，由于路由的匹配规则不止一个，所以这是数组类型
+    {path: '/user', component: User}  // 每个路由规则，都是一个对象，这个对象身上有两个必须的属性
+                                        // 属性1 是path，表示监听哪个路由链接地址
+                                        // 属性2 是component，表示如果路由是属性1匹配到的path，则展示component属性对应的那个组件的模板对象名称
   ]
 });
-
-（2）将路由实例和vue实例关联起来
+```
+### （2）将路由实例和vue实例关联起来
 vue实例对象中有一个属性router，可以在这个属性中填写刚刚创建的路由实例名称：
-<script>
-    var routerObj = new VueRouter({
-      routes: [                             
-        {path: '/login', component: login} 
-      ]
-    });
-    var vm = new Vue({
-      el: "#dv",
-      data: {},
-      methods: {},
-      router: routerObj
-    });
-  </script>
-
-（3）将切换的组件显示在页面中
+```javascript
+const User = {
+  template: '<div>User</div>'
+}
+var routerObj = new VueRouter({
+  routes: [                             
+    {path: '/user', component: User} 
+  ]
+});
+var vm = new Vue({
+  el: "#dv",
+  data: {},
+  methods: {},
+  router: routerObj
+});
+```
+### （3）将切换的组件显示在页面中
 通过路由规则匹配的组件显示在<router-view></router-view>中，这个标签是vue-router提供的元素，路由规则匹配到的组件，会展示到这个标签中。
+```html
+<div id="app">
+  <h1>Hello App!</h1>
+  <p>
+    <!-- 使用 router-link 组件来导航. -->
+    <!-- 通过传入 `to` 属性指定链接. -->
+    <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+    <router-link to="/foo">Go to Foo</router-link>
+    <router-link to="/bar">Go to Bar</router-link>
+  </p>
+  <!-- 路由出口 -->
+  <!-- 路由匹配到的组件将渲染在这里 -->
+  <router-view></router-view>
+</div>
+```
 
-（4）路由跳转标签的使用
+### （4）路由跳转标签的使用
 在vue.router中，推荐使用<router-link></router-link>标签（在页面中默认会将其渲染为a标签）作为路由跳转的链接，to属性指定跳转的路由地址：
 <router-link to="/login">登录</router-link>
 
