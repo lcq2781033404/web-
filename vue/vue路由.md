@@ -65,57 +65,83 @@ var vm = new Vue({
 
 ### （4）路由跳转标签的使用
 在vue.router中，推荐使用<router-link></router-link>标签（在页面中默认会将其渲染为a标签）作为路由跳转的链接，to属性指定跳转的路由地址：
-<router-link to="/login">登录</router-link>
+```html
+<div id="app">
+  <h1>Hello App!</h1>
+  <p>
+    <!-- 使用 router-link 组件来导航. -->
+    <!-- 通过传入 `to` 属性指定链接. -->
+    <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+    <router-link to="/foo">Go to Foo</router-link>
+    <router-link to="/bar">Go to Bar</router-link>
+  </p>
+  <!-- 路由出口 -->
+  <!-- 路由匹配到的组件将渲染在这里 -->
+  <router-view></router-view>
+</div>
+```
 
-（5）路由重定向的使用
+### （5）路由重定向的使用
 路由的重定向用于页面初始加载的时候为其默认指定一个路由地址，使用redirect完成路由重定向：
+```javascript
 var routerObj = new VueRouter({
   routes: [    
     {path: '/', redirect: '/login'} 
     {path: '/login', component: login} 
   ]
 });
-
-（6）在路由规则中传递参数
+```
+### （6）在路由规则中传递参数
 有两种方法：
-①使用query方式传递参数
-可以在在路由中，使用查询字符串给路由传递参数，此时不需要修改路由匹配规则也能匹配上
+#### ①使用query方式传递参数
+可以在路由中，使用查询字符串给路由传递参数，此时不需要修改路由匹配规则也能匹配上
+```html
 <router-link to="/login?id=10">登录</router-link>
+```
+```javascript
 var routerObj = new VueRouter({
   routes: [    
     {path: '/login', component: login}          //这里依旧能和上面的/login?id=10匹配上
   ]
 });
-如果想要获取到传递的参数，则在显示的组件中使用$route属性即可：
+```
+如果想要获取到传递的参数，则在显示的组件中使用$route.query即可：
+```javascript
 var login = {
   template: '<h3>登录</h3>',
   created: function(){
     console.log(this.$route.query.id);
   }
 };
-
-②使用params方式传递参数
+```
+#### ②使用params方式传递参数
 这种方式是在路由规则处加一个冒号占位符，占位符后面填写传递的参数，然后在引用路由url的地方填写传递的实参值：
+```html
 <router-link to="/login/10">登录</router-link>
+```
+```javascript
 var routerObj = new VueRouter({
   routes: [    
     {path: '/login/:id', component: login}          
   ]
 });
+```
 获取参数值的方法如下：
+```javascript
 var login = {
   template: '<h3>登录</h3>',
   created: function(){
     console.log(this.$route.params.id);
   }
 };
+```
+**可以在一个路由中设置多段“路径参数”，对应的值都会设置到 $route.params 中。例如：**
+|模式|匹配路径|$route.params|
+|:----:|:----:|:----:|
+|/user/:username|/user/evan|{ username: 'evan' }|
+|/user/:username/post/:post_id|/user/evan/post/123|{ username: 'evan', post_id: '123' }|
 
-可以在一个路由中设置多段“路径参数”，对应的值都会设置到 $route.params 中。例如：
-模式	                                   匹配路径	              $route.params
-/user/:username	                           /user/evan	              { username: 'evan' }
-/user/:username/post/:post_id	           /user/evan/post/123	      { username: 'evan', post_id: '123' }
-
-（7）响应路由参数的变化
+### （7）响应路由参数的变化
 注意，当使用路由参数时，例如从 /user/foo 导航到 /user/bar，原来的组件实例会被复用。因为两个路由都渲染同个组件，比起销毁再创建，复用则显得更加高效。
 不过，这也意味着组件的生命周期钩子不会再被调用。
 如果想对路由参数的变化作出响应的话，可以使用 watch 监听 $route 对象：
