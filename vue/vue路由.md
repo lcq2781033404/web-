@@ -231,45 +231,49 @@ const router = new VueRouter({
 
 ## 5.路由的跳转
 vue中路由跳转有四种方式：
-（1）router-link
+### （1）router-link
 <router-link to='路由地址'>
 
-（2）this.$router.push({ path:'路由地址'})
+### （2）this.$router.push({ path:'路由地址'})
 当你点击 <router-link> 时，this.$router.push这个方法会在内部调用，所以说，点击 <router-link :to="..."> 等同于调用 this.$router.push。
-声明式	                                         编程式
-<router-link :to="...">	                 this.$router.push(...)
+| 声明式 | 编程式 |
+| :----: | :----: |
+| <router-link :to="..."> | this.$router.push(...) |
 该方法的参数可以是一个字符串路径，或者一个描述地址的对象。例如：
+```javascript
 // 字符串
 router.push('home')
 // 对象
 router.push({ path: 'home' })
-
-带有参数传递的路由跳转：
-①query传递参数：
+```
+**带有参数传递的路由跳转：**
+#### ①query传递参数：
+```javascript
 // 带查询参数，变成 /register?plan=private
 router.push({ path: 'register', query: { plan: 'private' }})
-②params传递参数
-注意：如果提供了 path参数，则params 会被忽略，需要提供路由的 name 或手写完整的带有参数的 path：
+```
+#### ②params传递参数
+**注意：如果提供了 path参数，则params 会被忽略，需要提供路由的 name 或手写完整的带有参数的 path：**
+```javascript
 // 命名的路由
 router.push({ name: 'user', params: { userId: '123' }})   // -> /user/123
 router.push({ path: `/user/${userId: '123'}` })           // -> /user/123
 // 这里的 params 不生效
 router.push({ path: '/user', params: { userId: '123' }})         // -> /user
-
-（3）this.$router.replace({ path:'路由地址'})
+```
+### （3）this.$router.replace({ path:'路由地址'})
 跟 router.push 很像，唯一的不同就是，它不会向 history 添加新记录，而是跟它的方法名一样 —— 替换掉当前的 history 记录。
 
-声明式	                                           编程式
-<router-link :to="..." replace>	          this.$router.replace(...)
+| 声明式	| 编程式 |
+| :----: | :----: |
+| <router-link :to="..." replace>	| this.$router.replace(...) |
 
-（4）router.go(n)
+### （4）router.go(n)
 这个方法的参数是一个整数，意思是在 history 记录中向前或者后退多少步，类似 window.history.go(n)。
-
-
-6.命名路由
+## 6.命名路由
 有时候，通过一个名称来标识一个路由显得更方便一些，特别是在链接一个路由，或者是执行一些跳转的时候。你可以在创建 Router 实例的时候，在 routes 配置中给
 某个路由设置名称。
-
+```javascript
 const router = new VueRouter({
   routes: [
     {
@@ -280,24 +284,25 @@ const router = new VueRouter({
   ]
 })
 
-要链接到一个命名路由，可以给 router-link 的 to 属性传一个对象：
+// 要链接到一个命名路由，可以给 router-link 的 to 属性传一个对象：
 <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
 
-这跟代码调用 router.push() 是一回事：
+// 这跟代码调用 router.push() 是一回事：
 router.push({ name: 'user', params: { userId: 123 }})
 
-这两种方式都会把路由导航到 /user/123 路径。
+// 这两种方式都会把路由导航到 /user/123 路径。
+```
 
-
-7.命名视图
-有时候想同时 (同级) 展示多个视图，而不是嵌套展示，例如创建一个布局，有 sidebar (侧导航) 和 main (主内容) 两个视图，这个时候命名视图就派上用场了。你
-可以在界面中拥有多个单独命名的视图，而不是只有一个单独的出口。如果 router-view 没有设置名字，那么默认为 default。
-
+## 7.命名视图
+有时候想同时 (同级) 展示多个视图，而不是嵌套展示，例如创建一个布局，有 sidebar (侧导航) 和 main (主内容) 两个视图，这个时候命名视图就派上用场了。  
+你可以在界面中拥有多个单独命名的视图，而不是只有一个单独的出口。如果 router-view 没有设置名字，那么默认为 default。
+```html
 <router-view class="view one"></router-view>
 <router-view class="view two" name="a"></router-view>
 <router-view class="view three" name="b"></router-view>
+```
 一个视图使用一个组件渲染，因此对于同个路由，多个视图就需要多个组件。确保正确使用 components 配置 (带上 s)：
-
+```javascript
 const router = new VueRouter({
   routes: [
     {
@@ -310,8 +315,10 @@ const router = new VueRouter({
     }
   ]
 })
-使用命名视图实现经典布局
+```
+**使用命名视图实现经典布局**  
 所谓经典布局即页面上方是一个头部，下方分为左右两部分。
+```html
 <body>
   <div id="app">
 
@@ -364,3 +371,4 @@ const router = new VueRouter({
     });
   </script>
 </body>
+```
