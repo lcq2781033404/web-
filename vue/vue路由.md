@@ -232,8 +232,9 @@ const router = new VueRouter({
 ## 5.路由的跳转
 vue中路由跳转有四种方式：
 ### （1）router-link
+```html
 <router-link to='路由地址'>
-
+```
 ### （2）this.$router.push({ path:'路由地址'})
 当你点击 <router-link> 时，this.$router.push这个方法会在内部调用，所以说，点击 <router-link :to="..."> 等同于调用 this.$router.push。
 | 声明式 | 编程式 |
@@ -266,7 +267,7 @@ router.push({ path: '/user', params: { userId: '123' }})         // -> /user
 
 | 声明式	| 编程式 |
 | :----: | :----: |
-| <router-link :to="..." replace>	| this.$router.replace(...) |
+| \<router-link :to="..." replace\>	| this.$router.replace(...) |
 
 ### （4）router.go(n)
 这个方法的参数是一个整数，意思是在 history 记录中向前或者后退多少步，类似 window.history.go(n)。
