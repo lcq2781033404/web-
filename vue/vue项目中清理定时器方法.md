@@ -52,3 +52,16 @@ export default{
   }
 }
 ```
+使用this.$once('hook:beforeDestroy',()=>{})不仅可以清除定时器，在释放echarts图表上也是一个道理：
+```javascript
+export default{
+  methods:{
+    fun1(){
+      let chart = echarts.init(dom);
+      this.$once('hook:beforeDestroy',()=>{
+        echarts.dispose(chart);
+      })
+    }
+  }
+}
+```
