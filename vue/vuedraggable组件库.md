@@ -112,7 +112,7 @@ export default {
                 * true:列表容器可以从其他列表容器内放入列表元素；  
                 * false：与 true 相反；  
                 * ['foo','bar']：这个可以是一个字符串或者是字符串的数组，代表的是 group 配置项里定义的 name 值；  
-                * function：用来进行 put 的函数判断，可以进行复杂逻辑，在函数中 return false/true 来判断是否放入
+                * function：用来进行 put 的函数判断，可以进行复杂逻辑，在函数中 return false/true 来判断是否放入  
     （2）animation: number 单位：ms，定义动画的时间；  
     （3）disabled: boolean 定义此 sortable 对象是否可用，为 true 时 sortable 对象不能拖放排序等功能，为 false 时为可以进行排序，相当于一个开关；  
     （4）ghostClass：selector 格式为简单 css 选择器的字符串，当拖动列表元素时会生成一个副本作为影子元素来模拟被拖动元素排序的情况，此配置项就是来给这个影子元素添加一个 class，我们可以通过这种方式来给影子元素进行编辑样式；  
