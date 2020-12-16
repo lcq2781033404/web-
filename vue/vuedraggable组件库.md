@@ -124,4 +124,4 @@ export default {
     （10）chosenClass：selector 格式为简单 css 选择器的字符串，当选中列表元素时会给该元素增加一个 class；  
     （11）forceFallback：boolean 如果设置为 true 时，将不使用原生的 html5 的拖放，可以修改一些拖放中元素的样式等；  
     （12）fallbackClass：string 当 forceFallback 设置为 true 时，拖放过程中鼠标附着元素的样式；  
-  （13）scroll：boolean 默认为 true，当排序的容器是个可滚动的区域，拖放可以引起区域滚动
+    （13）scroll：boolean 默认为 true，当排序的容器是个可滚动的区域，拖放可以引起区域滚动
