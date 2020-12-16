@@ -100,9 +100,8 @@ export default {
 2. v-model 绑定列表可拖动元素，通常与内部元素 v-for 引用的数组相同。  
 3. v-bind 绑定组件的配置项，与 Sortable.js 的配置项相同，下面具体讲解：  
     （1）group：string or object  
-    
-        - string：命名，用处是为了设置可以拖放容器时使用  
-        - object: {name, pull, put}  
+    - string：命名，用处是为了设置可以拖放容器时使用  
+    - object: {name, pull, put}  
             + name: 同 string 的方法  
             + pull：pull 用来定义从这个列表容器移动出去的设置，可以设置四个值：true/false/'clone'/function  
                 * true:列表容器内的列表元素可以被移出；  
