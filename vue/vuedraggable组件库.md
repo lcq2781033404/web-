@@ -108,10 +108,10 @@ export default {
                 * false：列表容器内的列表元素不可以被移出；  
                 * 'clone'：列表元素移出，移动的为该元素的副本；  
                 * function：用来进行 pull 的函数判断，可以进行复杂逻辑，在函数中 return false/true 来判断是否移出；
-            + put：put 用来定义往这个列表容器放置列表元素的的设置，可以设置四个值：true/false/['foo','bar']/function
-                * true:列表容器可以从其他列表容器内放入列表元素；
-                * false：与 true 相反；
-                * ['foo','bar']：这个可以是一个字符串或者是字符串的数组，代表的是 group 配置项里定义的 name 值；
+            + put：put 用来定义往这个列表容器放置列表元素的的设置，可以设置四个值：true/false/['foo','bar']/function  
+                * true:列表容器可以从其他列表容器内放入列表元素；  
+                * false：与 true 相反；  
+                * ['foo','bar']：这个可以是一个字符串或者是字符串的数组，代表的是 group 配置项里定义的 name 值；  
                 * function：用来进行 put 的函数判断，可以进行复杂逻辑，在函数中 return false/true 来判断是否放入
     （2）animation: number 单位：ms，定义动画的时间；  
     （3）disabled: boolean 定义此 sortable 对象是否可用，为 true 时 sortable 对象不能拖放排序等功能，为 false 时为可以进行排序，相当于一个开关；  
