@@ -125,3 +125,26 @@ export default {
     （11）forceFallback：boolean 如果设置为 true 时，将不使用原生的 html5 的拖放，可以修改一些拖放中元素的样式等；  
     （12）fallbackClass：string 当 forceFallback 设置为 true 时，拖放过程中鼠标附着元素的样式；  
     （13）scroll：boolean 默认为 true，当排序的容器是个可滚动的区域，拖放可以引起区域滚动
+    
+# 四. 拖拽事件
+拖拽组件提供了如下事件：
+- onChoose：列表元素被选中的回调函数
+- onStart：列表元素拖动开始的回调函数
+- onEnd：列表元素拖放结束后的回调函数
+- onAdd：列表元素添加到本列表容器的回调函数
+- onUpdate：列表元素在列表容器中的排序发生变化后的回调函数
+- onRemove：列表元素移到另一个列表容器的回调函数
+- onFilter：试图选中一个被 filter 过滤的列表元素的回调函数
+- onMove：当移动列表元素在一个列表容器中或者多个列表容器中的回调函数
+- onClone：当创建一个列表元素副本的时候的回调函数
+
+事件对象：
+
+（事件对象在各个函数中略有不同，可通过输出对象查看对象的属性，下面简单列举几个：）
+
+- to：HTMLElement--移动到列表容器
+- from：HTMLElement--来源的列表容器
+- item：HTMLElement--被移动的列表元素
+- clone：HTMLElement--副本的列表元素
+- oldIndex：number/undefined--在列表容器中的原序号
+- newIndex：number/undefined--在列表容器中的新序号
