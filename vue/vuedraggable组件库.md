@@ -160,3 +160,24 @@ export default {
 - clone：HTMLElement--副本的列表元素
 - oldIndex：number/undefined--在列表容器中的原序号
 - newIndex：number/undefined--在列表容器中的新序号
+```html
+<draggable
+  class="list-group"
+  tag="ul"
+  v-model="list2"
+  v-bind="dragOptions2"
+  @add="onAdd"
+>
+  ...
+</draggable>
+```
+```javascript
+export default {
+  //...
+  methods: {
+    onAdd(evt) {
+      alert(evt.oldIndex + '->' + evt.newIndex);
+    },
+  },
+};
+```
