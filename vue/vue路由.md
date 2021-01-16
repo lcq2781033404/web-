@@ -5,45 +5,122 @@
 对于单页面应用程序来说，主要通过URL中的hash（URL中#后面的内容都叫hash）来实现不同页面之间的切换，同时，hash有一个特点：http请求中不会包含hash相关的内容，所以单页面程序 中的页面跳转主要用hash实现。  
 在单页面应用程序中，这种通过hash改变来切换页面的方式，称作为前端路由。
 
-## 2.插件安装及使用
-直接下载vue-router.js，然后导入到页面中。  
-或者输入指令：npm install vue-router
+## 2.vue-router安装
+### （1）npm方式引入
+```bash
+npm install vue-router -s
+```
+### （2）cdn方式引入
+有空再写
 
 ## 3.vue-router基本使用
 ### （1）创建路由实例并配置路由规则
+在src->router路径下新建index.js文件，该文件用于配置路由规则
 ```javascript
 // 导入包：
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
-const User = {
-  template: '<div>User</div>'
+import Vue from 'vue'
+import Router from 'vue-router'
+Vue.use(Router) // 引入vue-router
+
+// 下面是vue-element-admin框架的路由配置，可做参考
+
+/* Layout */
+import Layout from '@/layout' // 引入每个页面的公共组件，这个组件一般为侧边栏和顶部导航
+// 当导入了vue-router包之后，在window全局对象中，就有了一个路由的构造函数，在创建构造函数实例的时候，可以为构造函数，传递一个配置对象。
+/**
+ * constantRoutes
+ * a base page that does not have permission requirements
+ * all roles can be accessed
+ */
+export const constantRoutes = [
+  {
+    path: '/404',
+    component: () => import('@/views/error-page/404'), // 路由懒加载，提高加载速度
+    hidden: true
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/experiment',
+    children: [
+      {
+        path: 'experiment',
+        component: () => import('@/views/Experiment/index'),
+        name: 'Experiment',
+        meta: { title: '实验', icon: 'experiment', affix: true, noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/data',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/Data/index'),
+        name: 'Documentation',
+        meta: { title: '数据', icon: 'data', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/arrange',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/Arrange/index'),
+        name: 'Arrange',
+        meta: { title: '编排', icon: 'arrange', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/calculation',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/Calculation/index'),
+        name: 'Calculation',
+        meta: { title: '算法', icon: 'calculation', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '*',
+    redirect: '/404',
+    hidden: true
+  }
+]
+
+const createRouter = () => new Router({
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRoutes
+})
+
+const router = createRouter()
+
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
 }
-// 当导入了vue-router包之后，在window全局对象中，就有了一个路由的构造函数，叫做VueRouter，在创建构造函数实例的时候，可以为构造函数，传递一个配置对象。
-var routerObj = new VueRouter({
-  routes: [                             // 这个配置对象中的routes表示路由的匹配规则，由于路由的匹配规则不止一个，所以这是数组类型
-    {path: '/user', component: User}  // 每个路由规则，都是一个对象，这个对象身上有两个必须的属性
-                                        // 属性1 是path，表示监听哪个路由链接地址
-                                        // 属性2 是component，表示如果路由是属性1匹配到的path，则展示component属性对应的那个组件的模板对象名称
-  ]
-});
+
+export default router
+
 ```
 ### （2）将路由实例和vue实例关联起来
-vue实例对象中有一个属性router，可以在这个属性中填写刚刚创建的路由实例名称：
+在main.js中引入上一步配置的路由文件，然后将路由对象挂载到vue实例上
 ```javascript
-const User = {
-  template: '<div>User</div>'
-}
-var routerObj = new VueRouter({
-  routes: [                             
-    {path: '/user', component: User} 
-  ]
-});
-var vm = new Vue({
-  el: "#dv",
-  data: {},
-  methods: {},
-  router: routerObj
-});
+import router from './router'
+new Vue({
+  el: '#app',
+  router,
+  store,
+  render: h => h(App)
+})
 ```
 ### （3）将切换的组件显示在页面中
 通过路由规则匹配的组件显示在<router-view></router-view>中，这个标签是vue-router提供的元素，路由规则匹配到的组件，会展示到这个标签中。
