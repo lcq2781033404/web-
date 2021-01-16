@@ -41,5 +41,12 @@ new Vue({
 }).$mount('#app');
 ```
 ### （2）cdn方式引入
+
 ## 2. 路由引入
+### （1）npm方式引入
+```bash
+npm install vue-router -S
+```
+路由配置详情参见 vue路由
+### （2）cdn方式引入
 
