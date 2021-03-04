@@ -52,7 +52,7 @@ console.log(diag(4, 3)); // 5
 把一个文件中export 的所有变量，包装成一个对象。
 
 例如：
-···
+```
 export const sqrt1 = Math.sqrt;
 export const sqrt2= Math.sqrt;
 
@@ -61,4 +61,4 @@ export const sqrt2= Math.sqrt;
 import * as sqrtobj from "....."
 sqrtobj.sqrt1
 sqrtobj.sqrt2
-···
+```
