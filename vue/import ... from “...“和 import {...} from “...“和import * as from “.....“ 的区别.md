@@ -33,7 +33,7 @@ import { B } from './A'                 // 错误！因为A.js中没有命名为
 import { C } from './A'  
 ```
 
-···
+```
 export const sqrt = Math.sqrt;
 export function square(x) {
     return x * x;
@@ -46,7 +46,7 @@ export function diag(x, y) {
 import { square, diag } from 'lib';				
 console.log(square(11)); // 121
 console.log(diag(4, 3)); // 5
-···
+```
 
 ## import * as from “…”
 把一个文件中export 的所有变量，包装成一个对象。
